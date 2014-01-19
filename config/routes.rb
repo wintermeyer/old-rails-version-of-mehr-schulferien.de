@@ -19,8 +19,8 @@ MehrSchulferienDe::Application.routes.draw do
 
   # resources :cities, only: [:index, :show]
 
-  resources :federal_states, only: [:index, :show] do
-    resources :years, only: [:index, :show]
+  resources :federal_states, only: [:show] do
+    resources :years, only: [:show]
   end
 
   # resources :countries, only: [:index, :show]
