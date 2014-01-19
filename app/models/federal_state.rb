@@ -6,6 +6,7 @@ class FederalState < ActiveRecord::Base
   has_many :slots, as: :slotable, dependent: :destroy
   has_many :days, through: :slots
   has_many :vacation_periods, as: :vacation_periodable, dependent: :destroy
+  has_many :cities, dependent: :destroy
 
   validates :country_id,
             presence: true,
