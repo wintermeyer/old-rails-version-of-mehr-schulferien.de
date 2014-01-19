@@ -1,7 +1,9 @@
 mehr-schulferien.de
 ===================
 
-Das Git Repository der Webseite mehr-schulferien.de
+Die Webseite [mehr-schulferien.de](http://mehr-schulferien.de) soll die Ferienplanung für Schüler, Lehrer und Eltern vereinfachen. Es werden nicht nur Ferien und Feiertage, sondern auch die [Beweglichen Ferientage](http://de.wikipedia.org/wiki/Bewegliche_Ferientage) der einzelnen Schulen beachtet. 
+
+Die gleichen Daten lassen sich natürlich auch für die optimale Ferienplanung von Nicht-Eltern und Nicht-Schülern benutzen.
 
 Entwickler
 ==========
