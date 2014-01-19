@@ -1,29 +1,29 @@
 MehrSchulferienDe::Application.routes.draw do
-  resources :vacation_periods
+  # resources :vacation_periods, only: [:index, :show]
 
-  resources :vacation_types
+  # resources :vacation_types, only: [:index, :show]
 
-  resources :years
+  # resources :years, only: [:index, :show]
 
-  resources :months
+  # resources :months, only: [:index, :show]
 
-  resources :days
+  # resources :days, only: [:index, :show]
 
   root 'page#index'
 
   get "page/index"
   get "page/about_us"
-  get "page/developer"
-  get "page/api"
-  resources :schools
+  #get "page/developer"
+  # get "page/api"
+  # resources :schools, only: [:index, :show]
 
-  resources :cities
+  # resources :cities, only: [:index, :show]
 
-  resources :federal_states do
-    resources :years
+  resources :federal_states, only: [:index, :show] do
+    resources :years, only: [:index, :show]
   end
 
-  resources :countries
+  # resources :countries, only: [:index, :show]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

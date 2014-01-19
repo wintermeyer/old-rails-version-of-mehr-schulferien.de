@@ -1,3 +1,10 @@
+<% content_for :meta_description do %>
+Übersicht für die Schulferien in <%= @year %> für das Bundesland <%= @federal_state %>.
+<% end %>
+<% content_for :html_title do %>
+Schulferienkalender <%= @year %> für <%= @federal_state %>
+<% end %>
+
 <p id="notice"><%= notice %></p>
 
 <%= render partial: "shared/year", locals: {year: @year, federal_state: @federal_state} %>
