@@ -51,4 +51,5 @@ group :development do
   gem 'rails-erd'
   gem 'factory_girl'
   gem 'seed_dump'
+  gem 'nokogiri'
 end
