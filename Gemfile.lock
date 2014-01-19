@@ -45,9 +45,6 @@ GEM
     hike (1.2.3)
     i18n (0.6.9)
     icalendar (1.5.0)
-    jbuilder (1.5.3)
-      activesupport (>= 3.0.0)
-      multi_json (>= 1.2.0)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -130,7 +127,6 @@ DEPENDENCIES
   factory_girl
   friendly_id (~> 5.0.0)
   icalendar
-  jbuilder (~> 1.2)
   jquery-rails
   nokogiri
   rails (= 4.0.2)
