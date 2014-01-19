@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @vacation_type.name %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @vacation_type.slug %>
+</p>
+
+<%= link_to 'Edit', edit_vacation_type_path(@vacation_type) %> |
+<%= link_to 'Back', vacation_types_path %>

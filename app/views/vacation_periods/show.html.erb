@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @vacation_period.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @vacation_period.end_date %>
+</p>
+
+<p>
+  <strong>Vacation periodable type:</strong>
+  <%= @vacation_period.vacation_periodable_type %>
+</p>
+
+<p>
+  <strong>Vacation periodable:</strong>
+  <%= @vacation_period.vacation_periodable_id %>
+</p>
+
+<p>
+  <strong>Vacation type:</strong>
+  <%= @vacation_period.vacation_type_id %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @vacation_period.description %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @vacation_period.state %>
+</p>
+
+<%= link_to 'Edit', edit_vacation_period_path(@vacation_period) %> |
+<%= link_to 'Back', vacation_periods_path %>

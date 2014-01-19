@@ -1,0 +1,37 @@
+<h1>Listing vacation_periods</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Vacation periodable</th>
+      <th>Vacation type</th>
+      <th>Description</th>
+      <th>State</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @vacation_periods.each do |vacation_period| %>
+      <tr>
+        <td><%= vacation_period.start_date %></td>
+        <td><%= vacation_period.end_date %></td>
+        <td><%= vacation_period.vacation_periodable %></td>
+        <td><%= vacation_period.vacation_type %></td>
+        <td><%= vacation_period.description %></td>
+        <td><%= vacation_period.state %></td>
+        <td><%= link_to 'Show', vacation_period %></td>
+        <td><%= link_to 'Edit', edit_vacation_period_path(vacation_period) %></td>
+        <td><%= link_to 'Destroy', vacation_period, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Vacation period', new_vacation_period_path %>

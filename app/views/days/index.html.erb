@@ -1,0 +1,31 @@
+<h1>Listing days</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Slug</th>
+      <th>Month</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @days.each do |day| %>
+      <tr>
+        <td><%= day.value %></td>
+        <td><%= day.slug %></td>
+        <td><%= day.month_id %></td>
+        <td><%= link_to 'Show', day %></td>
+        <td><%= link_to 'Edit', edit_day_path(day) %></td>
+        <td><%= link_to 'Destroy', day, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Day', new_day_path %>

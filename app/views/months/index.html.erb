@@ -1,0 +1,31 @@
+<h1>Listing months</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Slug</th>
+      <th>Year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @months.each do |month| %>
+      <tr>
+        <td><%= month.value %></td>
+        <td><%= month.slug %></td>
+        <td><%= month.year_id %></td>
+        <td><%= link_to 'Show', month %></td>
+        <td><%= link_to 'Edit', edit_month_path(month) %></td>
+        <td><%= link_to 'Destroy', month, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Month', new_month_path %>

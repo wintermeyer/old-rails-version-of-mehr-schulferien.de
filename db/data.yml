@@ -1,0 +1,10 @@
+
+---
+countries:
+  columns:
+  - id
+  - name
+  - slug
+  - created_at
+  - updated_at
+  records: 

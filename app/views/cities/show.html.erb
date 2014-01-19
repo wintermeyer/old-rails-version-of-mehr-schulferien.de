@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Federal state:</strong>
+  <%= @city.federal_state_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @city.name %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @city.slug %>
+</p>
+
+<p>
+  <strong>Zip code:</strong>
+  <%= @city.zip_code %>
+</p>
+
+<%= link_to 'Edit', edit_city_path(@city) %> |
+<%= link_to 'Back', cities_path %>

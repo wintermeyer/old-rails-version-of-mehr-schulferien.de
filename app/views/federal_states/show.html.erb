@@ -1,0 +1,5 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @federal_state.name %></h1>
+
+<%= render partial: "shared/year", locals: {year: @year, federal_state: @federal_state} %>

@@ -1,0 +1,29 @@
+<h1>Listing years</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Slug</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @years.each do |year| %>
+      <tr>
+        <td><%= year.value %></td>
+        <td><%= year.slug %></td>
+        <td><%= link_to 'Show', year %></td>
+        <td><%= link_to 'Edit', edit_year_path(year) %></td>
+        <td><%= link_to 'Destroy', year, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Year', new_year_path %>

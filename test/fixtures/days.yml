@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: 2014-01-14
+  slug: MyString
+  month_id: 1
+
+two:
+  value: 2014-01-14
+  slug: MyString
+  month_id: 1
