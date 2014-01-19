@@ -10,6 +10,11 @@ class YearsController < ApplicationController
   # GET /years/1
   # GET /years/1.json
   def show
+    expires_in 60.minutes, :public => true
+    
+    if @year && @federal_state
+      fresh_when etag: [@year, @federal_state]
+    end
   end
 
   # GET /years/new

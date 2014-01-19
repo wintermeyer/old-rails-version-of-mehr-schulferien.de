@@ -2,27 +2,28 @@
   <% federal_states = [federal_state] %>
 <% end %>
 
-<% federal_states.each do |federal_state| %>
-  <h1><%= federal_state %></h1>
+<% cache [year, federal_states] do %>
+  <% federal_states.each do |federal_state| %>
+    <h1><%= federal_state %></h1>
 
-  <% year.months.each_slice(4).each do |months| %>
-    <div class="row hidden-sm hidden-xs">
-      <% months.each do |month| %>
-        <div class="col-md-3">
-          <%= render partial: '/shared/month', locals: {month: month, year: year, federal_state: federal_state} %>        
-        </div>
-      <% end %>
-    </div>
+    <% year.months.each_slice(4).each do |months| %>
+      <div class="row hidden-sm hidden-xs">
+        <% months.each do |month| %>
+          <div class="col-md-3">
+            <%= render partial: '/shared/month', locals: {month: month, year: year, federal_state: federal_state} %>        
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% year.months.each_slice(3).each do |months| %>
+      <div class="row visible-sm visible-xs">
+        <% months.each do |month| %>
+          <div class="col-sm-4">
+            <%= render partial: '/shared/month', locals: {month: month, year: year, federal_state: federal_state} %>        
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
-
-  <% year.months.each_slice(3).each do |months| %>
-    <div class="row visible-sm visible-xs">
-      <% months.each do |month| %>
-        <div class="col-sm-4">
-          <%= render partial: '/shared/month', locals: {month: month, year: year, federal_state: federal_state} %>        
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-
 <% end %>
