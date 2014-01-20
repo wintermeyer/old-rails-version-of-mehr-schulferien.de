@@ -47,6 +47,7 @@ end
 gem 'icalendar'
 gem 'friendly_id', '~> 5.0.0'
 gem 'unicorn'
+gem 'dalli'
 
 group :development do
   gem 'factory_girl'
