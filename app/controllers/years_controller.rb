@@ -10,7 +10,8 @@ class YearsController < ApplicationController
   # GET /years/1
   # GET /years/1.json
   def show
-    expires_in 60.minutes, :public => true
+    expires_in 60.minutes, :public => false
+    cookies[:last_federal_state] = @federal_state.slug
     
     if @year && @federal_state
       fresh_when etag: [@year, @federal_state]
