@@ -31,4 +31,4 @@ production:
   host: localhost
   pool: 5
   username: mehrschulferien
-  password: 
+  password: mehrschulferien
