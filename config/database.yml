@@ -18,8 +18,18 @@ test:
   pool: 5
   timeout: 5000
 
+# production:
+#   adapter: sqlite3
+#   database: db/production.sqlite3
+#   pool: 5
+#   timeout: 5000
+
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: mehr_schulferien
   pool: 5
-  timeout: 5000
+  username: schulferien
+  password: never_store_a_password_in_github
+  socket: /tmp/mysql.sock
