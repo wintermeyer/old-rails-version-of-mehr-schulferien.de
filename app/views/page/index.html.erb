@@ -1,2 +1,61 @@
-<h1>Beta-Phase</h1>
-<p>Diese Webseite befindet sich noch im Aufbau. Sie können aber schon auf die in der Navigationszeile aufgeführten Links für die einzelnen Jahre und Bundesländer klicken.</p>
+<div class="row">
+  <div class="col-md-9">
+    <p>Auf dieser Seite finden Sie Informationen zu den Schulferien in Deutschland. <strong>Aktuell befindet sich die Seite noch im Aufbau.</strong> Im Laufe der Zeit werden wir weitere Funktionen und APIs hinzufügen.</p>
+
+    <% cache ['quick_overview', @federal_states, @months] do %>
+      <% @federal_states.each do |federal_state| %>
+        <% cache [federal_state, @months] do %>
+          <div class="row">
+            <div class="col-sm-7">
+              <h3><%= federal_state %></h3>
+            </div>
+            <div class="col-sm-5">
+              <%= link_to federal_state_year_path(federal_state, @year), class: 'btn btn-default pull-right' do %>
+                <span class="glyphicon glyphicon-calendar"></span> Jahresübersicht
+              <% end %>
+
+            </div>
+          </div>
+          <div class="row">
+            <% @months.each do |month| %>
+              <div class="col-sm-4">
+                <%= render partial: '/shared/month', locals: {month: month, year: @year, federal_state: federal_state} %>        
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+
+  </div>
+  <div class="col-md-3">
+
+    <% cache ['next_two_years', @year] do %>
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3><%= @year %></h3></div>
+        <div class="panel-body">
+          <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
+          <ul>
+          <% @federal_states.each do |federal_state| %>
+            <li><%= link_to federal_state, federal_state_year_path(federal_state, @year) %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <% next_year = Year.where(value: (@year.value + 1)).first %>
+        <div class="panel-heading"><h3><%= next_year %></h3></div>
+        <div class="panel-body">
+          <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
+          <ul>
+          <% @federal_states.each do |federal_state| %>
+            <li><%= link_to federal_state, federal_state_year_path(federal_state, next_year) %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>
