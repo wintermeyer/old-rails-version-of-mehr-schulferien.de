@@ -2,7 +2,7 @@
 lock '3.1.0'
 
 set :rvm_type, :user
-set :rvm_ruby_version, '2.0.0-p353'
+set :rvm_ruby_version, '1.9.3'
 
 set :application, 'mehr-schulferien'
 set :repo_url, 'git@github.com:wintermeyer/mehr-schulferien.de.git'
@@ -83,7 +83,7 @@ namespace :deploy do
   desc "Check that we can access everything"
   task :seed do
     on roles(:all) do |host|
-      rake   "db:reset"
+      rake   "db:seed"
     end
   end
 
