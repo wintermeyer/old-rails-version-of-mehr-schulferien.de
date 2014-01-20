@@ -49,7 +49,6 @@ gem 'friendly_id', '~> 5.0.0'
 gem 'unicorn'
 
 group :development do
-  gem 'rails-erd'
   gem 'factory_girl'
   gem 'seed_dump'
   gem 'nokogiri'
