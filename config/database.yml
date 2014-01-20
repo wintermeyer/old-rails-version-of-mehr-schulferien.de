@@ -28,6 +28,7 @@ production:
   adapter: postgresql
   encoding: unicode
   database: mehrschulferien
+  host: localhost
   pool: 5
   username: mehrschulferien
   password: 
