@@ -2,7 +2,7 @@
 lock '3.1.0'
 
 set :rvm_type, :user
-set :rvm_ruby_version, '1.9.3'
+set :rvm_ruby_version, '1.9.3-p429'
 
 set :application, 'mehr-schulferien'
 set :repo_url, 'git@github.com:wintermeyer/mehr-schulferien.de.git'
