@@ -66,6 +66,7 @@ GEM
     net-ssh (2.7.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
+    pg (0.17.1)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -150,6 +151,7 @@ DEPENDENCIES
   icalendar
   jquery-rails
   nokogiri
+  pg
   rails (= 4.0.2)
   rails-erd
   sass-rails (~> 4.0.0)

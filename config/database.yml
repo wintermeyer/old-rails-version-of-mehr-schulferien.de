@@ -25,11 +25,9 @@ test:
 #   timeout: 5000
 
 production:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
-  database: mehr_schulferien
+  adapter: postgresql
+  encoding: unicode
+  database: mehrschulferien
   pool: 5
-  username: schulferien
-  password: never_store_a_password_in_github
-  socket: /tmp/mysql.sock
+  username: mehrschulferien
+  password: 
