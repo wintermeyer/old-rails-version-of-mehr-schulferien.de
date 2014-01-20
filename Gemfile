@@ -52,5 +52,8 @@ group :development do
   gem 'factory_girl'
   gem 'seed_dump'
   gem 'nokogiri'
-  gem 'capistrano', '~> 3.1.0' 
+  gem 'capistrano', '~> 3.1.0'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
 end
