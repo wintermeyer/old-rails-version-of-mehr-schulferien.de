@@ -16,6 +16,7 @@ class PageController < ApplicationController
       fresh_when etag: [@year, @month, @federal_state]
     else
       @federal_state = FederalState.all.sample
+      expires_in 60.minutes, :public => false
     end
   end
 
