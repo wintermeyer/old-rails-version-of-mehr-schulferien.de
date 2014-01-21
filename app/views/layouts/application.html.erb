@@ -20,7 +20,7 @@
   </head>
 
   <body>
-    <a href="#content" class="sr-only">Zum Hauptinhalt</a>  
+    <a href="#content" class="sr-only">Zum Hauptinhalt</a>
 
     <!-- Static navbar -->
     <div class="navbar navbar-default navbar-static-top" role="navigation">
@@ -41,7 +41,7 @@
                 <li class="dropdown active">
               <% else %>
                 <li class="dropdown">
-              <% end %>              
+              <% end %>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= year %> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <% FederalState.all.each do |federal_state| %>
@@ -59,9 +59,7 @@
     </div>
 
     <div class="container" id="content">
-      <div class="row">
-        <%= yield %>
-      </div>
+      <%= yield %>
     </div> <!-- /container -->
 
     <footer>
