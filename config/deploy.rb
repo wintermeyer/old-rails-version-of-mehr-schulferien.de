@@ -55,10 +55,9 @@ namespace :deploy do
       # within release_path do
       #   execute :rake, 'cache:clear'
       # end
+      execute 'sudo /etc/init.d/unicorn-mehr-schulferien.de restart'
     end
   end
-
-  after 'deploy:restart', 'unicorn:restart'
 
   desc "Check that we can access everything"
   task :check_write_permissions do
