@@ -1,5 +1,8 @@
 <div class="row">
   <div class="col-sm-9">
+    <p>
+      Auf dieser Seite finden Sie eine 3-Monats-Übersicht aller Bundesländern (alphabetisch sortiert). Über die Navigationsleiste kommen Sie auf einzelne Jahre und Bundesländer. Schauen Sie in ein paar Wochen noch mal rein, dann werden Sie auch Ferien auf Schulebene (inkl. beweglicher Ferientage) finden.
+    </p>
     <% cache ['quick_overview', @federal_states, @months] do %>
       <% @federal_states.each do |federal_state| %>
         <% cache [federal_state, @months] do %>
@@ -34,7 +37,7 @@
   <div class="col-sm-3">
 
     <div class="panel panel-default">
-      <div class="panel-heading">Über diese Seite</div>
+      <div class="panel-heading">Über dieses Projekt</div>
       <div class="panel-body">
         <p>
         Ich habe zwei Kinder und meine Frau ist Lehrerin. Damit sollte klar sein, wie ich auf die Idee zu dieser Seite gekommen bin. ;-) 
