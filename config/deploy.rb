@@ -79,9 +79,7 @@ namespace :deploy do
       end
     end
   end
-end
 
-namespace :db do
   desc "rake db:seed"
   task :seed do
     on roles(:all) do |host|
@@ -96,4 +94,3 @@ namespace :db do
     end
   end
 end
-
