@@ -79,18 +79,20 @@ namespace :deploy do
       end
     end
   end
+end
 
+namespace :deploy do
   desc "rake db:seed"
   task :seed do
     on roles(:all) do |host|
-      rake   "db:seed"
+      execute "rake db:seed RAILS_ENV='production'"
     end
   end
 
   desc "rake db:reset"
   task :reset do
     on roles(:all) do |host|
-      rake   "db:reset"
+      execute "rake db:reset RAILS_ENV='production'"
     end
   end
 end
