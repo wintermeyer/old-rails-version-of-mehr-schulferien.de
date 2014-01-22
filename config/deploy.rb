@@ -80,13 +80,21 @@ namespace :deploy do
       end
     end
   end
+end
 
-  desc "Check that we can access everything"
+namespace :db do
+  desc "rake db:seed"
   task :seed do
     on roles(:all) do |host|
       rake   "db:seed"
     end
   end
 
+  desc "rake db:reset"
+  task :reset do
+    on roles(:all) do |host|
+      rake   "db:reset"
+    end
+  end
 end
 
