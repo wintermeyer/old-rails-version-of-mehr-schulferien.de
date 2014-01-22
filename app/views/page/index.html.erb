@@ -1,7 +1,5 @@
 <div class="row">
-  <div class="col-md-9">
-    <p>Auf dieser Seite finden Sie Informationen zu den Schulferien in Deutschland. <strong>Aktuell befindet sich die Seite noch im Aufbau.</strong> Im Laufe der Zeit werden wir weitere Funktionen und APIs hinzufügen.</p>
-
+  <div class="col-sm-9">
     <% cache ['quick_overview', @federal_states, @months] do %>
       <% @federal_states.each do |federal_state| %>
         <% cache [federal_state, @months] do %>
@@ -10,17 +8,22 @@
               <h3><%= federal_state %></h3>
             </div>
             <div class="col-sm-5">
-              <%= link_to federal_state_year_path(federal_state, @year), class: 'btn btn-default pull-right' do %>
-                <span class="glyphicon glyphicon-calendar"></span> Jahresübersicht
+              <%= link_to federal_state_path(federal_state), class: 'btn btn-default pull-right' do %>
+                <span class="glyphicon glyphicon-calendar"></span> 18-Monats-Übersicht
               <% end %>
-
             </div>
           </div>
           <div class="row">
             <% @months.each do |month| %>
-              <div class="col-sm-4">
-                <%= render partial: '/shared/month', locals: {month: month, year: @year, federal_state: federal_state} %>        
-              </div>
+              <% if month != @months.last %>
+                <div class="col-sm-6 col-md-4">
+                  <%= render partial: '/shared/month', locals: {month: month, year: @year, federal_state: federal_state} %>        
+                </div>
+              <% else %>
+                <div class="col-md-4 hidden-sm">
+                  <%= render partial: '/shared/month', locals: {month: month, year: @year, federal_state: federal_state} %>        
+                </div>
+              <% end %>
             <% end %>
           </div>
         <% end %>
@@ -28,11 +31,32 @@
     <% end %>
 
   </div>
-  <div class="col-md-3">
+  <div class="col-sm-3">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Über diese Seite</div>
+      <div class="panel-body">
+        <p>
+        Ich habe zwei Kinder und meine Frau ist Lehrerin. Damit sollte klar sein, wie ich auf die Idee zu dieser Seite gekommen bin. ;-) 
+        </p>
+        <p>
+        Ich hoffe auch Ihnen damit bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine <%= mail_to 'stefan.wintermeyer@amooma.de', 'E-Mail' %> oder einen Tweet mit Anregungen oder Kritik.
+        </p>
+  <a href="https://twitter.com/wintermeyer" class="twitter-follow-button" data-show-count="false" data-lang="de">@wintermeyer folgen</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Roadmap</div>
+      <div class="panel-body">
+      <p>Bewegliche Ferientage sind das Hauptfeature der nächsten Tage/Wochen. Der Schulferienkalender wird dann pro Schule aufgerufen werden können.</p>
+      </div>
+    </div>
 
     <% cache ['next_two_years', @year] do %>
       <div class="panel panel-default">
-        <div class="panel-heading"><h3><%= @year %></h3></div>
+        <div class="panel-heading"><%= @year %></div>
         <div class="panel-body">
           <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
           <ul>
@@ -45,7 +69,7 @@
 
       <div class="panel panel-default">
         <% next_year = Year.where(value: (@year.value + 1)).first %>
-        <div class="panel-heading"><h3><%= next_year %></h3></div>
+        <div class="panel-heading"><%= next_year %></div>
         <div class="panel-body">
           <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
           <ul>

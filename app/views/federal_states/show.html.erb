@@ -1,5 +1,40 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-sm-9">
+    <% cache [@federal_state, @months] do %>
+      <div class="row">
+        <div class="col-sm-7">
+          <h1><%= @federal_state %><br/><small>18-Monats-Übersicht</small></h1>
+        </div>
+        <div class="col-sm-5">
 
-<h1><%= @federal_state.name %></h1>
-
-<%= render partial: "shared/year", locals: {year: @year, federal_state: @federal_state} %>
+        </div>
+      </div>
+      <% @months.each_slice(3) do |month_per_row| %>
+        <div class="row hidden-sm">
+          <% month_per_row.each do |month| %>
+            <div class="col-md-4">
+              <%= render partial: '/shared/month', locals: {month: month, year: month.year, federal_state: @federal_state} %>        
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <% @months.each_slice(2) do |month_per_row| %>
+        <div class="row visible-sm">
+          <% month_per_row.each do |month| %>
+            <div class="col-sm-6">
+              <%= render partial: '/shared/month', locals: {month: month, year: month.year, federal_state: @federal_state} %>        
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-sm-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">Roadmap</div>
+      <div class="panel-body">
+      <p>Bewegliche Ferientage sind das Hauptfeature der nächsten Tage/Wochen. Der Schulferienkalender wird dann pro Schule aufgerufen werden können.</p>
+      </div>
+    </div>
+  </div>
+</div>

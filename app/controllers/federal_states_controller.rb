@@ -10,6 +10,10 @@ class FederalStatesController < ApplicationController
   # GET /federal_states/1
   # GET /federal_states/1.json
   def show
+    @months = []
+    (0..18).each do |i|
+      @months << Day.where(value: (Date.today + i.months)).first.month
+    end
   end
 
   # GET /federal_states/new
@@ -64,7 +68,11 @@ class FederalStatesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_federal_state
-      @federal_state = FederalState.find(params[:id])
+      if FederalState.where(slug: params[:id]).any?
+        @federal_state = FederalState.where(slug: params[:id]).first
+      else
+        @federal_state = FederalState.where(id: params[:id]).first
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
