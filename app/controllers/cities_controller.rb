@@ -10,6 +10,13 @@ class CitiesController < ApplicationController
   # GET /cities/1
   # GET /cities/1.json
   def show
+    @months = []
+    (0..17).each do |i|
+      @months << Day.where(value: (Date.today + i.months)).first.month
+    end
+    cookies[:last_federal_state] = @city.federal_state.slug
+    expires_in 1.day, :public => false
+    # fresh_when etag: [@city, @months]
   end
 
   # GET /cities/new
@@ -64,7 +71,11 @@ class CitiesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_city
-      @city = City.find(params[:id])
+      if City.where(slug: params[:id]).any?
+        @city = City.where(slug: params[:id]).first
+      else
+        @city = City.where(id: params[:id]).first
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

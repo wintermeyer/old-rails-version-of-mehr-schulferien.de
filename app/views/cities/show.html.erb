@@ -1,24 +1,26 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Federal state:</strong>
-  <%= @city.federal_state_id %>
-</p>
+<div class="page-header">
+  <h1><%= @city.name %> <small><%= link_to @city.federal_state, @city.federal_state %></small></h1>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @city.name %>
-</p>
+<div class="row">
+  <div class="col-sm-9">
+    <p>Übersicht der Schulferien in den nächsten <%= "#{@months.count} Monaten" %> in den Schulen der Stadt <%= @city.name %> (Postleitzahl <%= @city.zip_code %>).</p>
 
-<p>
-  <strong>Slug:</strong>
-  <%= @city.slug %>
-</p>
-
-<p>
-  <strong>Zip code:</strong>
-  <%= @city.zip_code %>
-</p>
-
-<%= link_to 'Edit', edit_city_path(@city) %> |
-<%= link_to 'Back', cities_path %>
+    <% cache [@city.federal_state, @months] do %>
+      <%= render partial: "shared/calendar_18_months", locals: {months: @months, federal_state: @city.federal_state} %>
+    <% end %>    
+  </div>
+  <div class="col-sm-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">Roadmap</div>
+      <div class="panel-body">
+        <p>
+        An dieser Stelle möchten wir bald die Schulen in <%= @city.name %> auflisten und dann im Kalender 
+        auch die beweglichen Ferientage dieser Schulen anzeigen. Damit soll die Urlaubsplanung für Eltern, Schüler und natürlich auch Lehrer vereinfacht werden.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

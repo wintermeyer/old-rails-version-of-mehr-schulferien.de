@@ -17,7 +17,7 @@ MehrSchulferienDe::Application.routes.draw do
   # get "page/api"
   # resources :schools, only: [:index, :show]
 
-  # resources :cities, only: [:index, :show]
+  resources :cities, only: [:index, :show]
 
   resources :federal_states, only: [:show] do
     resources :years, only: [:show]

@@ -4,11 +4,9 @@
   <thead>
     <tr>
       <th>Federal state</th>
+      <th>Zip code</th>
       <th>Name</th>
       <th>Slug</th>
-      <th>Zip code</th>
-      <th></th>
-      <th></th>
       <th></th>
     </tr>
   </thead>
@@ -16,18 +14,12 @@
   <tbody>
     <% @cities.each do |city| %>
       <tr>
-        <td><%= city.federal_state_id %></td>
+        <td><%= city.federal_state %></td>
+        <td><%= city.zip_code %></td>
         <td><%= city.name %></td>
         <td><%= city.slug %></td>
-        <td><%= city.zip_code %></td>
         <td><%= link_to 'Show', city %></td>
-        <td><%= link_to 'Edit', edit_city_path(city) %></td>
-        <td><%= link_to 'Destroy', city, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New City', new_city_path %>
