@@ -4,7 +4,33 @@
 
 <% cache [year, federal_states] do %>
   <% federal_states.each do |federal_state| %>
-    <h1><%= federal_state %></h1>
+    <div class="row">
+      <div class="col-md-6">
+        <h1><%= federal_state %></h1>
+      </div>
+      <% pagination_years = Year.where(value: (Date.today.year .. Date.today.year + 10)).order(:value) %>
+      <div class="col-md-6">
+        <ul class="pagination pull-right">
+          <% if pagination_years.first == year %>
+            <li class="disabled"><a href="#">&laquo;</a></li>
+          <% else %>
+            <li><%= link_to federal_state_year_path(federal_state, pagination_years[pagination_years.index(year) - 1]) do %>&laquo;<% end %></li>
+          <% end %>
+          <% pagination_years.each do |pagination_year| %>
+            <% if year == pagination_year %>
+              <li class='active'><%= link_to "#{pagination_year} ", federal_state_year_path(federal_state, pagination_year) %></li>
+            <% else %>
+              <li><%= link_to "#{pagination_year} ", federal_state_year_path(federal_state, pagination_year) %></li>
+            <% end %>
+          <% end %>
+          <% if pagination_years.last == year %>
+            <li class="disabled"><a href="#">&laquo;</a></li>
+          <% else %>
+            <li><%= link_to federal_state_year_path(federal_state, pagination_years[pagination_years.index(year) + 1]) do %>&raquo;<% end %></li>
+          <% end %>          
+        </ul>
+      </div>
+    </div>
 
     <% year.months.each_slice(4).each do |months| %>
       <div class="row hidden-sm hidden-xs">
