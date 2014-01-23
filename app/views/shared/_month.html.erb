@@ -11,6 +11,7 @@
   <% elsif days.last.wday > 1 %>
     <% (days.last.wday - 1).times{days.push(nil)} %>
   <% end %>
+  <% 7.times{days.push(nil)} %>
 
   <div class="row">
     <div class="col-xs-8">
