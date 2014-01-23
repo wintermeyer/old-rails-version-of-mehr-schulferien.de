@@ -5,37 +5,11 @@
     </p>
     <% cache ['quick_overview', @federal_states, @months] do %>
       <% @federal_states.each do |federal_state| %>
-        <% cache [federal_state, @months] do %>
-          <div class="row">
-            <div class="col-sm-7">
-              <h3><%= federal_state %></h3>
-            </div>
-            <div class="col-sm-5">
-              <%= link_to federal_state_path(federal_state), class: 'btn btn-default pull-right' do %>
-                <span class="glyphicon glyphicon-calendar"></span> 18-Monats-Übersicht
-              <% end %>
-            </div>
-          </div>
-          <div class="row">
-            <% @months.each do |month| %>
-              <% if month != @months.last %>
-                <div class="col-sm-6 col-md-4">
-                  <%= render partial: '/shared/month', locals: {month: month, year: @year, federal_state: federal_state} %>        
-                </div>
-              <% else %>
-                <div class="col-md-4 hidden-sm">
-                  <%= render partial: '/shared/month', locals: {month: month, year: @year, federal_state: federal_state} %>        
-                </div>
-              <% end %>
-            <% end %>
-          </div>
-        <% end %>
+        <%= render partial: "shared/quick_overview_row", locals: {months: @months, federal_state: federal_state} %>
       <% end %>
     <% end %>
-
   </div>
   <div class="col-sm-3">
-
     <div class="panel panel-default">
       <div class="panel-heading">Über dieses Projekt</div>
       <div class="panel-body">
