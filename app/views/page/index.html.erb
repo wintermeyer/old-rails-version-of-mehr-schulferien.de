@@ -1,7 +1,10 @@
 <div class="row">
   <div class="col-sm-9">
-    <p>
+    <p class="hidden-sm">
       Auf dieser Seite finden Sie eine 3-Monats-Übersicht aller Bundesländern (alphabetisch sortiert). Über die Navigationsleiste kommen Sie auf einzelne Jahre und Bundesländer. Schauen Sie in ein paar Wochen noch mal rein, dann werden Sie auch Ferien auf Schulebene (inkl. beweglicher Ferientage) finden.
+    </p>
+    <p class="visible-sm">
+      Auf dieser Seite finden Sie eine 2-Monats-Übersicht aller Bundesländern (alphabetisch sortiert). Über die Navigationsleiste kommen Sie auf einzelne Jahre und Bundesländer. Schauen Sie in ein paar Wochen noch mal rein, dann werden Sie auch Ferien auf Schulebene (inkl. beweglicher Ferientage) finden.
     </p>
     <% cache ['quick_overview', @federal_states, @months] do %>
       <% @federal_states.each do |federal_state| %>
