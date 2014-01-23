@@ -6,7 +6,11 @@
     <% (days.last.wday - 1).times{days.push(nil)} %>
   <% end %>
   <% days = days.reverse %>
-  <% (((month.days.count % 7) * 7) - month.days.count).times { days.push(nil) } %>
+  <% if days.last.wday == 0 %>
+    <% 6.times{days.push(nil)} %>
+  <% elsif days.last.wday > 1 %>
+    <% (days.last.wday - 1).times{days.push(nil)} %>
+  <% end %>
 
   <div class="row">
     <div class="col-xs-8">
