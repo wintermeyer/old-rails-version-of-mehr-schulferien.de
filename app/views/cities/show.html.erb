@@ -14,7 +14,7 @@
   </div>
   <div class="col-sm-3">
     <div class="panel panel-default">
-      <div class="panel-heading">Roadmap</div>
+      <div class="panel-heading"><strong>Roadmap</strong></div>
       <div class="panel-body">
         <p>
         An dieser Stelle möchten wir bald die Schulen in <%= @city.name %> auflisten und dann im Kalender 
@@ -22,5 +22,19 @@
         </p>
       </div>
     </div>
+
+    <% if @city.schools.any? %>
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>Schulen</strong></div>
+        <div class="panel-body">
+          <ul>
+            <% @city.schools.order(:name).each do |school| %>
+              <li><%= link_to school, city_school_path(@city, school) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
   </div>
 </div>

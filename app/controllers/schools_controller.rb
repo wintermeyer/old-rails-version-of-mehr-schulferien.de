@@ -2,14 +2,26 @@ class SchoolsController < ApplicationController
   before_action :set_school, only: [:show, :edit, :update, :destroy]
 
   # GET /schools
-  # GET /schools.json
   def index
-    @schools = School.all
+    if params["city_id"]
+      @city = City.where(slug: params["city_id"]).first || City.where(id: params["city_id"]).first
+      if @city
+        @schools = @city.schools.order(:name)
+      end
+    else
+      # @schools = School.all
+    end
   end
 
   # GET /schools/1
-  # GET /schools/1.json
   def show
+    @months = []
+    (0..17).each do |i|
+      @months << Day.where(value: (Date.today + i.months)).first.month
+    end
+    cookies[:last_federal_state] = @city.federal_state.slug
+    expires_in 1.day, :public => false
+    # fresh_when etag: [@months, @federal_state]    
   end
 
   # GET /schools/new
@@ -22,53 +34,49 @@ class SchoolsController < ApplicationController
   end
 
   # POST /schools
-  # POST /schools.json
   def create
     @school = School.new(school_params)
 
-    respond_to do |format|
-      if @school.save
-        format.html { redirect_to @school, notice: 'School was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @school }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @school.errors, status: :unprocessable_entity }
-      end
+    if @school.save
+      redirect_to @school, notice: 'School was successfully created.'
+    else
+      render action: 'new'
     end
   end
 
   # PATCH/PUT /schools/1
-  # PATCH/PUT /schools/1.json
   def update
-    respond_to do |format|
-      if @school.update(school_params)
-        format.html { redirect_to @school, notice: 'School was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @school.errors, status: :unprocessable_entity }
-      end
+    if @school.update(school_params)
+      redirect_to @school, notice: 'School was successfully updated.'
+    else
+      render action: 'edit'
     end
   end
 
   # DELETE /schools/1
-  # DELETE /schools/1.json
   def destroy
     @school.destroy
-    respond_to do |format|
-      format.html { redirect_to schools_url }
-      format.json { head :no_content }
-    end
+    redirect_to schools_url, notice: 'School was successfully destroyed.'
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_school
-      @school = School.find(params[:id])
+      if params["city_id"]
+        @city = City.where(slug: params["city_id"]).first || City.where(id: params["city_id"]).first
+      end
+
+      if @city
+        schools = @city.schools
+      else
+        schools = School.all
+      end
+
+      @school = School.where(slug: params["id"]).first || School.where(id: params["id"]).first
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Only allow a trusted parameter "white list" through.
     def school_params
-      params.require(:school).permit(:city_id, :name, :slug, :address_line1, :address_line2, :street, :zip_code, :city)
+      params.require(:school).permit(:city_id, :name, :slug, :address_line1, :address_line2, :street, :zip_code, :address_city_name, :phone_number, :fax_number, :email, :homepage)
     end
 end

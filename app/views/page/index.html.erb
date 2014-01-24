@@ -14,7 +14,7 @@
   </div>
   <div class="col-sm-3">
     <div class="panel panel-default">
-      <div class="panel-heading">Über dieses Projekt</div>
+      <div class="panel-heading"><strong>Über dieses Projekt</strong></div>
       <div class="panel-body">
         <p>
         Ich habe zwei Kinder und meine Frau ist Lehrerin. Damit sollte klar sein, wie ich auf die Idee zu dieser Seite gekommen bin. ;-) 
@@ -28,7 +28,7 @@
     </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading">Roadmap</div>
+      <div class="panel-heading"><strong>Roadmap</strong></div>
       <div class="panel-body">
       <p>Bewegliche Ferientage sind das Hauptfeature der nächsten Tage/Wochen. Der Schulferienkalender wird dann pro Schule aufgerufen werden können.</p>
       </div>
@@ -36,7 +36,7 @@
 
     <% cache ['next_two_years', @year] do %>
       <div class="panel panel-default">
-        <div class="panel-heading"><%= @year %></div>
+        <div class="panel-heading"><strong>Schulferien <%= @year %></strong></div>
         <div class="panel-body">
           <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
           <ul>
@@ -49,7 +49,7 @@
 
       <div class="panel panel-default">
         <% next_year = Year.where(value: (@year.value + 1)).first %>
-        <div class="panel-heading"><%= next_year %></div>
+        <div class="panel-heading"><strong>Schulferien <%= next_year %></strong></div>
         <div class="panel-body">
           <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
           <ul>

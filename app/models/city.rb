@@ -3,6 +3,7 @@ class City < ActiveRecord::Base
   friendly_id :slug_candidates, use: :slugged
 
   belongs_to :federal_state, touch: true
+  has_many :schools, dependent: :destroy
 
   validates :name,
             :presence => true
@@ -23,9 +24,7 @@ class City < ActiveRecord::Base
     name
   end
 
-
-  # Try building a slug based on the following fields in
-  # increasing order of specificity.
+  private
   def slug_candidates
     [
       :name,

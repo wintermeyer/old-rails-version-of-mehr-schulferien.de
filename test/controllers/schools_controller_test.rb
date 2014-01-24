@@ -18,7 +18,7 @@ class SchoolsControllerTest < ActionController::TestCase
 
   test "should create school" do
     assert_difference('School.count') do
-      post :create, school: { address_line1: @school.address_line1, address_line2: @school.address_line2, city: @school.city, city_id: @school.city_id, name: @school.name, slug: @school.slug, street: @school.street, zip_code: @school.zip_code }
+      post :create, school: { address_city_name: @school.address_city_name, address_line1: @school.address_line1, address_line2: @school.address_line2, city_id: @school.city_id, email: @school.email, fax_number: @school.fax_number, homepage: @school.homepage, name: @school.name, phone_number: @school.phone_number, slug: @school.slug, street: @school.street, zip_code: @school.zip_code }
     end
 
     assert_redirected_to school_path(assigns(:school))
@@ -35,7 +35,7 @@ class SchoolsControllerTest < ActionController::TestCase
   end
 
   test "should update school" do
-    patch :update, id: @school, school: { address_line1: @school.address_line1, address_line2: @school.address_line2, city: @school.city, city_id: @school.city_id, name: @school.name, slug: @school.slug, street: @school.street, zip_code: @school.zip_code }
+    patch :update, id: @school, school: { address_city_name: @school.address_city_name, address_line1: @school.address_line1, address_line2: @school.address_line2, city_id: @school.city_id, email: @school.email, fax_number: @school.fax_number, homepage: @school.homepage, name: @school.name, phone_number: @school.phone_number, slug: @school.slug, street: @school.street, zip_code: @school.zip_code }
     assert_redirected_to school_path(assigns(:school))
   end
 

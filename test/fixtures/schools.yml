@@ -8,7 +8,11 @@ one:
   address_line2: MyString
   street: MyString
   zip_code: MyString
-  city: MyString
+  address_city_name: MyString
+  phone_number: MyString
+  fax_number: MyString
+  email: MyString
+  homepage: MyString
 
 two:
   city_id: 1
@@ -18,4 +22,8 @@ two:
   address_line2: MyString
   street: MyString
   zip_code: MyString
-  city: MyString
+  address_city_name: MyString
+  phone_number: MyString
+  fax_number: MyString
+  email: MyString
+  homepage: MyString

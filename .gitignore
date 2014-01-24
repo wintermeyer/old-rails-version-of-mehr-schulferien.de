@@ -22,3 +22,4 @@
 # Sandbox
 # 
 /db/sandbox
+/lib/tasks/importer.rake

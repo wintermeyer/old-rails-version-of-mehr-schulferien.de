@@ -8,11 +8,14 @@ class CreateSchools < ActiveRecord::Migration
       t.string :address_line2
       t.string :street
       t.string :zip_code
-      t.string :city
+      t.string :address_city_name
+      t.string :phone_number
+      t.string :fax_number
+      t.string :email
+      t.string :homepage
 
       t.timestamps
     end
-    add_index :schools, :city_id
     add_index :schools, :slug
   end
 end

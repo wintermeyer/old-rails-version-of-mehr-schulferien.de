@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140118152831) do
+ActiveRecord::Schema.define(version: 20140124025511) do
 
   create_table "cities", force: true do |t|
     t.integer  "federal_state_id"
@@ -77,12 +77,15 @@ ActiveRecord::Schema.define(version: 20140118152831) do
     t.string   "address_line2"
     t.string   "street"
     t.string   "zip_code"
-    t.string   "city"
+    t.string   "address_city_name"
+    t.string   "phone_number"
+    t.string   "fax_number"
+    t.string   "email"
+    t.string   "homepage"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "schools", ["city_id"], name: "index_schools_on_city_id"
   add_index "schools", ["slug"], name: "index_schools_on_slug"
 
   create_table "slots", force: true do |t|

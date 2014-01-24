@@ -10,10 +10,25 @@
   </div>
   <div class="col-sm-3">
     <div class="panel panel-default">
-      <div class="panel-heading">Roadmap</div>
+      <div class="panel-heading"><strong>Roadmap</strong></div>
       <div class="panel-body">
       <p>Bewegliche Ferientage sind das Hauptfeature der nächsten Tage/Wochen. Der Schulferienkalender wird dann pro Schule aufgerufen werden können.</p>
       </div>
     </div>
+
+    <% if School.where(city_id: @federal_state.cities.pluck(:id)).any? %>
+      <% cache ['city_schools_sidebar', @city] do %>
+        <div class="panel panel-default">
+          <div class="panel-heading"><strong>Städte mit Schulen</strong></div>
+          <div class="panel-body">
+            <ul class="list-unstyled">
+              <% @federal_state.cities.order(:name).each do |city| %>
+                <li><%= link_to "#{city.zip_code} #{city}", city %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    <% end %>    
   </div>
 </div>
