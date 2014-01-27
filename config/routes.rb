@@ -1,4 +1,6 @@
 MehrSchulferienDe::Application.routes.draw do
+  resources :school_types
+
   # resources :schools
 
   # resources :vacation_periods, only: [:index, :show]
@@ -23,7 +25,7 @@ MehrSchulferienDe::Application.routes.draw do
     resources :schools, only: [:index, :show]
   end
 
-  resources :federal_states, only: [:show] do
+  resources :federal_states, only: [:index, :show] do
     resources :years, only: [:show]
   end
 

@@ -55,6 +55,8 @@ GEM
       activesupport (>= 3.0.0)
     friendly_id (5.0.2)
       activerecord (~> 4.0.0)
+    gretel (3.0.5)
+      rails (>= 3.2.0)
     hike (1.2.3)
     i18n (0.6.9)
     icalendar (1.5.0)
@@ -155,6 +157,7 @@ DEPENDENCIES
   dalli
   factory_girl
   friendly_id (~> 5.0.0)
+  gretel
   icalendar
   jquery-rails
   mysql2

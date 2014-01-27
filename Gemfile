@@ -48,6 +48,7 @@ gem 'icalendar'
 gem 'friendly_id', '~> 5.0.0'
 gem 'unicorn'
 gem 'dalli'
+gem 'gretel'
 
 group :development do
   gem 'factory_girl'

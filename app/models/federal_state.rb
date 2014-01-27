@@ -7,6 +7,7 @@ class FederalState < ActiveRecord::Base
   has_many :days, through: :slots
   has_many :vacation_periods, as: :vacation_periodable, dependent: :destroy
   has_many :cities, dependent: :destroy
+  has_many :schools, through: :cities
 
   validates :country_id,
             presence: true,

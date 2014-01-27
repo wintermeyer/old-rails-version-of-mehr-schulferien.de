@@ -1,13 +1,13 @@
-<h1>Listing federal_states</h1>
+<% breadcrumb :federal_states, @federal_states %>
 
-<table>
+<h1>Bundesländer</h1>
+
+<table class='table'>
   <thead>
     <tr>
-      <th>Country</th>
       <th>Name</th>
-      <th>Slug</th>
-      <th></th>
-      <th></th>
+      <th>Anzahl der Städte</th>
+      <th>Anzahl der Schulen</th>
       <th></th>
     </tr>
   </thead>
@@ -15,17 +15,18 @@
   <tbody>
     <% @federal_states.each do |federal_state| %>
       <tr>
-        <td><%= federal_state.country_id %></td>
         <td><%= federal_state.name %></td>
-        <td><%= federal_state.slug %></td>
-        <td><%= link_to 'Show', federal_state %></td>
-        <td><%= link_to 'Edit', edit_federal_state_path(federal_state) %></td>
-        <td><%= link_to 'Destroy', federal_state, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= number_with_precision(federal_state.cities.count, precision: 0, delimiter: '.') %></td>
+        <td>
+          <% if federal_state.schools.count > 0 %>
+            <%= number_with_precision(federal_state.schools.count, precision: 0, delimiter: '.') %>
+          <% else %>
+            noch keine Einträge
+          <% end %>
+        </td>
+        <td><%= link_to 'Show', federal_state, class: 'btn btn-default' %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Federal state', new_federal_state_path %>

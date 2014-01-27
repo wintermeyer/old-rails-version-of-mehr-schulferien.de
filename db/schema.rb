@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140124025511) do
+ActiveRecord::Schema.define(version: 20140125162237) do
 
   create_table "cities", force: true do |t|
     t.integer  "federal_state_id"
@@ -69,6 +69,12 @@ ActiveRecord::Schema.define(version: 20140124025511) do
   add_index "months", ["slug"], name: "index_months_on_slug"
   add_index "months", ["year_id"], name: "index_months_on_year_id"
 
+  create_table "school_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "schools", force: true do |t|
     t.integer  "city_id"
     t.string   "name"
@@ -84,8 +90,10 @@ ActiveRecord::Schema.define(version: 20140124025511) do
     t.string   "homepage"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_type_id"
   end
 
+  add_index "schools", ["school_type_id"], name: "index_schools_on_school_type_id"
   add_index "schools", ["slug"], name: "index_schools_on_slug"
 
   create_table "slots", force: true do |t|
