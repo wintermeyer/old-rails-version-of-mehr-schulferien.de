@@ -13,15 +13,7 @@
     <% end %>    
   </div>
   <div class="col-sm-3">
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>Roadmap</strong></div>
-      <div class="panel-body">
-        <p>
-        An dieser Stelle möchten wir bald die Schulen in <%= @city.name %> auflisten und dann im Kalender 
-        auch die beweglichen Ferientage dieser Schulen anzeigen. Damit soll die Urlaubsplanung für Eltern, Schüler und natürlich auch Lehrer vereinfacht werden.
-        </p>
-      </div>
-    </div>
+    <%= render 'shared/roadmap' %>
 
     <% if @city.schools.any? %>
       <div class="panel panel-default">

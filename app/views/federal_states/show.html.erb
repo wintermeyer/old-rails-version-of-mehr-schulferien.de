@@ -11,12 +11,7 @@
     <% end %>
   </div>
   <div class="col-sm-3">
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>Roadmap</strong></div>
-      <div class="panel-body">
-      <p>Bewegliche Ferientage sind das Hauptfeature der nächsten Tage/Wochen. Der Schulferienkalender wird dann pro Schule aufgerufen werden können.</p>
-      </div>
-    </div>
+    <%= render 'shared/roadmap' %>
 
     <% if School.where(city_id: @federal_state.cities.pluck(:id)).any? %>
       <% cache ['city_schools_sidebar', @city] do %>

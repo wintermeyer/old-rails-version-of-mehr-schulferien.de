@@ -34,12 +34,7 @@ mehr-schulferien.de
       </div>
     </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>Roadmap</strong></div>
-      <div class="panel-body">
-      <p>Bewegliche Ferientage sind das Hauptfeature der nächsten Tage/Wochen. Der Schulferienkalender wird dann pro Schule aufgerufen werden können.</p>
-      </div>
-    </div>
+    <%= render 'shared/roadmap' %>
 
     <% cache ['next_two_years', @year] do %>
       <div class="panel panel-default">
