@@ -1,10 +1,12 @@
+<% breadcrumb :federal_state, @school.city.federal_state %>
+
 <p id="notice"><%= notice %></p>
 
 <div class="page-header">
   <% if @school.to_s.size < 30 %>
     <h1><%= @school %> <br class="visible-xs"><small>18-Monats-Übersicht</small></h1>
   <% else %>
-    <h1><%= truncate(@school.to_s, length: 40) %><br><small>18-Monats-Übersicht</small></h1>
+    <h1><%= truncate(@school.to_s, length: 45) %><br><small>18-Monats-Übersicht</small></h1>
   <% end %>
 </div>
 
