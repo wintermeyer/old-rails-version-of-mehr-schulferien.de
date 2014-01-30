@@ -5,6 +5,9 @@ class FederalStatesController < ApplicationController
   # GET /federal_states.json
   def index
     @federal_states = FederalState.all
+
+    expires_in 1.day, :public => false
+    fresh_when etag: [@federal_states]
   end
 
   # GET /federal_states/1
@@ -15,6 +18,7 @@ class FederalStatesController < ApplicationController
       @months << Day.where(value: (Date.today + i.months)).first.month
     end
     cookies[:last_federal_state] = @federal_state.slug
+
     expires_in 1.day, :public => false
     fresh_when etag: [@months, @federal_state]
   end
