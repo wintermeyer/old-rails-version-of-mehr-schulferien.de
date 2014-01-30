@@ -19,18 +19,15 @@ Schulferien in den nächsten 18 Monaten im Bundesland <%= @federal_state %>.
   </div>
   <div class="col-sm-3">
 
-    <% cache ['Jahresliste Panel', @federal_state, available_years] do %>
+    <% cache ['Kalender Panel', @federal_state, available_years] do %>
       <div class="panel panel-default">
-        <div class="panel-heading"><strong>Jahre</strong></div>
+        <div class="panel-heading"><strong>Kalender</strong></div>
         <div class="panel-body">
-          <p>
-            Bitte klicken Sie auf das gewünschte Jahr:
-          </p>
-          <ul>
+          <div class="btn-group-vertical">
             <% available_years.each do |year| %>
-              <li><%= link_to year, federal_state_year_path(@federal_state, year) %></li>        
+              <%= link_to year, federal_state_year_path(@federal_state, year), class: 'btn btn-default' %>
             <% end %>
-          </ul>
+          </div>
         </div>
       </div>
     <% end %>
