@@ -1,0 +1,21 @@
+<% cache ['city_schools_sidebar', federal_state] do %>
+  <% schools = School.where(city_id: federal_state.cities.pluck(:id)) %>
+  <% if schools.any? %>
+    <div class="panel panel-default">
+      <div class="panel-heading"><strong>Städte mit Schulen</strong></div>
+      <div class="panel-body">
+        <table class="table">
+          <thead><tr><th>PLZ</span></th><th>Ort <span class="glyphicon glyphicon-arrow-down"></span></th></tr></thead>
+          <tbody>
+            <% City.where(id: schools.pluck(:city_id)).order(:name).each do |city| %>
+              <tr>
+                <td><%= link_to city.zip_code, federal_state_city_path(federal_state, city) %></td>
+                <td><%= link_to city, federal_state_city_path(federal_state, city) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+<% end %>  

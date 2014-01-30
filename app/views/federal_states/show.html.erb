@@ -32,22 +32,7 @@ Schulferien in den nächsten 18 Monaten im Bundesland <%= @federal_state %>.
       </div>
     <% end %>
 
-    <% cache ['list_of_schools_sidebar', @federal_state] do %>
-      <% if School.where(city_id: @federal_state.cities.pluck(:id)).any? %>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Städte mit Schulen</strong></div>
-          <div class="panel-body">
-            <ul class="list-unstyled">
-              <% @federal_state.cities.order(:name).each do |city| %>
-                <li><%= link_to "#{city.zip_code} #{city}", city %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      <% end %>
-    <% end %>    
-
+    <%= render partial: "federal_states/table_of_cities_panel", locals: {federal_state: @federal_state} %>
     <%= render 'shared/roadmap' %>
-
   </div>
 </div>
