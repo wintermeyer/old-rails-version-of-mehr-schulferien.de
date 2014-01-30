@@ -1,5 +1,12 @@
 <% breadcrumb :federal_state, @federal_state %>
 
+<% content_for :meta_description do %>
+Schulferien in den nächsten 18 Monaten im Bundesland <%= @federal_state %>.
+<% end %>
+<% content_for :html_title do %>
+Schulferien in den nächsten 18 Monaten im Bundesland <%= @federal_state %>.
+<% end %>
+
 <div class="page-header">
   <h1><%= @federal_state %> <br class="visible-xs"><small>18-Monats-Übersicht</small></h1>
 </div>

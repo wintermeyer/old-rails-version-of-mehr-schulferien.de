@@ -1,5 +1,12 @@
 <% breadcrumb :school, @school %>
 
+<% content_for :meta_description do %>
+Schulferien in den nächsten 18 Monaten für die Schule <%= @school %> aus <%= @school.city %>.
+<% end %>
+<% content_for :html_title do %>
+Schulferien in den nächsten 18 Monaten für die Schule <%= @school %> aus <%= @school.city %>.
+<% end %>
+
 <p id="notice"><%= notice %></p>
 
 <div class="page-header">
