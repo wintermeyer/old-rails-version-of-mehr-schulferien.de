@@ -5,7 +5,7 @@ class YearsController < ApplicationController
   # GET /years
   # GET /years.json
   def index
-    @years = Year.order(:value).where(value: (Date.today.year .. Date.today.year + 20))
+    @years = available_years
   end
 
   # GET /years/1

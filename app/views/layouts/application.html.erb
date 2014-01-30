@@ -36,7 +36,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <% Year.where(value: (Date.today.year .. (Date.today.year + 5))).each do |year| %>
+            <% available_years.each do |year| %>
               <% if @year && year == @year %>
                 <li class="dropdown active">
               <% else %>
