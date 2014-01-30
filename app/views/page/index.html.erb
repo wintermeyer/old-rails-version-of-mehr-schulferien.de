@@ -24,7 +24,7 @@ mehr-schulferien.de
       <div class="panel panel-default">
         <div class="panel-heading"><strong>Crowdsourcing</strong></div>
         <div class="panel-body">
-          <p>In unserer Datenbank sind <%= number_with_precision(City.count, precision: 0, delimiter: '.') %> Städte mit insgesamt <%= number_with_precision(School.count, precision: 0, delimiter: '.') %> Schulen gespeichert. Diese Menge an Daten kann nur per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) aktuell gehalten werden. Wir arbeiten an einer entsprechenden Funktionalität.</p>
+          <p>In unserer Datenbank sind <%= number_with_precision(City.count, precision: 0, delimiter: '.') %> Städte mit insgesamt <%= number_with_precision(School.count, precision: 0, delimiter: '.') %> Schulen gespeichert. Diese Menge an Daten kann nur per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) aktuell gehalten werden. Eine entsprechende Funktionalität ist in Entwicklung.</p>
         </div>
       </div>
     <% end %>
@@ -42,31 +42,20 @@ mehr-schulferien.de
 
     <%= render 'shared/roadmap' %>
 
-    <% cache ['next_two_years', @year] do %>
-      <div class="panel panel-default">
-        <div class="panel-heading"><strong>Schulferien <%= @year %></strong></div>
-        <div class="panel-body">
-          <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
-          <ul>
-          <% @federal_states.each do |federal_state| %>
-            <li><%= link_to federal_state, federal_state_year_path(federal_state, @year) %></li>
-          <% end %>
-          </ul>
+    <% cache ['available_years_panel', available_years] do %>
+      <% available_years.each do |year| %>
+        <div class="panel panel-default">
+          <div class="panel-heading"><strong>Schulferien <%= year %></strong></div>
+          <div class="panel-body">
+            <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
+            <ul>
+            <% @federal_states.each do |federal_state| %>
+              <li><%= link_to federal_state, federal_state_year_path(federal_state, year) %></li>
+            <% end %>
+            </ul>
+          </div>
         </div>
-      </div>
-
-      <div class="panel panel-default">
-        <% next_year = Year.where(value: (@year.value + 1)).first %>
-        <div class="panel-heading"><strong>Schulferien <%= next_year %></strong></div>
-        <div class="panel-body">
-          <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
-          <ul>
-          <% @federal_states.each do |federal_state| %>
-            <li><%= link_to federal_state, federal_state_year_path(federal_state, next_year) %></li>
-          <% end %>
-          </ul>
-        </div>
-      </div>
+      <% end %>
     <% end %>
 
   </div>
