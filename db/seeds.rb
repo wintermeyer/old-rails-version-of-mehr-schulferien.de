@@ -9131,3 +9131,11 @@ City.create!([
   {federal_state_id: 16, name: "Obermehler", zip_code: "99996"},
   {federal_state_id: 16, name: "Körner", zip_code: "99998"}
 ])
+
+# Use this to play on development systems.
+#
+if Dir.exist?(Rails.root.join('db','sandbox'))
+  Dir.glob(Rails.root.join('db','sandbox','seeds-*.rb')).each do |seed_file|
+    require seed_file
+  end
+end
