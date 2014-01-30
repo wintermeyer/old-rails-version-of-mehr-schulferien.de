@@ -1,6 +1,6 @@
 class School < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :slug_candidates, use: [:slugged ,:scoped], scope: :city_id
+  friendly_id :slug_candidates, use: :slugged
 
   belongs_to :city, touch: true
   belongs_to :school_type, touch: true
@@ -32,9 +32,8 @@ class School < ActiveRecord::Base
   private
   def slug_candidates
     [
-      :name,
-      [:name, :zip_code],
-      [:name, :zip_code, :address_city_name]
+      [:zip_code, :name],
+      [:zip_code, :name, :address_city_name]
     ]
   end
 

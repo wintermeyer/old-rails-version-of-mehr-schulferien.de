@@ -20,6 +20,17 @@ mehr-schulferien.de
     <% end %>
   </div>
   <div class="col-sm-3">
+    <% if @last_federal_state %>
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>Spickzettel</strong></div>
+        <div class="panel-body">
+          <%= link_to @last_federal_state, class: 'btn btn-default pull-right' do %>
+            <span class="glyphicon glyphicon-calendar"></span> <%= @last_federal_state %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <% cache ['Crowdsourcing', City.count, School.count] do %>
       <div class="panel panel-default">
         <div class="panel-heading"><strong>Crowdsourcing</strong></div>
