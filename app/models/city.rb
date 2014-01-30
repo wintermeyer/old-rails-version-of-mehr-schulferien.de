@@ -29,8 +29,7 @@ class City < ActiveRecord::Base
   private
   def slug_candidates
     [
-      :name,
-      [:name, :zip_code]
+      [:zip_code, :name]
     ]
   end  
 end
