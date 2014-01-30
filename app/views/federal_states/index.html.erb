@@ -1,34 +1,37 @@
 <% breadcrumb :federal_states, @federal_states %>
 
-<div class="page-header">
-  <h1>Bundesländer</h1>
-</div>
+<% cache ['FederalState#index', @federal_states, School.count] do %>
+  <div class="page-header">
+    <h1>Bundesländer</h1>
+  </div>
 
-<table class='table'>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Anzahl der Städte</th>
-      <th>Anzahl der Schulen</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @federal_states.each do |federal_state| %>
+  <table class='table'>
+    <thead>
       <tr>
-        <td><%= federal_state.name %></td>
-        <td><%= number_with_precision(federal_state.cities.count, precision: 0, delimiter: '.') %></td>
-        <td>
-          <% if federal_state.schools.count > 0 %>
-            <%= number_with_precision(federal_state.schools.count, precision: 0, delimiter: '.') %>
-          <% else %>
-            noch keine Einträge
-          <% end %>
-        </td>
-        <td><%= link_to 'Show', federal_state, class: 'btn btn-default' %></td>
+        <th>Name</th>
+        <th>Anzahl der Städte</th>
+        <th>Anzahl der Schulen</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @federal_states.each do |federal_state| %>
+        <% cache ['FederalState#index row cache', federal_state, federal_state.schools.count] do %>
+          <tr>
+            <td><%= federal_state.name %></td>
+            <td><%= number_with_precision(federal_state.cities.count, precision: 0, delimiter: '.') %></td>
+            <td>
+              <% if federal_state.schools.count > 0 %>
+                <%= number_with_precision(federal_state.schools.count, precision: 0, delimiter: '.') %>
+              <% else %>
+                noch keine Einträge
+              <% end %>
+            </td>
+            <td><%= link_to 'Show', federal_state, class: 'btn btn-default' %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
