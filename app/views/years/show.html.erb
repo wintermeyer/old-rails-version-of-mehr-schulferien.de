@@ -12,7 +12,7 @@ Schulferienkalender <%= @year %> für das Bundesland <%= @federal_state %>
 <div class="page-header">
   <div class="row">
     <div class="col-sm-8">
-      <h1><%= @federal_state %> <br class="visible-xs"><small>12-Monats-Übersicht</small></h1>
+      <h1><%= @federal_state %></h1>
     </div>
     <div class="col-sm-4">
       <% cache ['Pagination years', available_years, @year, @federal_state] do %>
