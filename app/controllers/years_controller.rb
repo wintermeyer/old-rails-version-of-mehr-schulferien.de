@@ -82,9 +82,9 @@ class YearsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_year
-      @year = Year.where(id: params[:id]).where(value: (Date.today.year .. Date.today.year + 20)).first
+      @year = available_years.where(id: params[:id]).first
       if @year.nil?
-        @year = Year.where(slug: params[:id]).where(value: (Date.today.year .. Date.today.year + 20)).first
+        @year = available_years.where(slug: params[:id]).first
       end
     end
 

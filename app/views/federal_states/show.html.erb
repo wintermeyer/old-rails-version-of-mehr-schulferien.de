@@ -19,22 +19,24 @@ Schulferien in den nächsten 18 Monaten im Bundesland <%= @federal_state %>.
   </div>
   <div class="col-sm-3">
 
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>Jahre</strong></div>
-      <div class="panel-body">
-        <p>
-          Bitte klicken Sie auf das gewünschte Jahr:
-        </p>
-        <ul>
-          <% Year.where(value: Date.today.year.to_i .. (Date.today + 10.years).year.to_i).order(:value).each do |year| %>
-            <li><%= link_to year, federal_state_year_path(@federal_state, year) %></li>        
-          <% end %>
-        </ul>
+    <% cache ['Jahresliste Panel', @federal_state, available_years] do %>
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>Jahre</strong></div>
+        <div class="panel-body">
+          <p>
+            Bitte klicken Sie auf das gewünschte Jahr:
+          </p>
+          <ul>
+            <% available_years.each do |year| %>
+              <li><%= link_to year, federal_state_year_path(@federal_state, year) %></li>        
+            <% end %>
+          </ul>
+        </div>
       </div>
-    </div>
+    <% end %>
 
-    <% if School.where(city_id: @federal_state.cities.pluck(:id)).any? %>
-      <% cache ['city_schools_sidebar', @city] do %>
+    <% cache ['list_of_schools_sidebar', @federal_state] do %>
+      <% if School.where(city_id: @federal_state.cities.pluck(:id)).any? %>
         <div class="panel panel-default">
           <div class="panel-heading"><strong>Städte mit Schulen</strong></div>
           <div class="panel-body">
