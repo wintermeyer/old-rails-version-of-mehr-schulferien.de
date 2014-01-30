@@ -19,6 +19,8 @@ class School < ActiveRecord::Base
   validates :name,
             presence: true
 
+  before_validation :downcase_email
+
   def to_s
     name
   end
@@ -34,5 +36,13 @@ class School < ActiveRecord::Base
       [:name, :zip_code],
       [:name, :zip_code, :address_city_name]
     ]
-  end  
+  end
+
+  def downcase_email
+    if self.email.blank?
+      self.email = nil
+    else
+      self.email = self.email.downcase
+    end
+  end
 end
