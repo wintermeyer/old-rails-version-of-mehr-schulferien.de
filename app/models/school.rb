@@ -23,6 +23,10 @@ class School < ActiveRecord::Base
     name
   end
 
+  def komma_seperated_address
+    "#{self.street},#{self.zip_code} #{self.address_city_name},#{self.city.country}".gsub(/,,/,',')
+  end
+
   private
   def slug_candidates
     [

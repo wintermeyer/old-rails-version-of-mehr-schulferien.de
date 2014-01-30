@@ -1,7 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <div class="page-header">
-  <h1><%= @school %> <small>18-Monats-Übersicht</small></h1>
+  <% if @school.to_s.size < 30 %>
+    <h1><%= @school %> <br class="visible-xs"><small>18-Monats-Übersicht</small></h1>
+  <% else %>
+    <h1><%= truncate(@school.to_s, length: 40) %><br><small>18-Monats-Übersicht</small></h1>
+  <% end %>
 </div>
 
 <div class="row">
@@ -11,6 +15,13 @@
     <% end %>
   </div>
   <div class="col-sm-3">
+
+    <div class="hidden-xs">
+      <a href="https://maps.google.com/maps?q=<%= "#{URI.encode(@school.komma_seperated_address)}" %>&hl=de&t=m" class="thumbnail">
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= URI.encode(@school.komma_seperated_address) %>&markers=color:blue%7Clabel:S%<%= URI.encode(@school.komma_seperated_address) %>&zoom=12&size=300x300&sensor=false" alt="Google Maps Landkarte mit der Position dieser Schule">
+      </a>
+    </div>
+
     <div class="panel panel-default">
       <div class="panel-heading">Adresse</div>
       <div class="panel-body">
