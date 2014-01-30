@@ -21,7 +21,6 @@ crumb :school do |school|
   parent :city, school.city
 end
 
-
 # crumb :year do
 #   link year.value, federal_state_year_path(federal_state, year)
 # end

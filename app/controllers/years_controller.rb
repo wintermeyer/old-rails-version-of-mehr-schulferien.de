@@ -1,10 +1,11 @@
 class YearsController < ApplicationController
+  before_action :set_federal_state, only: [:show, :index]
   before_action :set_year, only: [:show, :edit, :update, :destroy]
 
   # GET /years
   # GET /years.json
   def index
-    @years = Year.all
+    @years = Year.order(:value).where(value: (Date.today.year .. Date.today.year + 20))
   end
 
   # GET /years/1
@@ -70,18 +71,20 @@ class YearsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_year
+    def set_federal_state
       if params[:federal_state_id]
         @federal_state = FederalState.where(id: params[:federal_state_id]).first
         if @federal_state.nil?
           @federal_state = FederalState.where(slug: params[:federal_state_id]).first
         end
       end
+    end
 
-      @year = Year.where(id: params[:id]).first
+    # Use callbacks to share common setup or constraints between actions.
+    def set_year
+      @year = Year.where(id: params[:id]).where(value: (Date.today.year .. Date.today.year + 20)).first
       if @year.nil?
-        @year = Year.where(slug: params[:id]).first
+        @year = Year.where(slug: params[:id]).where(value: (Date.today.year .. Date.today.year + 20)).first
       end
     end
 
