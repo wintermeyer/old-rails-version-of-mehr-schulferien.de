@@ -7,13 +7,13 @@ mehr-schulferien.de
 
 <div class="row">
   <div class="col-sm-9">
-    <p class="hidden-sm">
-      Alphabetisch sortierte 3-Monats-Übersicht aller Bundesländern.
-    </p>
-    <p class="visible-sm">
-      Alphabetisch sortierte 2-Monats-Übersicht aller Bundesländern.
-    </p>
     <% cache ['quick_overview', @federal_states, @months] do %>
+      <p class="hidden-sm">
+        Alphabetisch sortierte 3-Monats-Übersicht aller Bundesländern.
+      </p>
+      <p class="visible-sm">
+        Alphabetisch sortierte 2-Monats-Übersicht aller Bundesländern.
+      </p>
       <% @federal_states.each do |federal_state| %>
         <%= render partial: "shared/quick_overview_row", locals: {months: @months, federal_state: federal_state} %>
       <% end %>
