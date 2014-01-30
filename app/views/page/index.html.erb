@@ -20,14 +20,20 @@ mehr-schulferien.de
     <% end %>
   </div>
   <div class="col-sm-3">
+    <% cache ['Crowdsourcing', City.count, School.count] do %>
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>Crowdsourcing</strong></div>
+        <div class="panel-body">
+          <p>In unserer Datenbank sind <%= number_with_precision(City.count, precision: 0, delimiter: '.') %> Städte mit insgesamt <%= number_with_precision(School.count, precision: 0, delimiter: '.') %> Schulen gespeichert. Diese Menge an Daten kann nur per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) aktuell gehalten werden. Wir arbeiten an einer entsprechenden Funktionalität.</p>
+        </div>
+      </div>
+    <% end %>
+
     <div class="panel panel-default">
       <div class="panel-heading"><strong>Über dieses Projekt</strong></div>
       <div class="panel-body">
         <p>
-        Ich habe zwei Kinder und meine Frau ist Lehrerin. Damit sollte klar sein, wie ich auf die Idee zu dieser Seite gekommen bin. ;-) 
-        </p>
-        <p>
-        Ich hoffe auch Ihnen damit bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine <%= mail_to 'stefan.wintermeyer@amooma.de', 'E-Mail' %> oder einen Tweet mit Anregungen oder Kritik.
+        Ich hoffe auch Ihnen mit dieser Webseite bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine <%= mail_to 'stefan.wintermeyer@amooma.de', 'E-Mail' %> oder einen Tweet mit Anregungen oder Kritik.
         </p>
   <a href="https://twitter.com/wintermeyer" class="twitter-follow-button" data-show-count="false" data-lang="de">@wintermeyer folgen</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
