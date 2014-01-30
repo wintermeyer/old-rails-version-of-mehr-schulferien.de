@@ -1,12 +1,68 @@
 <% breadcrumb :federal_state, @federal_state %>
 
 <% content_for :meta_description do %>
-Übersicht für die Schulferien in <%= @year %> für das Bundesland <%= @federal_state %>.
+Schulferien in <%= @year %> für das Bundesland <%= @federal_state %>.
 <% end %>
 <% content_for :html_title do %>
-Schulferienkalender <%= @year %> für <%= @federal_state %>
+Schulferienkalender <%= @year %> für das Bundesland <%= @federal_state %>
 <% end %>
 
 <p id="notice"><%= notice %></p>
 
-<%= render partial: "shared/year", locals: {year: @year, federal_state: @federal_state} %>
+<div class="page-header">
+  <div class="row">
+    <div class="col-sm-8">
+      <h1><%= @federal_state %> <br class="visible-xs"><small>12-Monats-Übersicht</small></h1>
+    </div>
+    <div class="col-sm-4">
+      <% pagination_years = Year.where(value: (Date.today.year .. Date.today.year + 10)).order(:value) %>
+      <ul class="pagination pull-right">
+        <% if pagination_years.first == @year %>
+          <li class="disabled"><a href="#">&laquo;</a></li>
+        <% else %>
+          <li><%= link_to federal_state_year_path(@federal_state, pagination_years[pagination_years.index(@year) - 1]) do %>&laquo;<% end %></li>
+        <% end %>
+        <% pagination_years.each do |pagination_year| %>
+          <% if @year == pagination_year %>
+            <li class='active'><%= link_to "#{pagination_year} ", federal_state_year_path(@federal_state, pagination_year) %></li>
+          <% else %>
+            <li><%= link_to "#{pagination_year} ", federal_state_year_path(@federal_state, pagination_year) %></li>
+          <% end %>
+        <% end %>
+        <% if pagination_years.last == @year %>
+          <li class="disabled"><a href="#">&laquo;</a></li>
+        <% else %>
+          <li><%= link_to federal_state_year_path(@federal_state, pagination_years[pagination_years.index(@year) + 1]) do %>&raquo;<% end %></li>
+        <% end %>          
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-9">
+    <% cache [@federal_state, @months] do %>
+      <%= render partial: "shared/calendar_18_months", locals: {months: @months, federal_state: @federal_state} %>
+    <% end %>
+  </div>
+  <div class="col-sm-3">
+
+    <% if School.where(city_id: @federal_state.cities.pluck(:id)).any? %>
+      <% cache ['city_schools_sidebar', @city] do %>
+        <div class="panel panel-default">
+          <div class="panel-heading"><strong>Städte mit Schulen</strong></div>
+          <div class="panel-body">
+            <ul class="list-unstyled">
+              <% @federal_state.cities.order(:name).each do |city| %>
+                <li><%= link_to "#{city.zip_code} #{city}", city %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    <% end %>    
+
+    <%= render 'shared/roadmap' %>
+
+  </div>
+</div>

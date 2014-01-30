@@ -12,6 +12,8 @@ class YearsController < ApplicationController
   def show
     expires_in 60.minutes, :public => false
     cookies[:last_federal_state] = @federal_state.slug
+
+    @months = @year.months.order(:value)
     
     if @year && @federal_state
       fresh_when etag: [@year, @federal_state]
