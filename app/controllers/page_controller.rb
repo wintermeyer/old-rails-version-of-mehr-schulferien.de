@@ -11,13 +11,11 @@ class PageController < ApplicationController
               ]
 
     if cookies[:last_federal_state] && FederalState.where(slug: cookies[:last_federal_state]).any?
-      @federal_state = FederalState.where(slug: cookies[:last_federal_state]).first
-      expires_in 60.minutes, :public => false
-      fresh_when etag: [@year, @month, @federal_state]
-    else
-      @federal_state = FederalState.all.sample
-      expires_in 60.minutes, :public => false
+      @last_federal_state = FederalState.where(slug: cookies[:last_federal_state]).first
     end
+
+    expires_in 12.hours, :public => false
+    fresh_when etag: [@year, @month]
   end
 
   def about_us
