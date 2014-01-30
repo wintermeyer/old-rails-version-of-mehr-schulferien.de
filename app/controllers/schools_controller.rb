@@ -20,8 +20,10 @@ class SchoolsController < ApplicationController
       @months << Day.where(value: (Date.today + i.months)).first.month
     end
     cookies[:last_federal_state] = @city.federal_state.slug
+    cookies[:last_school] = @school.slug
+
     expires_in 1.day, :public => false
-    # fresh_when etag: [@months, @federal_state]    
+    fresh_when etag: [@months, @school]    
   end
 
   # GET /schools/new

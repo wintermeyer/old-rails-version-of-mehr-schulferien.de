@@ -20,14 +20,64 @@ mehr-schulferien.de
     <% end %>
   </div>
   <div class="col-sm-3">
-    <% if @last_federal_state %>
-      <div class="panel panel-default">
-        <div class="panel-heading"><strong>Spickzettel</strong></div>
-        <div class="panel-body">
-          <%= link_to @last_federal_state, class: 'btn btn-default pull-right' do %>
-            <span class="glyphicon glyphicon-calendar"></span> <%= @last_federal_state %>
-          <% end %>
+    <% if @last_federal_state || @last_school %>
+      <% cache ['Spickzettel', @last_federal_state, @last_school] do %>
+        <div class="panel panel-default visible-sm">
+          <div class="panel-heading"><strong>Spickzettel</strong></div>
+          <div class="panel-body">
+            <div class="btn-group-vertical">
+              <% if @last_federal_state %>
+                <%= link_to @last_federal_state, class: 'btn btn-default' do %>
+                  <%= truncate(@last_federal_state.to_s, length: 15) %>
+                <% end %>
+              <% end %>
+
+              <% if @last_school %>
+                <%= link_to city_school_path(@last_school.city, @last_school), class: 'btn btn-default' do %>
+                  <%= truncate(@last_school.to_s, length: 15) %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
         </div>
+
+        <div class="panel panel-default visible-md">
+          <div class="panel-heading"><strong>Spickzettel</strong></div>
+          <div class="panel-body">
+            <div class="btn-group-vertical">
+              <% if @last_federal_state %>
+                <%= link_to @last_federal_state, class: 'btn btn-default' do %>
+                  <%= truncate(@last_federal_state.to_s, length: 20) %>
+                <% end %>
+              <% end %>
+
+              <% if @last_school %>
+                <%= link_to city_school_path(@last_school.city, @last_school), class: 'btn btn-default' do %>
+                  <%= truncate(@last_school.to_s, length: 20) %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default visible-lg">
+          <div class="panel-heading"><strong>Spickzettel</strong></div>
+          <div class="panel-body">
+            <div class="btn-group-vertical">
+              <% if @last_federal_state %>
+                <%= link_to @last_federal_state, class: 'btn btn-default' do %>
+                  <%= truncate(@last_federal_state.to_s, length: 30) %>
+                <% end %>
+              <% end %>
+
+              <% if @last_school %>
+                <%= link_to city_school_path(@last_school.city, @last_school), class: 'btn btn-default' do %>
+                  <%= truncate(@last_school.to_s, length: 30) %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       </div>
     <% end %>
 
