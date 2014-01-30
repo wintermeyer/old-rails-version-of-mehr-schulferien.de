@@ -18,7 +18,7 @@
 
     <div class="hidden-xs">
       <a href="https://maps.google.com/maps?q=<%= "#{URI.encode(@school.komma_seperated_address)}" %>&hl=de&t=m" class="thumbnail">
-        <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= URI.encode(@school.komma_seperated_address) %>&markers=color:blue%7Clabel:S%<%= URI.encode(@school.komma_seperated_address) %>&zoom=12&size=300x300&sensor=false" alt="Google Maps Landkarte mit der Position dieser Schule">
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= URI.encode(@school.komma_seperated_address) %>&markers=color:blue%7Clabel:S%<%= URI.encode(@school.komma_seperated_address) %>&zoom=13&size=300x300&sensor=false" alt="Google Maps Landkarte mit der Position dieser Schule">
       </a>
     </div>
 
@@ -29,19 +29,19 @@
           <strong><%= @school.address_line1 %></strong><br>
           <%= @school.street %><br>
           <%= "#{@school.zip_code} #{@school.address_city_name}" %><br>
-          <% if @school.phone_number %>
+          <% if !@school.phone_number.blank? %>
             Tel. <%= link_to @school.phone_number, "tel:#{@school.phone_number}" %><br>
           <% end %>
-          <% if @school.fax_number %>
+          <% if !@school.fax_number.blank? %>
             Fax. <%= @school.fax_number %><br>
           <% end %>
         </address>
-        <% if @school.email %>
+        <% if !@school.email.blank? %>
           <p>
             <strong>E-Mail:</strong><br><%= mail_to @school.email, @school.email %>
           </p>
         <% end %>
-        <% if @school.homepage %>
+        <% if !@school.homepage.blank? %>
           <p>
             <strong>Homepage:</strong><br><%= link_to @school.homepage.gsub(/http:\/\//,'').gsub(/www\./,'').gsub(/\/$/,''), @school.homepage %>
           </p>
