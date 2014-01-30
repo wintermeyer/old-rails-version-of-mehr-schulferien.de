@@ -11,7 +11,20 @@
     <% end %>
   </div>
   <div class="col-sm-3">
-    <%= render 'shared/roadmap' %>
+
+    <div class="panel panel-default">
+      <div class="panel-heading"><strong>Jahre</strong></div>
+      <div class="panel-body">
+        <p>
+          Bitte klicken Sie auf das gewünschte Jahr:
+        </p>
+        <ul>
+          <% Year.where(value: Date.today.year.to_i .. (Date.today + 10.years).year.to_i).order(:value).each do |year| %>
+            <li><%= link_to year, federal_state_year_path(@federal_state, year) %></li>        
+          <% end %>
+        </ul>
+      </div>
+    </div>
 
     <% if School.where(city_id: @federal_state.cities.pluck(:id)).any? %>
       <% cache ['city_schools_sidebar', @city] do %>
@@ -27,5 +40,8 @@
         </div>
       <% end %>
     <% end %>    
+
+    <%= render 'shared/roadmap' %>
+
   </div>
 </div>
