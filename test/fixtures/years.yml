@@ -1,9 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  value: 1
-  slug: MyString
+y2015:
+  value: 2015
 
-two:
-  value: 1
-  slug: MyString
+y2016:
+  value: 2016
+
+y2017:
+  value: 2017
+
+y2018:
+  value: 2018
+
+y2019:
+  value: 2019
