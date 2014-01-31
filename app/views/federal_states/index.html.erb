@@ -1,5 +1,12 @@
 <% breadcrumb :federal_states, @federal_states %>
 
+<% content_for :meta_description do %>
+Liste der Bundesländer mit einer Aufschlüsselung der Städte- und Schulenanzahl.
+<% end %>
+<% content_for :html_title do %>
+Liste der Bundesländer.
+<% end %>
+
 <% cache ['FederalState#index', @federal_states, School.count] do %>
   <div class="page-header">
     <h1>Bundesländer</h1>
