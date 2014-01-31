@@ -3,7 +3,6 @@ class School < ActiveRecord::Base
   friendly_id :slug_candidates, use: :slugged
 
   belongs_to :city, touch: true
-  belongs_to :school_type, touch: true
   has_many :slots, as: :slotable, dependent: :destroy
   has_many :days, through: :slots
   has_many :vacation_periods, as: :vacation_periodable, dependent: :destroy
