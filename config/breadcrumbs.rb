@@ -12,12 +12,12 @@ crumb :federal_state do |federal_state|
 end
 
 crumb :city do |city|
-  link city, federal_state_city_path(city.federal_state, city)
+  link city, city
   parent :federal_state, city.federal_state
 end
 
 crumb :school do |school|
-  link school, city_school_path(school.city, school)
+  link school, school
   parent :city, school.city
 end
 

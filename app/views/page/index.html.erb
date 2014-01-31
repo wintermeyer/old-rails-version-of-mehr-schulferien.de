@@ -33,7 +33,7 @@ mehr-schulferien.de
               <% end %>
 
               <% if @last_school %>
-                <%= link_to city_school_path(@last_school.city, @last_school), class: 'btn btn-default' do %>
+                <%= link_to @last_school, class: 'btn btn-default' do %>
                   <%= truncate(@last_school.to_s, length: 15) %>
                 <% end %>
               <% end %>
@@ -52,7 +52,7 @@ mehr-schulferien.de
               <% end %>
 
               <% if @last_school %>
-                <%= link_to city_school_path(@last_school.city, @last_school), class: 'btn btn-default' do %>
+                <%= link_to @last_school, class: 'btn btn-default' do %>
                   <%= truncate(@last_school.to_s, length: 20) %>
                 <% end %>
               <% end %>
@@ -71,7 +71,7 @@ mehr-schulferien.de
               <% end %>
 
               <% if @last_school %>
-                <%= link_to city_school_path(@last_school.city, @last_school), class: 'btn btn-default' do %>
+                <%= link_to @last_school, class: 'btn btn-default' do %>
                   <%= truncate(@last_school.to_s, length: 30) %>
                 <% end %>
               <% end %>

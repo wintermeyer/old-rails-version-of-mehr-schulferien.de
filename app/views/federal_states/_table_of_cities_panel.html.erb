@@ -9,8 +9,8 @@
           <tbody>
             <% City.where(id: schools.pluck(:city_id)).order(:name).each do |city| %>
               <tr>
-                <td><%= link_to city.zip_code, federal_state_city_path(federal_state, city) %></td>
-                <td><%= link_to city, federal_state_city_path(federal_state, city) %></td>
+                <td><%= link_to city.zip_code, city %></td>
+                <td><%= link_to city, city %></td>
               </tr>
             <% end %>
           </tbody>

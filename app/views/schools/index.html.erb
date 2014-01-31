@@ -17,7 +17,7 @@
         <td><%= school.name %></td>
         <td><%= link_to school.homepage.gsub(/http:\/\//,'').gsub(/www\./,'').gsub(/\/$/,''), school.homepage %></td>
         <td>
-        <%= link_to city_school_path(school.city, school), class: 'btn btn-default pull-right' do %>
+        <%= link_to school, class: 'btn btn-default pull-right' do %>
           <span class="glyphicon glyphicon-calendar"></span> 18-Monats-Übersicht
         <% end %>
         </td>

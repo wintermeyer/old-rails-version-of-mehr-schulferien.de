@@ -19,7 +19,7 @@ class SchoolsController < ApplicationController
     (0..17).each do |i|
       @months << Day.where(value: (Date.today + i.months)).first.month
     end
-    cookies[:last_federal_state] = @city.federal_state.slug
+    cookies[:last_federal_state] = @school.city.federal_state.slug
     cookies[:last_school] = @school.slug
 
     expires_in 1.day, :public => false
@@ -74,7 +74,7 @@ class SchoolsController < ApplicationController
         schools = School.all
       end
 
-      @school = School.where(slug: params["id"]).first || School.where(id: params["id"]).first
+      @school = schools.where(slug: params["id"]).first || schools.where(id: params["id"]).first
     end
 
     # Only allow a trusted parameter "white list" through.

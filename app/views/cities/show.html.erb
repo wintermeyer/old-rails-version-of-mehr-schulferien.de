@@ -10,32 +10,33 @@ Schulferien in den nächsten 18 Monaten für die Schulen aus <%= @city %>.
 <p id="notice"><%= notice %></p>
 
 <div class="page-header">
-  <h1><%= @city.name %> <small><%= link_to @city.federal_state, @city.federal_state %></small></h1>
+  <h1><%= @city.name %> <small>Postleitzahl <%= @city.zip_code %></small></h1>
 </div>
 
 <div class="row">
   <div class="col-sm-9">
-    <p>Übersicht der Schulferien in den nächsten <%= "#{@months.count} Monaten" %> in den Schulen der Stadt <%= @city.name %> (Postleitzahl <%= @city.zip_code %>).</p>
+    <p>Schulferien in den nächsten <%= "#{@months.count} Monaten" %>.</p>
 
     <% cache [@city.federal_state, @months] do %>
       <%= render partial: "shared/calendar_18_months", locals: {months: @months, federal_state: @city.federal_state} %>
     <% end %>    
   </div>
   <div class="col-sm-3">
-    <%= render 'shared/roadmap' %>
-
-    <% if @city.schools.any? %>
-      <div class="panel panel-default">
-        <div class="panel-heading"><strong>Schulen</strong></div>
-        <div class="panel-body">
-          <ul>
-            <% @city.schools.order(:name).each do |school| %>
-              <li><%= link_to school, city_school_path(@city, school) %></li>
-            <% end %>
-          </ul>
+    <% cache ['Schulen im Ort', @city.schools] do %>
+      <% if @city.schools.any? %>
+        <div class="panel panel-default">
+          <div class="panel-heading"><strong>Schulen im Ort</strong></div>
+          <div class="panel-body">
+            <ul>
+              <% @city.schools.order(:name).each do |school| %>
+                <li><%= link_to school, school %></li>
+              <% end %>
+            </ul>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
 
+    <%= render 'shared/roadmap' %>
   </div>
 </div>
