@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:2.1
+FN:<%= @school.name %>
+<% if !@school.phone_number.blank? %>TEL;WORK;VOICE:<%= @school.phone_number %><% end %>
+<% if !@school.fax_number.blank? %>TEL;HOME;FAX:<%= @school.fax_number %><% end %>
+ADR;WORK:;;<%= "#{@school.street};#{@school.address_city_name};;#{@school.zip_code};#{@school.city.federal_state.country}" %>
+LABEL;WORK;ENCODING=QUOTED-PRINTABLE:<%= "#{@school.street}=0D=0A#{@school.zip_code} #{@school.address_city_name}" %>
+<% if !@school.email.blank? %>EMAIL;PREF;INTERNET:<%= @school.email %><% end %>
+<% if !@school.homepage.blank? %>URL:<%= @school.homepage %><% end %>
+REV:<%= @school.updated_at.to_formatted_s(:number) %>
+END:VCARD

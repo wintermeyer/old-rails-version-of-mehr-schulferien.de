@@ -23,7 +23,12 @@ class SchoolsController < ApplicationController
     cookies[:last_school] = @school.slug
 
     expires_in 1.day, :public => false
-    fresh_when etag: [@months, @school]    
+    fresh_when etag: [@months, @school]
+
+    respond_to do |format|
+      format.html
+      format.vcf
+    end
   end
 
   # GET /schools/new
