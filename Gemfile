@@ -44,7 +44,6 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'icalendar'
 gem 'friendly_id', '~> 5.0.0'
 gem 'unicorn'
 gem 'dalli'
