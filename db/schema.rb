@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140125162237) do
+ActiveRecord::Schema.define(version: 20140201221139) do
 
   create_table "cities", force: true do |t|
     t.integer  "federal_state_id"
@@ -123,8 +123,10 @@ ActiveRecord::Schema.define(version: 20140125162237) do
     t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug"
   end
 
+  add_index "vacation_periods", ["slug"], name: "index_vacation_periods_on_slug"
   add_index "vacation_periods", ["vacation_periodable_id"], name: "index_vacation_periods_on_vacation_periodable_id"
   add_index "vacation_periods", ["vacation_periodable_type"], name: "index_vacation_periods_on_vacation_periodable_type"
 

@@ -73,10 +73,18 @@
     <dl>
       <% vacation_periods.uniq.each do |vacation_period| %>
         <dt><%= "#{vacation_period.vacation_type}:" %></dt>
-        <dd><%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %> 
-        <span class="badge">
-        <%= pluralize(Day.where(value: vacation_period.start_date).first.maximum_vacation_length(federal_state), 'Tag', 'Tage') %>
-        </span>
+        <dd>
+          <% if @vacation_period && (@vacation_period == vacation_period) %>
+            <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %> 
+          <% else %>
+            <%= link_to vacation_period do %>
+              <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %> 
+              <span class="glyphicon glyphicon-zoom-in"></span>
+            <% end %>
+          <% end %>
+          <span class="badge">
+          <%= pluralize(Day.where(value: vacation_period.start_date).first.maximum_vacation_length(federal_state), 'Tag', 'Tage') %>
+          </span>
         </dd>
       <% end %>
     </dl>

@@ -10,6 +10,14 @@ class VacationPeriodsController < ApplicationController
   # GET /vacation_periods/1
   # GET /vacation_periods/1.json
   def show
+    @months = Month.where(id: Day.where(value: (@vacation_period.start_date .. @vacation_period.end_date)).pluck(:month_id).uniq)
+
+    if @vacation_period.vacation_periodable.class == FederalState
+      cookies[:last_federal_state] = @vacation_period.vacation_periodable.slug
+    end
+
+    expires_in 1.day, :public => false
+    fresh_when etag: [@vacation_period]
   end
 
   # GET /vacation_periods/new
@@ -64,7 +72,7 @@ class VacationPeriodsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vacation_period
-      @vacation_period = VacationPeriod.find(params[:id])
+      @vacation_period = VacationPeriod.where(slug: params[:id]).first || VacationPeriod.where(id: params[:id]).first
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

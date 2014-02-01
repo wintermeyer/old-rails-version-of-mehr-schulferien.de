@@ -10,13 +10,6 @@ class PageController < ApplicationController
                Day.where(value: Date.today + 2.month).first.month, 
               ]
 
-    if cookies[:last_federal_state] && FederalState.where(slug: cookies[:last_federal_state]).any?
-      @last_federal_state = FederalState.where(slug: cookies[:last_federal_state]).first
-    end
-
-    if cookies[:last_school] && School.where(slug: cookies[:last_school]).any?
-      @last_school = School.where(slug: cookies[:last_school]).first
-    end
 
     expires_in 12.hours, :public => false
     fresh_when etag: [@year, @month, @last_federal_state, @last_school]

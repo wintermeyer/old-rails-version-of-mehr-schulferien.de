@@ -1,6 +1,8 @@
 MehrSchulferienDe::Application.routes.draw do
   resources :schools, only: [:show]
 
+  resources :vacation_periods, only: [:show]
+
   # resources :vacation_periods, only: [:index, :show]
 
   # resources :vacation_types, only: [:index, :show]

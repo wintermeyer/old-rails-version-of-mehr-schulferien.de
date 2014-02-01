@@ -21,6 +21,11 @@ crumb :school do |school|
   parent :city, school.city
 end
 
+crumb :vacation_period do |vacation_period|
+  link vacation_period, vacation_period
+  parent :federal_state, vacation_period.vacation_periodable
+end
+
 # crumb :year do
 #   link year.value, federal_state_year_path(federal_state, year)
 # end

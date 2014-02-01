@@ -1,39 +1,65 @@
+<% breadcrumb :vacation_period, @vacation_period %>
+
+<% content_for :meta_description do %>
+<%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %> im Bundesland <%= @vacation_period.vacation_periodable %> (<%= (l @vacation_period.start_date, format: :short).strip %> - <%= (l @vacation_period.end_date, format: :short).strip %>)
+<% end %>
+<% content_for :html_title do %>
+<%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %> im Bundesland <%= @vacation_period.vacation_periodable %> (<%= (l @vacation_period.start_date, format: :short).strip %> - <%= (l @vacation_period.end_date, format: :short).strip %>)
+<% end %>
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Start date:</strong>
-  <%= @vacation_period.start_date %>
-</p>
+<div class="page-header">
+  <h1><%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %>
+ <br class="visible-xs"><small><%= @vacation_period.vacation_periodable %></small></h1>
+</div>
 
-<p>
-  <strong>End date:</strong>
-  <%= @vacation_period.end_date %>
-</p>
+<div class="row">
+  <div class="col-sm-9">
+    <div class="row">
+      <% first_three_months = @months[0..2] %>
+      <% first_three_months.each do |month| %>
+        <% if month != first_three_months.last %>
+          <div class="col-sm-6 col-md-4">
+            <%= render partial: '/shared/month', locals: {month: month, year: month.year, federal_state: @vacation_period.vacation_periodable} %>
+          </div>
+        <% else %>
+          <div class="col-md-4 hidden-sm">
+            <%= render partial: 'shared/month', locals: {month: month, year: month.year, federal_state: @vacation_period.vacation_periodable} %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
 
-<p>
-  <strong>Vacation periodable type:</strong>
-  <%= @vacation_period.vacation_periodable_type %>
-</p>
+    <% if Day.where(value: @vacation_period.start_date).first.maximum_vacation_length(@vacation_period.vacation_periodable) > @vacation_period.duration %>
+      <div class="alert alert-success">
+        <p>Die Anzahl der schulfreien Tage für <%= @vacation_period %> beträgt nur <%= @vacation_period.duration %>. Da aber vorher bzw. nachher noch weitere freie Tage hinzukommen (z.B. durch ein Wochenende), beträgt die <strong>Gesamtzahl der schulfreien Tage <%= Day.where(value: @vacation_period.start_date).first.maximum_vacation_length(@vacation_period.vacation_periodable) %></strong>.</p>
+        </div>
+    <% end %>
+  </div>
+  <div class="col-sm-3">
+    <%= render 'shared/spickzettel' %>
 
-<p>
-  <strong>Vacation periodable:</strong>
-  <%= @vacation_period.vacation_periodable_id %>
-</p>
+    <% cache ['Spätere Ferientermine', @vacation_period, @vacation_period.vacation_periodable] do %>
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>Spätere Ferientermine in <%= @vacation_period.vacation_periodable %></strong></div>
+        <div class="panel-body">
+          <dl>
+            <% @vacation_period.vacation_periodable.vacation_periods.where(start_date: (@vacation_period.start_date + 1.day) .. (Date.today + 10.years)).order(:start_date).limit(6).each do |vacation_period| %>
+                <dt><%= "#{vacation_period.vacation_type}:" %></dt>
+                <dd>
+                  <%= link_to vacation_period do %>
+                    <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %> 
+                    <span class="glyphicon glyphicon-zoom-in"></span>
+                  <% end %>
+                </dd>
+            <% end %>
+          </dl>
+        </div>
+      </div>
+    <% end %>
 
-<p>
-  <strong>Vacation type:</strong>
-  <%= @vacation_period.vacation_type_id %>
-</p>
+  </div>
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @vacation_period.description %>
-</p>
 
-<p>
-  <strong>State:</strong>
-  <%= @vacation_period.state %>
-</p>
-
-<%= link_to 'Edit', edit_vacation_period_path(@vacation_period) %> |
-<%= link_to 'Back', vacation_periods_path %>

@@ -1,4 +1,7 @@
 class VacationPeriod < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :slug_candidates, use: :slugged
+
   belongs_to :vacation_type, touch: true
   belongs_to :vacation_periodable, polymorphic: true, touch: true
   has_many :slots, dependent: :destroy
@@ -31,6 +34,14 @@ class VacationPeriod < ActiveRecord::Base
 
   after_create :create_matching_slots
 
+  def to_s
+    "#{self.vacation_type} #{self.start_date.year}"
+  end
+
+  def duration
+    (self.end_date - self.start_date).to_i + 1
+  end
+
   private
   def create_matching_slots
     (self.start_date .. self.end_date).to_a.each do |new_day|
@@ -41,4 +52,10 @@ class VacationPeriod < ActiveRecord::Base
     end
   end
  
+  def slug_candidates
+    [
+      [vacation_type, start_date.year, vacation_periodable]
+    ]
+  end
+
 end
