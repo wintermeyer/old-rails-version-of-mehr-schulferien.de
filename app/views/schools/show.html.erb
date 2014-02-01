@@ -55,7 +55,7 @@ Schulferien in den nächsten 18 Monaten für die Schule <%= @school %> aus <%= @
             <strong>Homepage:</strong><br><%= link_to @school.homepage.gsub(/http:\/\//,'').gsub(/www\./,'').gsub(/\/$/,''), @school.homepage %>
           </p>
         <% end %>
-        <p><strong>Alle Daten als vCard:</strong><br><%= link_to school_path(@school, format: :vcf) do %>
+        <p><strong>vCard:</strong><br><%= link_to school_path(@school, format: :vcf) do %>
         <span class="glyphicon glyphicon-download"></span> Download vcard (vcf)
         <% end %>
         </p>
