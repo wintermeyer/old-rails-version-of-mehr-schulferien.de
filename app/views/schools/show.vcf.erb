@@ -1,5 +1,5 @@
 BEGIN:VCARD
-VERSION:2.1
+VERSION:3.0
 FN:<%= @school.name %>
 <% if !@school.phone_number.blank? %>TEL;WORK;VOICE:<%= @school.phone_number %><% end %>
 <% if !@school.fax_number.blank? %>TEL;HOME;FAX:<%= @school.fax_number %><% end %>
