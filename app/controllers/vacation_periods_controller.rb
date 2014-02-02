@@ -72,7 +72,11 @@ class VacationPeriodsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vacation_period
-      @vacation_period = VacationPeriod.where(slug: params[:id]).first || VacationPeriod.where(id: params[:id]).first
+      if VacationPeriod.where(slug: params[:id]).any?
+        @vacation_period = VacationPeriod.where(slug: params[:id]).first
+      else
+        @vacation_period = VacationPeriod.where(id: params[:id]).first
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
