@@ -90,6 +90,26 @@
     </dl>
   <% end %>
 
+  <% long_weekend = [] %>
+  <% public_holiday_vacation_periods.each do |vacation_period| %>
+    <% if Day.where(value: [(vacation_period.start_date - 1.day), (vacation_period.end_date + 1.day)]).map{ |vp| vp.is_weekend? }.include?(true) && Day.where(value: (vacation_period.start_date)).first.maximum_vacation_length(federal_state) < 5 %>
+      <% long_weekend << vacation_period %>
+    <% end %>
+  <% end %>
+
+  <% if long_weekend.any? %>
+      <dl>
+        <% long_weekend.uniq.each do |vacation_period| %>
+          <dt><%= "#{vacation_period.vacation_type}" %>:</dt>
+          <dd>Langes Wochenende 
+          <span class="badge">
+          <%= pluralize(Day.where(value: vacation_period.start_date).first.maximum_vacation_length(federal_state), 'Tag', 'Tage') %>
+          </span>
+          </dd>
+        <% end %>
+      </dl>
+  <% end %>
+
   <% if public_holiday_vacation_periods.any? %>
     <p><small>
       <strong>
