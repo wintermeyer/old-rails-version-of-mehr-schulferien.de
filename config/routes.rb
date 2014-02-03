@@ -1,5 +1,10 @@
 MehrSchulferienDe::Application.routes.draw do
-  resources :schools, only: [:show]
+  match '/auth/:provider/callback' => 'authentications#create', via: [:get]
+
+  resources :authentications, only: [:create]
+
+  devise_for :users
+  resources :schools, only: [:show, :edit, :update]
 
   resources :vacation_periods, only: [:show]
 

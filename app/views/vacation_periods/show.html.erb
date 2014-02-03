@@ -7,8 +7,6 @@
 <%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %> im Bundesland <%= @vacation_period.vacation_periodable %> (<%= (l @vacation_period.start_date, format: :short).strip %> - <%= (l @vacation_period.end_date, format: :short).strip %>)
 <% end %>
 
-<p id="notice"><%= notice %></p>
-
 <div class="page-header">
   <h1><%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %>
  <br class="visible-xs"><small><%= @vacation_period.vacation_periodable %></small></h1>

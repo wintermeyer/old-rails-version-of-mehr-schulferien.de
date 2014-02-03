@@ -49,6 +49,9 @@ gem 'unicorn'
 gem 'dalli'
 gem 'gretel'
 gem 'icalendar'
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 group :development do
   gem 'factory_girl'

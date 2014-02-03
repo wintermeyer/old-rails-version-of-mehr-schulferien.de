@@ -61,6 +61,14 @@
     <div class="container" id="content">
       <%= breadcrumbs style: :bootstrap %>
 
+      <% if flash.any? %>
+        <% flash.each do |name, msg| %>
+          <div class="alert alert-#{name == :notice ? "success" : "error"} fade in">
+            <p><%= msg %></p>
+          </div>
+        <% end %>
+      <% end %>
+
       <%= yield %>
     </div> <!-- /container -->
 
