@@ -2,6 +2,8 @@ class School < ActiveRecord::Base
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
 
+  has_paper_trail
+
   belongs_to :city, touch: true
   has_many :slots, as: :slotable, dependent: :destroy
   has_many :days, through: :slots

@@ -50,6 +50,7 @@ gem 'dalli'
 gem 'gretel'
 gem 'icalendar'
 gem 'devise'
+gem 'paper_trail', '~> 3.0.0'
 gem 'omniauth'
 gem 'omniauth-facebook'
 
