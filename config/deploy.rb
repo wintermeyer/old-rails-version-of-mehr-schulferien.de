@@ -57,6 +57,8 @@ namespace :deploy do
       # end
       # execute 'sudo /etc/init.d/unicorn-mehr-schulferien.de restart'
 
+      execute 'touch /var/www/mehr-schulferien.de/current/tmp/restart.txt'
+
       # Warm-up the cache
       #
       # year = 2014
@@ -119,20 +121,6 @@ namespace :deploy do
       end
     end
   end
+
 end
 
-namespace :deploy do
-  desc "rake db:seed"
-  task :seed do
-    on roles(:all) do |host|
-      execute "rake db:seed RAILS_ENV='production'"
-    end
-  end
-
-  desc "rake db:reset"
-  task :reset do
-    on roles(:all) do |host|
-      execute "rake db:reset RAILS_ENV='production'"
-    end
-  end
-end
