@@ -50,6 +50,16 @@ class VacationPeriod < ActiveRecord::Base
                               vacation_period_id: self.id,
                               slotable: self.vacation_periodable).first_or_create
     end
+
+    # TODO: Fix dirty hack. There seems to be some sort of racing condition. 
+    # That's the reason why this method trys to create the slots twice.
+
+    (self.start_date .. self.end_date).to_a.each do |new_day|
+      day = Day.where(value: new_day).first_or_create
+      slot = day.slots.where( vacation_type_id: self.vacation_type.id,
+                              vacation_period_id: self.id,
+                              slotable: self.vacation_periodable).first_or_create
+    end    
   end
  
   def slug_candidates
