@@ -22,8 +22,10 @@ class SchoolsController < ApplicationController
     cookies[:last_federal_state] = @school.city.federal_state.slug
     cookies[:last_school] = @school.slug
 
-    expires_in 1.day, :public => false
-    fresh_when etag: [@months, @school]
+    if flash.none?
+      expires_in 1.day, :public => false
+      fresh_when etag: [@months, @school]
+    end
 
     respond_to do |format|
       format.html
