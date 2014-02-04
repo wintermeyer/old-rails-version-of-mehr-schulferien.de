@@ -1,0 +1,11 @@
+<% if city && city.bewegliche_ferientag_vacation_periods(month).any? %>
+  <dl>
+    <% city.bewegliche_ferientag_vacation_periods(month).each do |vacation_period| %>
+      <dt>Beweglicher Ferientag:<sup>*</sup></dt>
+      <dd>
+        <%= l vacation_period.start_date, format: :default %>
+      </dd>
+    <% end %>
+  </dl>
+  <p class="warning"><small><sup>*</sup> Bewegliche Ferientage gelten nicht für alle Schulen. Bitte überprüfen Sie den Kalender Ihrer Schule.</small></p>
+<% end %>

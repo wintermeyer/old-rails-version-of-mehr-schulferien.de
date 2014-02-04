@@ -65,6 +65,9 @@ class Day < ActiveRecord::Base
                              vacation_periodable_type: 'School', 
                              vacation_periodable_id: resource.map{ |r| r.id }, 
                             ).any?
+    elsif resource.class == City
+      # resource.bewegliche_ferientag_vacation_periods(self.month).any?
+      Slot.where(vacation_period_id: resource.bewegliche_ferientag_vacation_periods(self.month)).where(day_id: self.id).any?
     else
       false
     end

@@ -47,7 +47,6 @@
       </tr>
     </thead>
   <% end %>
-  <% bewegliche_ferientage_ids = [] %>
   <tbody>
     <% holiday_vacation_periods = [] %>
     <% days.each_slice(7).to_a.each do |week| %>
@@ -61,7 +60,6 @@
                 <% css_class = 'success' %>
               <% elsif day.is_beweglicher_ferientag?(resource) %>
                 <% css_class = 'warning' %>
-                <% bewegliche_ferientage_ids << day.id %>
               <% else %>
                 <% css_class = nil %>
               <% end %>
@@ -86,22 +84,6 @@
 
 <%= render partial: "federal_states/long_weekend_public_holiday_vacation_periods", locals: {federal_state: federal_state, month: month} %>
 
-<% if @city && @could_be_vacation_periods %>
-  <% if @could_be_vacation_periods.where(start_date: (month.days.order(:value).first.value .. month.days.order(:value).last.value)).any? %>
-    <dl>
-      <% @could_be_vacation_periods.where(start_date: (month.days.order(:value).first.value .. month.days.order(:value).last.value)).pluck(:start_date).uniq.each do |start_date| %>
-        <dt>Beweglicher Ferientag:<sup>*</sup></dt>
-        <dd>
-          <%= l start_date, format: :default %>
-
-          <span class="badge">
-            TBA
-          </span>
-        </dd>
-      <% end %>
-    </dl>
-    <p class="warning"><small><sup>*</sup> Bewegliche Ferientage gelten nicht für alle Schulen. Bitte überprüfen Sie den Kalender Ihrer Schule.</small></p>
-  <% end %>
-<% end %>
+<%= render partial: "cities/bewegliche_ferientage", locals: {city: city, month: month} %>
 
 <%= render partial: "federal_states/public_holiday_vacation_periods", locals: {federal_state: federal_state, month: month} %>
