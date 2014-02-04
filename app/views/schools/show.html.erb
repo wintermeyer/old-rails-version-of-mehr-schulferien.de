@@ -59,9 +59,11 @@ Schulferien in den nächsten 18 Monaten für die Schule <%= @school %> aus <%= @
         <% end %>
         </p>
 
-        <%= link_to edit_school_path(@school) do %>
-          <p class="pull-right"><span class="glyphicon glyphicon-edit"></span> Eintrag editieren<p>
-        <% end %>
+        <p class="pull-right">
+          <%= link_to edit_school_path(@school) do %>
+            <span class="glyphicon glyphicon-edit"></span> Eintrag editieren
+          <% end %>
+        <p>
       </div>
     </div>
 
