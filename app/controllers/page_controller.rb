@@ -20,8 +20,12 @@ class PageController < ApplicationController
   end
 
   def status
-    @schools = School.where(id: PaperTrail::Version.where(whodunnit: current_user.id, item_type: 'School').pluck(:item_id).uniq)
-
+    if current_user
+      @schools = School.where(id: PaperTrail::Version.where(whodunnit: current_user.id, item_type: 'School').pluck(:item_id).uniq).
+                        order(:slug)
+    else
+      redirect_to page_login_path, notice: 'Zum Aufrufen der Status-Seite müssen Sie sich erst einloggen.'
+    end
   end
 
   def about_us
