@@ -1,4 +1,4 @@
-<% cache [month, federal_state] do %>
+<%# cache [month, federal_state] do %>
   <% days = month.days.order(:value).reverse_order %>
   <% if days.last.wday == 0 %>
     <% 6.times{days.push(nil)} %>
@@ -75,16 +75,29 @@
         <dt><%= "#{vacation_period.vacation_type}:" %></dt>
         <dd>
           <% if @vacation_period && (@vacation_period == vacation_period) %>
-            <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %> 
+            <% if vacation_period.start_date == vacation_period.end_date %>
+              <%= l vacation_period.start_date, format: :default %>
+            <% else %>
+              <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %>
+            <% end %>
           <% else %>
             <%= link_to vacation_period do %>
-              <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %> 
+              <% if vacation_period.start_date == vacation_period.end_date %>
+                <%= l vacation_period.start_date, format: :default %>
+              <% else %>
+                <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %>
+              <% end %>
+ 
               <span class="glyphicon glyphicon-zoom-in"></span>
             <% end %>
           <% end %>
           <span class="badge">
           <%= pluralize(Day.where(value: vacation_period.start_date).first.maximum_vacation_length(federal_state), 'Tag', 'Tage') %>
           </span>
+          <% if !vacation_period.description.blank? %>
+            <br>
+            <small><em><%= vacation_period.description %></em></small>
+          <% end %>
         </dd>
       <% end %>
     </dl>
@@ -110,6 +123,24 @@
       </dl>
   <% end %>
 
+  <% if @city && @could_be_vacation_periods %>
+    <% if @could_be_vacation_periods.where(start_date: (month.days.order(:value).first.value .. month.days.order(:value).last.value)).any? %>
+      <dl>
+        <% @could_be_vacation_periods.where(start_date: (month.days.order(:value).first.value .. month.days.order(:value).last.value)).pluck(:start_date).uniq.each do |start_date| %>
+          <dt>Beweglicher Ferientag:<sup>*</sup></dt>
+          <dd>
+            <%= l start_date, format: :default %>
+
+            <span class="badge">
+              TBA
+            </span>
+          </dd>
+        <% end %>
+      </dl>
+      <p class="warning"><small><sup>*</sup> Bewegliche Ferientage gelten nicht für alle Schulen. Bitte überprüfen Sie den Kalender Ihrer Schule.</small></p>
+    <% end %>
+  <% end %>
+
   <% if public_holiday_vacation_periods.any? %>
     <p><small>
       <strong>
@@ -128,4 +159,4 @@
       <% end %>
     </small></p>
   <% end %>
-<% end %>
+<%# end %>

@@ -15,8 +15,16 @@ class CitiesController < ApplicationController
       @months << Day.where(value: (Date.today + i.months)).first.month
     end
     cookies[:last_federal_state] = @city.federal_state.slug
-    expires_in 1.day, :public => false
-    # fresh_when etag: [@city, @months]
+
+    schools = @city.schools
+    vacation_type = VacationType.where(name: 'Beweglicher Ferientag', public_holiday: false).first_or_create
+
+    @could_be_vacation_periods = VacationPeriod.where(vacation_periodable_type: 'School', vacation_periodable_id: @city.schools.pluck(:id), vacation_type_id: vacation_type.id)
+
+    if flash.none?
+      expires_in 1.day, :public => false
+      fresh_when etag: [current_user, @city, @months]
+    end
   end
 
   # GET /cities/new

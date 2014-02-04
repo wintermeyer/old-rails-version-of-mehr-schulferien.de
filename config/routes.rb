@@ -4,7 +4,9 @@ MehrSchulferienDe::Application.routes.draw do
   resources :authentications, only: [:create, :destroy]
 
   devise_for :users
-  resources :schools, only: [:show, :edit, :update]
+  resources :schools, only: [:show, :edit, :update] do
+    resources :vacation_periods
+  end
 
   resources :vacation_periods, only: [:show]
 

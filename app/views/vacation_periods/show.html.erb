@@ -9,7 +9,7 @@
 
 <div class="page-header">
   <h1><%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %>
- <br class="visible-xs"><small><%= @vacation_period.vacation_periodable %></small></h1>
+ <br><small><%= @vacation_period.vacation_periodable %></small></h1>
 </div>
 
 <div class="row">
@@ -38,24 +38,26 @@
   <div class="col-sm-3">
     <%= render 'shared/spickzettel' %>
 
-    <% cache ['Spätere Ferientermine', @vacation_period, @vacation_period.vacation_periodable] do %>
-      <div class="panel panel-default">
-        <div class="panel-heading"><strong>Spätere Ferientermine in <%= @vacation_period.vacation_periodable %></strong></div>
-        <div class="panel-body">
-          <dl>
-            <% @vacation_period.vacation_periodable.vacation_periods.where(start_date: (@vacation_period.start_date + 1.day) .. (Date.today + 10.years)).order(:start_date).limit(6).each do |vacation_period| %>
-                <dt><%= "#{vacation_period.vacation_type}:" %></dt>
-                <dd>
-                  <%= link_to vacation_period do %>
-                    <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %> 
-                    <span class="glyphicon glyphicon-zoom-in"></span>
-                  <% end %>
-                </dd>
-            <% end %>
-          </dl>
-        </div>
-      </div>
-    <% end %>
+    <% if @vacation_period.vacation_periodable.vacation_periods.where(start_date: (@vacation_period.start_date + 1.day) .. (Date.today + 10.years)).order(:start_date).limit(6).any? %>
+        <% cache ['Spätere Ferientermine', @vacation_period, @vacation_period.vacation_periodable] do %>
+          <div class="panel panel-default">
+            <div class="panel-heading"><strong>Spätere Ferientermine in <%= @vacation_period.vacation_periodable %></strong></div>
+            <div class="panel-body">
+              <dl>
+                <% @vacation_period.vacation_periodable.vacation_periods.where(start_date: (@vacation_period.start_date + 1.day) .. (Date.today + 10.years)).order(:start_date).limit(6).each do |vacation_period| %>
+                    <dt><%= "#{vacation_period.vacation_type}:" %></dt>
+                    <dd>
+                      <%= link_to vacation_period do %>
+                        <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %> 
+                        <span class="glyphicon glyphicon-zoom-in"></span>
+                      <% end %>
+                    </dd>
+                <% end %>
+              </dl>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
 
   </div>
 </div>

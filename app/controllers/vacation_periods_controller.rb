@@ -1,10 +1,11 @@
 class VacationPeriodsController < ApplicationController
+  before_action :set_school
   before_action :set_vacation_period, only: [:show, :edit, :update, :destroy]
 
   # GET /vacation_periods
   # GET /vacation_periods.json
   def index
-    @vacation_periods = VacationPeriod.all
+    @vacation_periods = @vacation_periods.all
   end
 
   # GET /vacation_periods/1
@@ -22,7 +23,7 @@ class VacationPeriodsController < ApplicationController
 
   # GET /vacation_periods/new
   def new
-    @vacation_period = VacationPeriod.new
+    @vacation_period = @vacation_periods.build
   end
 
   # GET /vacation_periods/1/edit
@@ -32,15 +33,20 @@ class VacationPeriodsController < ApplicationController
   # POST /vacation_periods
   # POST /vacation_periods.json
   def create
-    @vacation_period = VacationPeriod.new(vacation_period_params)
+    @vacation_period = @vacation_periods.build(vacation_period_params)
+    if @school
+      @vacation_period.vacation_type = VacationType.where(name: 'Beweglicher Ferientag', public_holiday: false).first_or_create
+
+      if @vacation_period.end_date.blank?
+        @vacation_period.end_date = @vacation_period.start_date
+      end
+    end
 
     respond_to do |format|
       if @vacation_period.save
         format.html { redirect_to @vacation_period, notice: 'Vacation period was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @vacation_period }
       else
         format.html { render action: 'new' }
-        format.json { render json: @vacation_period.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -51,10 +57,8 @@ class VacationPeriodsController < ApplicationController
     respond_to do |format|
       if @vacation_period.update(vacation_period_params)
         format.html { redirect_to @vacation_period, notice: 'Vacation period was successfully updated.' }
-        format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @vacation_period.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -65,17 +69,27 @@ class VacationPeriodsController < ApplicationController
     @vacation_period.destroy
     respond_to do |format|
       format.html { redirect_to vacation_periods_url }
-      format.json { head :no_content }
     end
   end
 
   private
+    def set_school
+      if params[:school_id]
+        @school = School.where(slug: params[:school_id]).first || School.where(id: params[:school_id]).first
+      end
+      if @school
+        @vacation_periods = @school.vacation_periods
+      else
+        @vacation_periods = VacationPeriod.all
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_vacation_period
       if VacationPeriod.where(slug: params[:id]).any?
-        @vacation_period = VacationPeriod.where(slug: params[:id]).first
+        @vacation_period = @vacation_periods.where(slug: params[:id]).first
       else
-        @vacation_period = VacationPeriod.where(id: params[:id]).first
+        @vacation_period = @vacation_periods.where(id: params[:id]).first
       end
     end
 

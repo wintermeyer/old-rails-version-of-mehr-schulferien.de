@@ -1,24 +1,29 @@
 <h1>Schulferien</h1>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Start date</th>
-      <th>End date</th>
-      <th>Vacation type</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @vacation_periods.each do |vacation_period| %>
+<% if @vacation_periods.any? %>
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= vacation_period.start_date %></td>
-        <td><%= vacation_period.end_date %></td>
-        <td><%= vacation_period.vacation_type %></td>
-        <td><%= link_to 'Show', vacation_period %></td>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Vacation type</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @vacation_periods.each do |vacation_period| %>
+        <tr>
+          <td><%= vacation_period.start_date %></td>
+          <td><%= vacation_period.end_date %></td>
+          <td><%= vacation_period.vacation_type %></td>
+          <td><%= link_to 'Show', vacation_period %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>Kein Eintrag.</p>
+<% end %>
+
+<%= link_to 'Beweglichen Ferientag eintragen.', new_school_vacation_period_path(@school) %>

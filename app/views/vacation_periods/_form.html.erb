@@ -1,4 +1,4 @@
-<%= form_for(@vacation_period) do |f| %>
+<%= form_for([@school, @vacation_period]) do |f| %>
   <% if @vacation_period.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@vacation_period.errors.count, "error") %> prohibited this vacation_period from being saved:</h2>
@@ -15,30 +15,29 @@
     <%= f.label :start_date %><br>
     <%= f.date_select :start_date %>
   </div>
-  <div class="field">
-    <%= f.label :end_date %><br>
-    <%= f.date_select :end_date %>
-  </div>
-  <div class="field">
-    <%= f.label :vacation_periodable_type %><br>
-    <%= f.text_field :vacation_periodable_type %>
-  </div>
-  <div class="field">
-    <%= f.label :vacation_periodable_id %><br>
-    <%= f.number_field :vacation_periodable_id %>
-  </div>
-  <div class="field">
-    <%= f.label :vacation_type_id %><br>
-    <%= f.number_field :vacation_type_id %>
-  </div>
+  <% if !@school %>
+    <div class="field">
+      <%= f.label :end_date %><br>
+      <%= f.date_select :end_date %>
+    </div>
+    <div class="field">
+      <%= f.label :vacation_periodable_type %><br>
+      <%= f.text_field :vacation_periodable_type %>
+    </div>
+    <div class="field">
+      <%= f.label :vacation_periodable_id %><br>
+      <%= f.number_field :vacation_periodable_id %>
+    </div>
+    <div class="field">
+      <%= f.label :vacation_type_id %><br>
+      <%= f.number_field :vacation_type_id %>
+    </div>
+  <% end %>
   <div class="field">
     <%= f.label :description %><br>
     <%= f.text_field :description %>
   </div>
-  <div class="field">
-    <%= f.label :state %><br>
-    <%= f.text_field :state %>
-  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

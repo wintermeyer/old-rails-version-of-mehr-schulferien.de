@@ -1,5 +1,13 @@
-<h1>New vacation_period</h1>
+<% content_for :meta_description do %>
+Neuen beweglichen Ferientag für <%= @school %> erstellen.
+<% end %>
+<% content_for :html_title do %>
+Neuen beweglichen Ferientag für <%= truncate(@school.to_s, length: 45) %> erstellen.
+<% end %>
+
+<div class="page-header">
+  <h1>Beweglicher Ferientag <small><%= truncate(@school.to_s, size: 20) %></small></h1>
+</div>
+
 
 <%= render 'form' %>
-
-<%= link_to 'Back', vacation_periods_path %>

@@ -12,18 +12,18 @@ crumb :federal_state do |federal_state|
 end
 
 crumb :city do |city|
-  link city, city
+  link city.to_s.truncate(35), city
   parent :federal_state, city.federal_state
 end
 
 crumb :school do |school|
-  link school, school
+  link school.to_s.truncate(35), school
   parent :city, school.city
 end
 
 crumb :vacation_period do |vacation_period|
-  link vacation_period, vacation_period
-  parent :federal_state, vacation_period.vacation_periodable
+  link vacation_period.to_s.truncate(35), vacation_period
+  parent vacation_period.vacation_periodable.class.name.underscore.to_sym, vacation_period.vacation_periodable
 end
 
 # crumb :year do

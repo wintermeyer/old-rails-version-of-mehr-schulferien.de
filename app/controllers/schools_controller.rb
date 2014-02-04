@@ -33,7 +33,7 @@ class SchoolsController < ApplicationController
 
     if flash.none?
       expires_in 1.day, :public => false
-      fresh_when etag: [@months, @school]
+      fresh_when etag: [current_user, @months, @school]
     end
 
     respond_to do |format|

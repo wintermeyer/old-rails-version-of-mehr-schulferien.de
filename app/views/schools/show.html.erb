@@ -69,7 +69,7 @@ Schulferien in den nächsten 18 Monaten für die Schule <%= @school %> aus <%= @
 
     <% if @school.city.schools.count > 1 %>
       <div class="panel panel-default">
-        <div class="panel-heading">Weitere Schulen in <%= @city %></div>
+        <div class="panel-heading">Weitere Schulen in <%= @school.city %></div>
         <div class="panel-body">
           <ul>
             <% @school.city.schools.where.not(id: @school.id).order(:name).each do |school| %>
