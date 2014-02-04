@@ -20,6 +20,8 @@ class PageController < ApplicationController
   end
 
   def status
+    @schools = School.where(id: PaperTrail::Version.where(whodunnit: current_user.id, item_type: 'School').pluck(:item_id).uniq)
+
   end
 
   def about_us

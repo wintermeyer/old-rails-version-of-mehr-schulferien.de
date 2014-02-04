@@ -12,7 +12,16 @@ Status Seite
 <div class="row">
   <div class="col-sm-9">
     <% if current_user %>
-      <p>In zukünftigen Software-Versionen sollen hier die von Ihnen vorgenohmenen Veränderungen aufgelistet werden.</p>
+      <% if @schools.any? %>
+        <p>Sie haben Daten der folgenden Schulen verändert:</p>
+        <ul>
+          <% @schools.each do |school| %>
+            <li><%= link_to truncate(school.to_s, length: 60), school %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>In zukünftigen Software-Versionen sollen hier die von Ihnen vorgenohmenen Veränderungen aufgelistet werden.</p>
+      <% end %>
     <% else %>
       <p>Sie sind nicht eingeloggt.</p>
     <% end %>
