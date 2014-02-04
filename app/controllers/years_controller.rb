@@ -11,13 +11,13 @@ class YearsController < ApplicationController
   # GET /years/1
   # GET /years/1.json
   def show
-    expires_in 60.minutes, :public => false
+    expires_in 1.hour, :public => false
     cookies[:last_federal_state] = @federal_state.slug
 
     @months = @year.months.order(:value)
     
     if @year && @federal_state
-      fresh_when etag: [@year, @federal_state]
+      fresh_when etag: [current_user, @year, @federal_state]
     end
   end
 

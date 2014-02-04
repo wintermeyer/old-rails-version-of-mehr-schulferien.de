@@ -32,7 +32,7 @@ class SchoolsController < ApplicationController
     cookies[:last_school] = @school.slug
 
     if flash.none?
-      expires_in 1.day, :public => false
+      expires_in 1.hour, :public => false
       fresh_when etag: [current_user, @months, @school]
     end
 

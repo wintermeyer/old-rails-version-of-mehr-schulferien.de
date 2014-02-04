@@ -17,7 +17,7 @@ class CitiesController < ApplicationController
     cookies[:last_federal_state] = @city.federal_state.slug
 
     if flash.none?
-      expires_in 1.day, :public => false
+      expires_in 1.hour, :public => false
       fresh_when etag: [current_user, @city, @months]
     end
   end

@@ -17,8 +17,8 @@ class VacationPeriodsController < ApplicationController
       cookies[:last_federal_state] = @vacation_period.vacation_periodable.slug
     end
 
-    expires_in 1.day, :public => false
-    fresh_when etag: [@vacation_period]
+    expires_in 1.hour, :public => false
+    fresh_when etag: [current_user, @vacation_period]
   end
 
   # GET /vacation_periods/new

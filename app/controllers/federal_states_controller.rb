@@ -6,8 +6,8 @@ class FederalStatesController < ApplicationController
   def index
     @federal_states = FederalState.all
 
-    expires_in 1.day, :public => false
-    fresh_when etag: [@federal_states]
+    expires_in 1.hour, :public => false
+    fresh_when etag: [current_user, @federal_states]
   end
 
   # GET /federal_states/1
@@ -19,8 +19,8 @@ class FederalStatesController < ApplicationController
     end
     cookies[:last_federal_state] = @federal_state.slug
 
-    expires_in 1.day, :public => false
-    fresh_when etag: [@months, @federal_state]
+    expires_in 1.hour, :public => false
+    fresh_when etag: [current_user, @months, @federal_state]
   end
 
   # GET /federal_states/new
