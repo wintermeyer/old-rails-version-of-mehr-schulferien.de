@@ -16,11 +16,11 @@
     <% first_three_months.each do |month| %>
       <% if month != first_three_months.last %>
         <div class="col-sm-6 col-md-4">
-          <%= render partial: '/shared/month', locals: {month: month, year: month.year, federal_state: federal_state} %>
+          <%= render partial: '/shared/month', locals: {month: month, year: month.year, resource: federal_state} %>
         </div>
       <% else %>
         <div class="col-md-4 hidden-sm">
-          <%= render partial: '/shared/month', locals: {month: month, year: month.year, federal_state: federal_state} %>
+          <%= render partial: '/shared/month', locals: {month: month, year: month.year, resource: federal_state} %>
         </div>
       <% end %>
     <% end %>

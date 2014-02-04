@@ -1,0 +1,15 @@
+<% cache ['long weekends', federal_state, month] do %>
+  <% if federal_state.long_weekends(month) %>
+    <dl>
+      <% federal_state.long_weekends(month).each do |weekend| %>
+        <dt>Langes Wochenende:</dt>
+        <dd>
+          <%= l weekend.first.value, format: :default %> - <%= l weekend.last.value, format: :default %> 
+          <span class="badge">
+            <%= pluralize(((weekend.last.value - weekend.first.value).to_i + 1), 'Tag', 'Tage') %>
+          </span>
+        </dd>
+      <% end %>
+    </dl>
+  <% end %>
+<% end %>

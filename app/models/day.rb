@@ -44,6 +44,32 @@ class Day < ActiveRecord::Base
                  any?
   end
 
+  def is_beweglicher_ferientag?(resource = nil)
+    vacation_type = VacationType.where(name: 'Beweglicher Ferientag', public_holiday: false).first_or_create
+    slots = self.slots.where(vacation_type_id: vacation_type.id)
+
+    vacation_periods = VacationPeriod.where(id: slots.pluck(:vacation_period_id))
+
+    if resource.class == School
+      vacation_periods.where(
+                             vacation_periodable_type: 'School', 
+                             vacation_periodable_id: resource.id, 
+                            ).any?
+    elsif resource.class == ActiveRecord::Relation::ActiveRecord_Relation_School
+      vacation_periods.where(
+                             vacation_periodable_type: 'School', 
+                             vacation_periodable_id: resource.pluck(:id), 
+                            ).any?
+    elsif resource.class == Array && resource.map{ |r| r.class }.uniq == [School]
+      vacation_periods.where(
+                             vacation_periodable_type: 'School', 
+                             vacation_periodable_id: resource.map{ |r| r.id }, 
+                            ).any?
+    else
+      false
+    end
+  end
+
   def is_free?(slotable)
     if self.is_weekend? || self.is_public_holiday?(slotable) || self.is_vacation?(slotable)
       true

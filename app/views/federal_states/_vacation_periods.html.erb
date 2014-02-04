@@ -1,0 +1,35 @@
+<% vacation_periods = federal_state.vacation_periods.where(id: Slot.where(day_id: days).where(vacation_type_id: VacationType.where(public_holiday: false)).pluck(:vacation_period_id)) %>
+
+<% if vacation_periods.any? %>
+  <dl>
+    <% vacation_periods.uniq.each do |vacation_period| %>
+      <dt><%= "#{vacation_period.vacation_type}:" %></dt>
+      <dd>
+        <% if @vacation_period && (@vacation_period == vacation_period) %>
+          <% if vacation_period.start_date == vacation_period.end_date %>
+            <%= l vacation_period.start_date, format: :default %>
+          <% else %>
+            <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %>
+          <% end %>
+        <% else %>
+          <%= link_to vacation_period do %>
+            <% if vacation_period.start_date == vacation_period.end_date %>
+              <%= l vacation_period.start_date, format: :default %>
+            <% else %>
+              <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %>
+            <% end %>
+
+            <span class="glyphicon glyphicon-zoom-in"></span>
+          <% end %>
+        <% end %>
+        <span class="badge">
+        <%= pluralize(Day.where(value: vacation_period.start_date).first.maximum_vacation_length(federal_state), 'Tag', 'Tage') %>
+        </span>
+        <% if !vacation_period.description.blank? %>
+          <br>
+          <small><em><%= vacation_period.description %></em></small>
+        <% end %>
+      </dd>
+    <% end %>
+  </dl>
+<% end %>

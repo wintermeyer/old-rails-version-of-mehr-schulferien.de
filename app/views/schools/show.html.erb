@@ -17,9 +17,9 @@ Schulferien in den nächsten 18 Monaten für die Schule <%= @school %> aus <%= @
 
 <div class="row">
   <div class="col-sm-9">
-    <% cache [@school.city.federal_state, @months] do %>
-      <%= render partial: "shared/calendar_18_months", locals: {months: @months, federal_state: @school.city.federal_state} %>
-    <% end %>
+    <%# cache [@school.city.federal_state, @months] do %>
+      <%= render partial: "shared/calendar_18_months", locals: {months: @months, resource: @school} %>
+    <%# end %>
   </div>
   <div class="col-sm-3">
 
