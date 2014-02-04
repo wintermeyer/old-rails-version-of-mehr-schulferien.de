@@ -56,7 +56,7 @@ class SchoolsController < ApplicationController
     @school = School.new(school_params)
 
     if @school.save
-      redirect_to @school, notice: 'School was successfully created.'
+      redirect_to @school, notice: "'#{@school.to_s.truncate(50)}' wurde angelegt. Vielen Dank!"
     else
       render action: 'new'
     end
@@ -65,7 +65,7 @@ class SchoolsController < ApplicationController
   # PATCH/PUT /schools/1
   def update
     if @school.update(school_params)
-      redirect_to @school, notice: 'School was successfully updated.'
+      redirect_to @school, notice: "Der Eintrag für '#{@school.to_s.truncate(50)}' wurde geändert. Danke!"
     else
       render action: 'edit'
     end
