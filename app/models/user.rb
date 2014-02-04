@@ -6,6 +6,11 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :trackable #, :registerable,
          # :recoverable, :rememberable, :trackable, :validatable
 
+
+  def to_s
+    self.email
+  end
+
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user

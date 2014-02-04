@@ -1,0 +1,15 @@
+<% content_for :meta_description do %>
+Login Seite
+<% end %>
+<% content_for :html_title do %>
+Login
+<% end %>
+
+<div class="page-header">
+  <h1>Login</h1>
+</div>
+
+<p>Die Daten von mehr-schulferien.de werden per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) aktuell gehalten. Es kann und soll jeder helfen. Wir möchten dabei vermeiden Passwörter auf unserem Server zu speichern. Deshalb können sich Benutzer der Webseite sicher über die folgenden Online-Dienste authentifizieren:</p>
+<ul>
+<li><%= link_to 'Facebook', '/auth/facebook' %></li>
+</ul>

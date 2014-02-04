@@ -1,5 +1,5 @@
 class AuthenticationsController < ApplicationController
-  before_action :set_authentication, only: [:show, :edit, :update, :destroy]
+  # before_action :set_authentication, only: [:show, :edit, :update, :destroy]
 
   # GET /authentications
   def index
@@ -40,7 +40,7 @@ class AuthenticationsController < ApplicationController
 
     sign_in @user
 
-    redirect_to root_path, notice: 'Authentication was successfully created.'
+    redirect_to page_status_path, notice: "Sie sind mit der E-Mail Adresse #{current_user.email} eingeloggt. Jetzt können Sie Daten hinzufügen und verändern."
   end
 
   # PATCH/PUT /authentications/1
@@ -54,8 +54,10 @@ class AuthenticationsController < ApplicationController
 
   # DELETE /authentications/1
   def destroy
-    @authentication.destroy
-    redirect_to authentications_url, notice: 'Authentication was successfully destroyed.'
+    # @authentication.destroy
+    # redirect_to authentications_url, notice: 'Authentication was successfully destroyed.'
+    sign_out current_user
+    redirect_to page_login_path, notice: 'Sie sind jetzt ausgeloggt. Vielen Dank für Ihre Hilfe!'
   end
 
   private

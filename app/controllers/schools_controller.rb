@@ -1,6 +1,15 @@
 class SchoolsController < ApplicationController
   before_action :set_school, only: [:show, :edit, :update, :destroy]
 
+  before_filter :require_permission, only: [:edit, :update]
+
+  def require_permission
+    if !current_user
+      redirect_to page_login_path
+      #Or do something else here
+    end
+  end
+
   # GET /schools
   def index
     if params["city_id"]

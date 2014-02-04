@@ -1,7 +1,7 @@
 MehrSchulferienDe::Application.routes.draw do
   match '/auth/:provider/callback' => 'authentications#create', via: [:get]
 
-  resources :authentications, only: [:create]
+  resources :authentications, only: [:create, :destroy]
 
   devise_for :users
   resources :schools, only: [:show, :edit, :update]
@@ -21,6 +21,11 @@ MehrSchulferienDe::Application.routes.draw do
   root 'page#index'
 
   get "page/index"
+  get 'login' => 'page#login'
+  get "page/login"
+  get "page/status"
+  get 'logout' => 'authentications#destroy'
+  get 'page/logout' => 'authentications#destroy'
   get "page/about_us"
   #get "page/developer"
   # get "page/api"

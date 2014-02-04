@@ -10,9 +10,16 @@ class PageController < ApplicationController
                Day.where(value: Date.today + 2.month).first.month, 
               ]
 
+    if !current_user
+      expires_in 12.hours, :public => false
+    end
+    fresh_when etag: [current_user, @year, @month, @last_federal_state, @last_school]
+  end
 
-    expires_in 12.hours, :public => false
-    fresh_when etag: [@year, @month, @last_federal_state, @last_school]
+  def login
+  end
+
+  def status
   end
 
   def about_us

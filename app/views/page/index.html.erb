@@ -26,7 +26,7 @@ mehr-schulferien.de
       <div class="panel panel-default">
         <div class="panel-heading"><strong>Crowdsourcing</strong></div>
         <div class="panel-body">
-          <p>In unserer Datenbank sind <%= number_with_precision(City.count, precision: 0, delimiter: '.') %> Städte mit insgesamt <%= number_with_precision(School.count, precision: 0, delimiter: '.') %> Schulen gespeichert. Diese Menge an Daten kann nur per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) aktuell gehalten werden. Eine entsprechende Funktionalität ist in Entwicklung.</p>
+          <p>Aktuell sind <%= number_with_precision(City.count, precision: 0, delimiter: '.') %> Städte mit insgesamt <%= number_with_precision(School.count, precision: 0, delimiter: '.') %> Schulen abrufbar. Logischerweise gibt es viel mehr Schulen und alle diese Schulen haben eigene bewegliche Ferientage. Diese Menge an Daten kann nur per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) aktuell gehalten werden. Bitte helfen Sie dabei. Danke!</p>
         </div>
       </div>
     <% end %>
