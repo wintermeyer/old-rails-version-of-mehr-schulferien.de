@@ -65,7 +65,7 @@ class VacationPeriod < ActiveRecord::Base
   def slug_candidates
     [
       [vacation_type, start_date.year, vacation_periodable],
-      [vacation_type, start_date.year, start_date.month, start_date.day, vacation_periodable],
+      [vacation_type, start_date.year, start_date.month, start_date.day, vacation_periodable]
     ]
   end
 
