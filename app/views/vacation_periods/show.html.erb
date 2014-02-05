@@ -4,7 +4,7 @@
 <%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %> im Bundesland <%= @vacation_period.vacation_periodable %> (<%= (l @vacation_period.start_date, format: :short).strip %> - <%= (l @vacation_period.end_date, format: :short).strip %>)
 <% end %>
 <% content_for :html_title do %>
-<%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %> im Bundesland <%= @vacation_period.vacation_periodable %> (<%= (l @vacation_period.start_date, format: :short).strip %> - <%= (l @vacation_period.end_date, format: :short).strip %>)
+<%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %> in <%= @vacation_period.vacation_periodable %> (<%= (l @vacation_period.start_date, format: :short).strip %> - <%= (l @vacation_period.end_date, format: :short).strip %>)
 <% end %>
 
 <% content_for :twitter_card do %>
