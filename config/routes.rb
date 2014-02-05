@@ -29,6 +29,8 @@ MehrSchulferienDe::Application.routes.draw do
   get 'logout' => 'authentications#destroy'
   get 'page/logout' => 'authentications#destroy'
   get "page/about_us"
+  get "page/inverse"
+  get "page/invers" => 'page#inverse'
   #get "page/developer"
   # get "page/api"
   # resources :schools, only: [:index, :show]

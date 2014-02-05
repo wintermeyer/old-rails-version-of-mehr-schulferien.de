@@ -28,6 +28,19 @@ class PageController < ApplicationController
     end
   end
 
+  def inverse
+    @inverse_days = Day.where(value: Date.today.beginning_of_month .. (Date.today + 18.months).end_of_month).order(:value)
+    FederalState.all.each do |federal_state|
+      @inverse_days.each do |day|
+        if day.is_vacation?(federal_state)
+          @inverse_days = @inverse_days.where.not(id: day.id)
+        end
+      end
+    end
+
+    @months = Month.where(id: @inverse_days.pluck(:month_id)).uniq
+  end
+
   def about_us
   end
 

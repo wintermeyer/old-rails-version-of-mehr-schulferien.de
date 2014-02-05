@@ -1,0 +1,70 @@
+<% content_for :meta_description do %>
+Ein inverser Schulferienkalender der alle Tage aufzeigt, an denen es in keinem Bundesland Schulferien gibt. Dies ist die günstigste Reisezeit für alle die nicht während Schulferien verreisen müssen.
+<% end %>
+<% content_for :html_title do %>
+Inverser Schulferienkalender - Die günstigste Reisezeit. 
+<% end %>
+
+<% content_for :twitter_card do %>
+  <% cache ['Twitter Card', "#{Date.today.year}-#{Date.today.month}"] do %>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@mehrschulferien">
+    <meta name="twitter:creator" content="@mehrschulferien">
+    <meta name="twitter:title" content="Inverser Schulferienkalender - Die günstigste Reisezeit.">
+    <meta name="twitter:description" content="Inverser Schulferienkalender mit allen Tagen, an denen es in keinem Bundesland Schulferien gibt. Dies ist die günstigste Reisezeit für alle die nicht während Schulferien verreisen müssen.">
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h1>Inverser Schulferienkalender<br><small>Die günstigste Reisezeit, wenn Sie nicht auf Schulferien angewiesen sind.</small></h1>
+</div>
+
+<div class="row">
+  <div class="col-sm-9">
+    <p>
+      Dieser Kalender zeigt Ihnen - grün hinterlegt - die Tage, an denen in keinem Bundesland Schulferien sind. Logischerweise sind dies die Tage, an denen man am günstigsten - ohne Schulkinder - in Urlaub fahren kann.
+    </p>
+  
+    <% @months.each_slice(3) do |month_per_row| %>
+      <div class="row hidden-sm">
+        <% month_per_row.each do |month| %>
+          <div class="col-md-4">
+            <%= render partial: '/shared/inverse_month', locals: {month: month, inverse_days: @inverse_days.where(id: month.days.pluck(:id))} %>        
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <% @months.each_slice(2) do |month_per_row| %>
+      <div class="row visible-sm">
+        <% month_per_row.each do |month| %>
+          <div class="col-sm-6">
+            <%= render partial: '/shared/inverse_month', locals: {month: month, inverse_days: @inverse_days.where(id: month.days.pluck(:id))} %>        
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-sm-3">
+    <%= render 'shared/panels/social_media' %>
+
+    <div class="panel panel-danger">
+      <div class="panel-heading"><h3 class="panel-title">BETA VERSION!</h3></div>
+      <div class="panel-body">
+        Dies ist eine Beta-Version. Fehler sind zu erwarten. Diese bitte im <%= link_to 'Github Issue Tracker eintragen', 'https://github.com/wintermeyer/mehr-schulferien.de/issues' %>.
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading"><strong>Über dieses Projekt</strong></div>
+      <div class="panel-body">
+        <%= image_tag("http://www.gravatar.com/avatar/ad005fac83baa60843ddf2bc3bc8fe93", alt: "Avatar von Stefan Wintermeyer", align: 'right', class: 'img-rounded') %>
+        <p>
+        Ich hoffe auch Ihnen mit dieser Webseite bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine 
+        <%= mail_to 'stefan.wintermeyer@amooma.de' do %><span class="glyphicon glyphicon-envelope"></span> E-Mail<% end %> oder einen Tweet mit Anregungen oder Kritik.
+        </p>
+  <a href="https://twitter.com/wintermeyer" class="twitter-follow-button" data-show-count="false" data-lang="de">@wintermeyer folgen</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      </div>
+    </div>
+  </div>
+</div>
