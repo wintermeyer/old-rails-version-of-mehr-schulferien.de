@@ -1,4 +1,6 @@
 MehrSchulferienDe::Application.routes.draw do
+  get "special_calendars/inverse"
+  get "special_calendars/bridging_days"
   match '/auth/:provider/callback' => 'authentications#create', via: [:get]
 
   resources :authentications, only: [:create, :destroy]
@@ -29,8 +31,7 @@ MehrSchulferienDe::Application.routes.draw do
   get 'logout' => 'authentications#destroy'
   get 'page/logout' => 'authentications#destroy'
   get "page/about_us"
-  get "page/inverse"
-  get "page/invers" => 'page#inverse'
+
   #get "page/developer"
   # get "page/api"
   # resources :schools, only: [:index, :show]
