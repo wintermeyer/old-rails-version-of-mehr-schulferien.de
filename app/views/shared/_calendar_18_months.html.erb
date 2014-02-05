@@ -1,4 +1,4 @@
-<%# cache [months, resource] do %>
+<% cache [months, resource] do %>
   <% months.each_slice(3) do |month_per_row| %>
     <div class="row hidden-sm">
       <% month_per_row.each do |month| %>
@@ -17,4 +17,4 @@
       <% end %>
     </div>
   <% end %>
-<%# end %>
+<% end %>

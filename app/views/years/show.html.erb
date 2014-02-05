@@ -10,7 +10,7 @@ Schulferienkalender <%= @year %> für das Bundesland <%= @federal_state %>
 <div class="page-header">
   <div class="row">
     <div class="col-sm-8">
-      <h1><%= @federal_state %></h1>
+      <h1><%= @federal_state %> <br class="visible-xs"><small>Jan. - Dez. <%= @year %></small></h1>
     </div>
     <div class="col-sm-4">
       <% cache ['Pagination years', available_years, @year, @federal_state] do %>
@@ -41,7 +41,7 @@ Schulferienkalender <%= @year %> für das Bundesland <%= @federal_state %>
 
 <div class="row">
   <div class="col-sm-9">
-    <% cache [@federal_state, @months] do %>
+    <% cache ['Jahreskalender', @year, @federal_state, @months] do %>
       <%= render partial: "shared/calendar_18_months", locals: {months: @months, resource: @federal_state} %>
     <% end %>
   </div>
