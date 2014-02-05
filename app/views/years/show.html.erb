@@ -7,6 +7,16 @@ Schulferien in <%= @year %> für das Bundesland <%= @federal_state %>.
 Schulferienkalender <%= @year %> für das Bundesland <%= @federal_state %>
 <% end %>
 
+<% content_for :twitter_card do %>
+  <% cache ['Twitter Card', @federal_state, @year] do %>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@mehrschulferien">
+    <meta name="twitter:creator" content="@mehrschulferien">
+    <meta name="twitter:title" content="Schulferien in <%= @year %> für <%= @federal_state %>.">
+    <meta name="twitter:description" content="Ein Ferienkalender für das Jahr <%= @year %> mit allen Schulferienterminen und Feiertagen für das Bundesland <%= @federal_state %>.">
+  <% end %>
+<% end %>
+
 <div class="page-header">
   <div class="row">
     <div class="col-sm-8">
