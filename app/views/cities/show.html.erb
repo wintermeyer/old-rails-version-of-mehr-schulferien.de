@@ -7,6 +7,16 @@ Schulferien in den nächsten 18 Monaten für die Schulen aus <%= @city %>.
 Schulferien in den nächsten 18 Monaten für die Schulen aus <%= @city %>.
 <% end %>
 
+<% content_for :twitter_card do %>
+  <% cache ['Twitter Card', @city] do %>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@mehrschulferien">
+    <meta name="twitter:creator" content="@mehrschulferien">
+    <meta name="twitter:title" content="Schulferien aller Schulen in <%= @city %>">
+    <meta name="twitter:description" content="Ein 18-Monate-Ferienkalender aller Schulen mit der Postleitzahl <%= @city.zip_code %> (<%= @city %>). Schulferienterminen, bewegliche Ferientage und Feiertagen für das Bundesland <%= @city.federal_state %>.">
+  <% end %>
+<% end %>
+
 <div class="page-header">
   <h1><%= @city.name %> <small>Postleitzahl <%= @city.zip_code %></small></h1>
 </div>
@@ -17,6 +27,14 @@ Schulferien in den nächsten 18 Monaten für die Schulen aus <%= @city %>.
     <%= render partial: "shared/calendar_18_months", locals: {months: @months, resource: @city} %>
   </div>
   <div class="col-sm-3">
+    <%= render 'shared/panels/social_media' %>
+    
+    <div class="hidden-xs">
+      <a href="https://maps.google.com/maps?q=<%= "#{URI.encode(@city.komma_seperated_address)}" %>&hl=de&t=m" class="thumbnail">
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= URI.encode(@city.komma_seperated_address) %>&markers=color:blue%7C<%= URI.encode(@city.komma_seperated_address) %>&zoom=10&size=300x300&sensor=false" alt="Google Maps Landkarte mit der Position dieser Stadt.">
+      </a>
+    </div>
+
     <% cache ['Schulen im Ort', @city.schools] do %>
       <% if @city.schools.any? %>
         <div class="panel panel-default">

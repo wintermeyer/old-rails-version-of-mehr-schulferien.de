@@ -41,6 +41,9 @@ class City < ActiveRecord::Base
     end
   end
 
+  def komma_seperated_address
+    "#{self.zip_code} #{self.name},#{self.country}".gsub(/,,/,',')
+  end
 
   private
   def slug_candidates
