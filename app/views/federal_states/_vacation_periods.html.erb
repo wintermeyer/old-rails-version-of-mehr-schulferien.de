@@ -1,8 +1,6 @@
-<% vacation_periods = federal_state.vacation_periods.where(id: Slot.where(day_id: days).where(vacation_type_id: VacationType.where(public_holiday: false)).pluck(:vacation_period_id)) %>
-
-<% if vacation_periods.any? %>
+<% if federal_state.vacation_periods_for_given_resource(days).any? %>
   <dl>
-    <% vacation_periods.uniq.each do |vacation_period| %>
+    <% federal_state.vacation_periods_for_given_resource(days).uniq.each do |vacation_period| %>
       <dt><%= "#{vacation_period.vacation_type}:" %></dt>
       <dd>
         <% if @vacation_period && (@vacation_period == vacation_period) %>

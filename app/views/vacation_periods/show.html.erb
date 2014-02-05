@@ -7,6 +7,22 @@
 <%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %> im Bundesland <%= @vacation_period.vacation_periodable %> (<%= (l @vacation_period.start_date, format: :short).strip %> - <%= (l @vacation_period.end_date, format: :short).strip %>)
 <% end %>
 
+<% content_for :twitter_card do %>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@mehrschulferien">
+  <meta name="twitter:creator" content="@wintermeyer">
+  <meta name="twitter:title" content="<%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %> <%= @vacation_period.vacation_periodable %>">
+  <% if @vacation_period.start_date == @vacation_period.end_date %>
+    <meta name="twitter:description" content="<%= l @vacation_period.start_date, format: :default %> (1 Tag)">
+  <% else %>
+    <% if Day.where(value: @vacation_period.start_date).first.maximum_vacation_length(@vacation_period.vacation_periodable) > @vacation_period.duration %>
+        <meta name="twitter:description" content="<%= l @vacation_period.start_date, format: :default %> - <%= l @vacation_period.end_date, format: :default %> (<%= pluralize(Day.where(value: @vacation_period.start_date).first.maximum_vacation_length(@vacation_period.vacation_periodable), 'Tag', 'Tage') %>). Wichtig: Der reine Ferientermin erstreckt sich nur über <%= @vacation_period.duration %> Tage. Aber am Rand der Ferien kommen zusätzliche Tage (z.B. Wochenenden) hinzu.">
+    <% else %>
+      <meta name="twitter:description" content="<%= l @vacation_period.start_date, format: :default %> - <%= l @vacation_period.end_date, format: :default %> (<%= pluralize(Day.where(value: @vacation_period.start_date).first.maximum_vacation_length(@vacation_period.vacation_periodable), 'Tag', 'Tage') %>)">
+    <% end %>
+  <% end %>
+<% end %>
+
 <div class="page-header">
   <h1><%= @vacation_period.vacation_type %> <%= @vacation_period.start_date.year %>
  <br><small><%= @vacation_period.vacation_periodable %></small></h1>

@@ -92,4 +92,11 @@ class FederalState < ActiveRecord::Base
     end
   end
 
+  def vacation_periods_for_given_resource(resource = nil)
+    self.vacation_periods.where(id: Slot.where(day_id: resource).
+                                   where(vacation_type_id: VacationType.
+                                   where(public_holiday: false)).
+                                   pluck(:vacation_period_id))
+  end
+
 end
