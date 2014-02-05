@@ -24,24 +24,26 @@ Inverser Schulferienkalender - Die günstigste Reisezeit.
     <p>
       Dieser Kalender zeigt Ihnen - grün hinterlegt - die Tage, an denen in keinem Bundesland Schulferien sind. Logischerweise sind dies die Tage, an denen man am günstigsten - ohne Schulkinder - in Urlaub fahren kann.
     </p>
-  
-    <% @months.each_slice(3) do |month_per_row| %>
-      <div class="row hidden-sm">
-        <% month_per_row.each do |month| %>
-          <div class="col-md-4">
-            <%= render partial: '/shared/inverse_month', locals: {month: month, inverse_days: @inverse_days.where(id: month.days.pluck(:id))} %>        
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-    <% @months.each_slice(2) do |month_per_row| %>
-      <div class="row visible-sm">
-        <% month_per_row.each do |month| %>
-          <div class="col-sm-6">
-            <%= render partial: '/shared/inverse_month', locals: {month: month, inverse_days: @inverse_days.where(id: month.days.pluck(:id))} %>        
-          </div>
-        <% end %>
-      </div>
+
+    <% cache ['inverse calendar', Date.today.to_s, @months] do %>
+      <% @months.each_slice(3) do |month_per_row| %>
+        <div class="row hidden-sm">
+          <% month_per_row.each do |month| %>
+            <div class="col-md-4">
+              <%= render partial: '/shared/inverse_month', locals: {month: month, inverse_days: @inverse_days.where(id: month.days.pluck(:id))} %>        
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <% @months.each_slice(2) do |month_per_row| %>
+        <div class="row visible-sm">
+          <% month_per_row.each do |month| %>
+            <div class="col-sm-6">
+              <%= render partial: '/shared/inverse_month', locals: {month: month, inverse_days: @inverse_days.where(id: month.days.pluck(:id))} %>        
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
   </div>
   <div class="col-sm-3">

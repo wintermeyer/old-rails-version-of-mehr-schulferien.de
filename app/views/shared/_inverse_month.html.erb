@@ -1,4 +1,4 @@
-<% cache ['inverse month', month, inverse_days.pluck(:id)] do %>
+<%# cache ['inverse month', month, inverse_days.pluck(:id)] do %>
   <% days = month.days.order(:value).reverse_order %>
   <% if days.last.wday == 0 %>
     <% 6.times{days.push(nil)} %>
@@ -63,4 +63,4 @@
     </tbody>
   </table>
 
-<% end %>
+<%# end %>
