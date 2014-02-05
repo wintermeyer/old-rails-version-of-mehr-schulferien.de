@@ -56,7 +56,9 @@ Schulferienkalender <%= @year %> für das Bundesland <%= @federal_state %>
     <% end %>
   </div>
   <div class="col-sm-3">
+    <%= render 'shared/panels/social_media' %>
+    <%= render 'shared/panels/spickzettel' %>
     <%= render partial: "federal_states/table_of_cities_panel", locals: {federal_state: @federal_state} %>
-    <%= render 'shared/roadmap' %>
+    <%= render 'shared/panels/roadmap' %>
   </div>
 </div>

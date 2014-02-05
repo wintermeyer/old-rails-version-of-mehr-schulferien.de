@@ -1,0 +1,8 @@
+<% cache ['Crowdsourcing', City.count, School.count] do %>
+  <div class="panel panel-default">
+    <div class="panel-heading"><strong>Crowdsourcing</strong></div>
+    <div class="panel-body">
+      <p>Aktuell sind <%= number_with_precision(City.count, precision: 0, delimiter: '.') %> Städte mit insgesamt <%= number_with_precision(School.count, precision: 0, delimiter: '.') %> Schulen abrufbar. Bitte helfen Sie per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) diesen Datenpool zu erweitern und aktuell zu halten. Danke!</p>
+    </div>
+  </div>
+<% end %>

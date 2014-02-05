@@ -30,6 +30,8 @@ mehr-schulferien.de
     <% end %>
   </div>
   <div class="col-sm-3">
+    <%= render 'shared/panels/social_media' %>
+
     <div class="panel panel-danger">
       <div class="panel-heading"><h3 class="panel-title">BETA VERSION!</h3></div>
       <div class="panel-body">
@@ -37,16 +39,7 @@ mehr-schulferien.de
       </div>
     </div>
 
-    <%= render 'shared/spickzettel' %>
-
-    <% cache ['Crowdsourcing', City.count, School.count] do %>
-      <div class="panel panel-default">
-        <div class="panel-heading"><strong>Crowdsourcing</strong></div>
-        <div class="panel-body">
-          <p>Aktuell sind <%= number_with_precision(City.count, precision: 0, delimiter: '.') %> Städte mit insgesamt <%= number_with_precision(School.count, precision: 0, delimiter: '.') %> Schulen abrufbar. Bitte helfen Sie per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) diesen Datenpool zu erweitern und aktuell zu halten. Danke!</p>
-        </div>
-      </div>
-    <% end %>
+    <%= render 'shared/panels/spickzettel' %>
 
     <div class="panel panel-default">
       <div class="panel-heading"><strong>Über dieses Projekt</strong></div>
@@ -61,7 +54,9 @@ mehr-schulferien.de
       </div>
     </div>
 
-    <%= render 'shared/roadmap' %>
+    <%= render 'shared/panels/roadmap' %>
+
+    <%= render 'shared/panels/crowdsourcing' %>
 
     <% cache ['available_years_panel', available_years] do %>
       <% available_years.each do |year| %>

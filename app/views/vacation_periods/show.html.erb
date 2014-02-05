@@ -54,7 +54,9 @@
     <% end %>
   </div>
   <div class="col-sm-3">
-    <%= render 'shared/spickzettel' %>
+    <%= render 'shared/panels/social_media' %>
+  
+    <%= render 'shared/panels/spickzettel' %>
 
     <% if @vacation_period.vacation_periodable.vacation_periods.where(start_date: (@vacation_period.start_date + 1.day) .. (Date.today + 10.years)).order(:start_date).limit(6).any? %>
         <% cache ['Spätere Ferientermine', @vacation_period, @vacation_period.vacation_periodable] do %>
