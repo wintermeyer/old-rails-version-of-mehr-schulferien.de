@@ -5,6 +5,16 @@ Schulferien aller deutscher Bundesländer und bewegliche Ferientage der einzelne
 mehr-schulferien.de
 <% end %>
 
+<% content_for :twitter_card do %>
+  <% cache ['Twitter Card', "#{Date.today.year}-#{Date.today.month}"] do %>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@mehrschulferien">
+    <meta name="twitter:creator" content="@mehrschulferien">
+    <meta name="twitter:title" content="Schulferienkalender für alle Bundesländer">
+    <meta name="twitter:description" content="Ein Ferienkalender mit allen Schulferienterminen und Feiertagen für Deutschland. Inkl. bewegliche Ferientage für einzelne Schulen.">
+  <% end %>
+<% end %>
+
 <div class="row">
   <div class="col-sm-9">
     <% cache ['quick_overview', @federal_states, @months] do %>
