@@ -7,6 +7,16 @@ Schulferien in den nächsten 18 Monaten im Bundesland <%= @federal_state %>.
 Schulferien in den nächsten 18 Monaten im Bundesland <%= @federal_state %>.
 <% end %>
 
+<% content_for :twitter_card do %>
+  <% cache ['Twitter Card', @federal_state, @year] do %>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@mehrschulferien">
+    <meta name="twitter:creator" content="@mehrschulferien">
+    <meta name="twitter:title" content="<%= @federal_state %> Schulferien für die nächsten 18 Monate.">
+    <meta name="twitter:description" content="Ein Ferienkalender für die nächsten 18 Monate mit allen Schulferienterminen und Feiertagen für das Bundesland <%= @federal_state %>. Auf Städte-Ebene mit beweglichen Ferientagen.">
+  <% end %>
+<% end %>
+
 <div class="page-header">
   <h1><%= @federal_state %> <br class="visible-xs"><small>18-Monats-Übersicht</small></h1>
 </div>
