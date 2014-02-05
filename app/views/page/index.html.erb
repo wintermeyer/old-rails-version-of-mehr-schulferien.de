@@ -43,7 +43,8 @@ mehr-schulferien.de
       <div class="panel-body">
         <%= image_tag("http://www.gravatar.com/avatar/ad005fac83baa60843ddf2bc3bc8fe93", alt: "Avatar von Stefan Wintermeyer", align: 'right', class: 'img-rounded') %>
         <p>
-        Ich hoffe auch Ihnen mit dieser Webseite bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine <%= mail_to 'stefan.wintermeyer@amooma.de', 'E-Mail' %> oder einen Tweet mit Anregungen oder Kritik.
+        Ich hoffe auch Ihnen mit dieser Webseite bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine 
+        <%= mail_to 'stefan.wintermeyer@amooma.de' do %><span class="glyphicon glyphicon-envelope"></span> E-Mail<% end %> oder einen Tweet mit Anregungen oder Kritik.
         </p>
   <a href="https://twitter.com/wintermeyer" class="twitter-follow-button" data-show-count="false" data-lang="de">@wintermeyer folgen</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
