@@ -26,7 +26,7 @@ mehr-schulferien.de
       <div class="panel panel-default">
         <div class="panel-heading"><strong>Crowdsourcing</strong></div>
         <div class="panel-body">
-          <p>Aktuell sind <%= number_with_precision(City.count, precision: 0, delimiter: '.') %> Städte mit insgesamt <%= number_with_precision(School.count, precision: 0, delimiter: '.') %> Schulen abrufbar. Logischerweise gibt es viel mehr Schulen und alle diese Schulen haben eigene bewegliche Ferientage. Diese Menge an Daten kann nur per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) aktuell gehalten werden. Bitte helfen Sie dabei. Danke!</p>
+          <p>Aktuell sind <%= number_with_precision(City.count, precision: 0, delimiter: '.') %> Städte mit insgesamt <%= number_with_precision(School.count, precision: 0, delimiter: '.') %> Schulen abrufbar. Bitte helfen Sie per Crowdsourcing (siehe <%= link_to 'Wikipedia-Eintrag', 'http://de.wikipedia.org/wiki/Crowdsourcing' %>) diesen Datenpool zu erweitern und aktuell zu halten. Danke!</p>
         </div>
       </div>
     <% end %>
@@ -34,6 +34,7 @@ mehr-schulferien.de
     <div class="panel panel-default">
       <div class="panel-heading"><strong>Über dieses Projekt</strong></div>
       <div class="panel-body">
+        <%= image_tag("http://www.gravatar.com/avatar/ad005fac83baa60843ddf2bc3bc8fe93", alt: "Avatar von Stefan Wintermeyer", align: 'right', class: 'img-rounded') %>
         <p>
         Ich hoffe auch Ihnen mit dieser Webseite bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine <%= mail_to 'stefan.wintermeyer@amooma.de', 'E-Mail' %> oder einen Tweet mit Anregungen oder Kritik.
         </p>
