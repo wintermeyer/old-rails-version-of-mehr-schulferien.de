@@ -1,66 +1,91 @@
-<%# cache ['inverse month', month, inverse_days.pluck(:id)] do %>
-  <% days = month.days.order(:value).reverse_order %>
-  <% if days.last.wday == 0 %>
-    <% 6.times{days.push(nil)} %>
-  <% elsif days.last.wday > 1 %>
-    <% (days.last.wday - 1).times{days.push(nil)} %>
-  <% end %>
-  <% days = days.reverse %>
+<% days = month.days.order(:value).reverse_order %>
+<% if days.last.wday == 0 %>
   <% 6.times{days.push(nil)} %>
+<% elsif days.last.wday > 1 %>
+  <% (days.last.wday - 1).times{days.push(nil)} %>
+<% end %>
+<% days = days.reverse %>
+<% 6.times{days.push(nil)} %>
 
-  <% cache ['month calendar headline', month] do %>
-    <div class="row">
-      <div class="col-xs-8">
-        <h3><%= I18n.t("date.month_names")[month.value] %></h3>
-      </div>
-      <div class="col-xs-4">
-        <h3 class="text-muted"><%= month.year %></h3>
-      </div>
+<% cache ['month calendar headline', month] do %>
+  <div class="row">
+    <div class="col-xs-8">
+      <h3><%= I18n.t("date.month_names")[month.value] %></h3>
     </div>
-  <% end %>
+    <div class="col-xs-4">
+      <h3 class="text-muted"><%= month.year %></h3>
+    </div>
+  </div>
+<% end %>
 
-  <table class="table table-condensed">
-    <% cache ['month calendar weekdays row', month] do %>
-      <thead>
+<table class="table table-condensed">
+  <% cache ['month calendar weekdays row', month] do %>
+    <thead>
+      <tr>
+        <% [1,2,3,4,5,6,0].each do |weekday| %>
+          <% if WEEKEND_WDAYS.include?(weekday) %>
+            <th class="active"><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>    
+          <% else %>
+            <th><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>    
+          <% end %>
+        <% end %>
+      </tr>
+    </thead>
+  <% end %>
+  <tbody>
+    <% days.each_slice(7).to_a.each do |week| %>
+      <% if week.uniq != [nil] %>
         <tr>
-          <% [1,2,3,4,5,6,0].each do |weekday| %>
-            <% if WEEKEND_WDAYS.include?(weekday) %>
-              <th class="active"><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>    
+          <% week.each do |day| %>
+            <% if day.nil? %>
+              <% css_class = nil %>
             <% else %>
-              <th><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>    
+              <% if @inverse_days.include?(day) %>
+                <% css_class = 'success' %>
+              <% else %>
+                <% css_class = nil %>
+              <% end %>
+              <% if WEEKEND_WDAYS.include?(day.wday) || day.slots.where(vacation_type_id: VacationType.where(public_holiday: true)).any? %>
+                <% css_class = 'active' %>
+              <% end %>
+            <% end %>
+
+            <% if css_class %>
+              <td class="text-right <%= css_class %>"><%= day %></td>
+            <% else %>
+              <td class="text-right"><%= day %></td>
             <% end %>
           <% end %>
         </tr>
-      </thead>
-    <% end %>
-    <tbody>
-      <% days.each_slice(7).to_a.each do |week| %>
-        <% if week.uniq != [nil] %>
-          <tr>
-            <% week.each do |day| %>
-              <% if day.nil? %>
-                <% css_class = nil %>
-              <% else %>
-                <% if @inverse_days.include?(day) %>
-                  <% css_class = 'success' %>
-                <% else %>
-                  <% css_class = nil %>
-                <% end %>
-                <% if WEEKEND_WDAYS.include?(day.wday) || day.slots.where(vacation_type_id: VacationType.where(public_holiday: true)).any? %>
-                  <% css_class = 'active' %>
-                <% end %>
-              <% end %>
-
-              <% if css_class %>
-                <td class="text-right <%= css_class %>"><%= day %></td>
-              <% else %>
-                <td class="text-right"><%= day %></td>
-              <% end %>
-            <% end %>
-          </tr>
-        <% end %>
       <% end %>
-    </tbody>
-  </table>
+    <% end %>
+  </tbody>
+</table>
 
-<%# end %>
+<% this_months_public_holiday_days = month.days.where(id: @public_holiday_days.pluck(:id)).order(:value) %>
+
+<% bundesweite_days = [] %>
+<% this_months_public_holiday_days.each do |day| %>
+  <% if Slot.where(slotable_type: 'FederalState').where(day_id: day.id).where(vacation_type_id: VacationType.where(public_holiday: true).pluck(:id)).count == 16 %>
+    <% bundesweite_days << day %>
+  <% end %>
+<% end %>
+
+<% if bundesweite_days.any? %>
+  <dl>
+    <dt>
+      <% if bundesweite_days.count == 1 %>
+        Bundesweiter Feiertag:
+      <% else %>
+        Bundesweite Feiertage:
+      <% end %>       
+    </dt>
+    <dd>
+      <% output_array = [] %>
+      <% bundesweite_days.each do |day| %>
+        <% output_array << "#{Slot.where(slotable_type: 'FederalState').where(day_id: day.id).where(vacation_type_id: VacationType.where(public_holiday: true).pluck(:id)).first.vacation_type.name} (#{(I18n.l day.value, format: :short).strip})" %>
+      <% end %>
+      <%= output_array.join(', ') %>
+    </dd>
+  </dl>
+<% end %>
