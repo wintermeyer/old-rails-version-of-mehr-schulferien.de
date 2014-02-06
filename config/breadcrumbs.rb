@@ -26,6 +26,10 @@ crumb :vacation_period do |vacation_period|
   parent vacation_period.vacation_periodable.class.name.underscore.to_sym, vacation_period.vacation_periodable
 end
 
+crumb :min_max do |min_max|
+  link min_max.to_s, min_max
+end
+
 # crumb :year do
 #   link year.value, federal_state_year_path(federal_state, year)
 # end

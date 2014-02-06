@@ -38,7 +38,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <% available_years.each do |year| %>
-              <% if @year && year == @year %>
+              <% if @year && year == @year && !['min_maxes', 'special_calendars'].include?(controller.controller_name) %>
                 <li class="dropdown active">
               <% else %>
                 <li class="dropdown">
@@ -51,10 +51,15 @@
                 </ul>
               </li>
             <% end %>
-            <li class="dropdown<%= controller.controller_name == 'special_calendars' ? ' active' : '' %>">
+            <li class="dropdown<%= ['min_maxes', 'special_calendars'].include?(controller.controller_name) ? ' active' : '' %>">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Spezialkalender <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%= link_to 'Inverser Schulferienkalender', special_calendars_inverse_path %></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Urlaubstage Optimierer</li>
+                <% FederalState.all.each do |federal_state| %>
+                  <li><%= link_to federal_state, federal_state_year_min_max_path(federal_state, Year.where(value: Date.today.year + 1).first,MinMax.where(number_of_vacation_days: (cookies[:number_of_vacation_days] || 24)).first) %></li>
+                <% end %>
               </ul>
             </li>
 

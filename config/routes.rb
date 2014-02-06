@@ -1,4 +1,5 @@
 MehrSchulferienDe::Application.routes.draw do
+
   get "special_calendars/inverse"
   get "special_calendars/bridging_days"
   match '/auth/:provider/callback' => 'authentications#create', via: [:get]
@@ -41,7 +42,9 @@ MehrSchulferienDe::Application.routes.draw do
   end
 
   resources :federal_states, only: [:index, :show] do
-    resources :years, only: [:show, :index]
+    resources :years, only: [:show, :index] do
+      resources :min_maxes, only: [:show]
+    end
     resources :cities, only: [:index]
   end
 

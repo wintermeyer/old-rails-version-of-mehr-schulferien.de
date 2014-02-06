@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140203151113) do
+ActiveRecord::Schema.define(version: 20140206102514) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -69,6 +69,13 @@ ActiveRecord::Schema.define(version: 20140203151113) do
 
   add_index "federal_states", ["country_id"], name: "index_federal_states_on_country_id"
   add_index "federal_states", ["slug"], name: "index_federal_states_on_slug"
+
+  create_table "min_maxes", force: true do |t|
+    t.integer  "number_of_vacation_days"
+    t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "months", force: true do |t|
     t.integer  "value"

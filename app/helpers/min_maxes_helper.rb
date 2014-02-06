@@ -1,0 +1,2 @@
+module MinMaxesHelper
+end

@@ -1,0 +1,25 @@
+<%= form_for(@min_max) do |f| %>
+  <% if @min_max.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@min_max.errors.count, "error") %> prohibited this min_max from being saved:</h2>
+
+      <ul>
+      <% @min_max.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :number_of_vacation_days %><br>
+    <%= f.number_field :number_of_vacation_days %>
+  </div>
+  <div class="field">
+    <%= f.label :slug %><br>
+    <%= f.text_field :slug %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
