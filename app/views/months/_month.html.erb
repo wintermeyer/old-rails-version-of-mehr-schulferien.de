@@ -40,11 +40,7 @@
       <thead>
         <tr>
           <% [1,2,3,4,5,6,0].each do |weekday| %>
-            <% if WEEKEND_WDAYS.include?(weekday) %>
-              <th class="active"><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>    
-            <% else %>
-              <th><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>    
-            <% end %>
+            <th class="<%= (WEEKEND_WDAYS.include?(weekday) ? 'active' : '') %>"><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>    
           <% end %>
         </tr>
       </thead>
@@ -66,7 +62,7 @@
               <% end %>
             <% end %>
 
-            <td class="text-right<%= css_class ? "#{css_class}" : '' %>"><%= day %></td>
+            <td class="text-right <%= css_class ? css_class : '' %>"><%= day %></td>
           <% end %>
         </tr>
       <% end %>
