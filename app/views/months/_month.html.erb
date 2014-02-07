@@ -46,23 +46,26 @@
       </thead>
     <% end %>
     <tbody>
-      <% holiday_vacation_periods = [] %>
       <% days.each_slice(7).to_a.each do |week| %>
         <tr>
           <% week.each do |day| %>
             <% css_class = nil %>
-            <% if !day.nil? %>
-              <% if day.slots.where(slotable: federal_state).any? %>
-                <% css_class = 'success' %>
-              <% elsif day.is_beweglicher_ferientag?(resource) %>
-                <% css_class = 'warning' %>
-              <% end %>
+            <% if day.nil? %>
+              <td></td>
+            <% else %>
               <% if WEEKEND_WDAYS.include?(day.wday) || day.slots.where(vacation_type_id: VacationType.where(public_holiday: true)).where(slotable: federal_state).any? %>
                 <% css_class = 'active' %>
+              <% else %>
+                <% if day.slots.where(slotable: federal_state).any? %>
+                  <% css_class = 'success' %>
+                <% elsif day.is_beweglicher_ferientag?(resource) %>
+                  <% css_class = 'warning' %>
+                <% end %>
               <% end %>
+
+              <td class="text-right <%= css_class ? css_class : '' %>"><%= day %></td>
             <% end %>
 
-            <td class="text-right <%= css_class ? css_class : '' %>"><%= day %></td>
           <% end %>
         </tr>
       <% end %>
