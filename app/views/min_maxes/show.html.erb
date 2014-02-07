@@ -53,6 +53,8 @@ Optimale Ausnutzung von <%= pluralize(@min_max.number_of_vacation_days, 'Urlaubs
   <div class="col-sm-3">
     <%= render 'shared/panels/social_media' %>
 
+    <%= render 'shared/panels/version_info' %>
+
     <% cache ['Verlorene Feiertage', @federal_state, @year] do %>
       <div class="panel panel-default">
         <div class="panel-heading"><strong>Verlorene Feiertage</strong></div>

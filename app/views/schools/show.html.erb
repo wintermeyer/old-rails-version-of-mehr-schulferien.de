@@ -23,6 +23,8 @@ Schulferien in den nächsten 18 Monaten für die Schule <%= @school %> aus <%= @
   </div>
   <div class="col-sm-3">
     <%= render 'shared/panels/social_media' %>
+
+    <%= render 'shared/panels/version_info' %>
     
     <div class="hidden-xs">
       <a href="https://maps.google.com/maps?q=<%= "#{URI.encode(@school.komma_seperated_address)}" %>&hl=de&t=m" class="thumbnail">

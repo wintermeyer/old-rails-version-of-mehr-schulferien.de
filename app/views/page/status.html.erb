@@ -29,6 +29,8 @@ Status Seite
   <div class="col-sm-3">
     <% if current_user %>
       <div class="panel panel-default">
+        <%= render 'shared/panels/version_info' %>
+
         <div class="panel-heading"><strong>Ihr Account</strong></div>
         <div class="panel-body">
           <dl>

@@ -30,6 +30,8 @@ Schulferien in den nächsten 18 Monaten im Bundesland <%= @federal_state %>.
   <div class="col-sm-3">
     <%= render 'shared/panels/social_media' %>
 
+    <%= render 'shared/panels/version_info' %>
+
     <% cache ['Kalender Panel', @federal_state, available_years] do %>
       <div class="panel panel-default">
         <div class="panel-heading"><strong>Kalender</strong></div>
