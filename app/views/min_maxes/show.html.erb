@@ -10,7 +10,7 @@ Optimale Ausnutzung von <%= pluralize(@min_max.number_of_vacation_days, 'Urlaubs
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@mehrschulferien">
     <meta name="twitter:creator" content="@mehrschulferien">
-    <meta name="twitter:title" content="Optimierung von <%= pluralize(@min_max.number_of_vacation_days, 'Urlaubstag', 'Urlaubstagen') %> in <%= @year %> für <%= @federal_state %>.">
+    <meta name="twitter:title" content="Optimierung Sie Ihre Urlaubsplanung für <%= @year %> (Stichwort Resturlaub). Bundesland: <%= @federal_state %>">
     <meta name="twitter:description" content="Zur optimalen Ausnutzung von <%= pluralize(@min_max.number_of_vacation_days, 'Urlaubstag', 'Urlaubstagen') %> in <%= @year %> für <%= @federal_state %> sollten Sie Ihren Urlaub in den folgenden Monaten nehmen: <%= @months.map{ |month| "#{I18n.t("date.month_names")[month.value]} (#{(month.days.where.not(id: @weekend_days.pluck(:id)).where.not(id: @federal_state_public_holiday_days.pluck(:id)).where.not(id: @public_holiday_days.pluck(:id))).count} Werktage)" }.join(', ') %>">
   <% end %>
 <% end %>
