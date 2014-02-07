@@ -1,9 +1,9 @@
-<% cache [months, resource] do %>
+<% cache ['calendar_18_months', months, resource] do %>
   <% months.each_slice(3) do |month_per_row| %>
     <div class="row hidden-sm">
       <% month_per_row.each do |month| %>
         <div class="col-md-4">
-          <%= render partial: '/shared/month', locals: {month: month, resource: resource} %>        
+          <%= render partial: '/months/month', locals: {month: month, resource: resource} %>        
         </div>
       <% end %>
     </div>
@@ -12,7 +12,7 @@
     <div class="row visible-sm">
       <% month_per_row.each do |month| %>
         <div class="col-sm-6">
-          <%= render partial: '/shared/month', locals: {month: month, resource: resource} %>        
+          <%= render partial: '/months/month', locals: {month: month, resource: resource} %>        
         </div>
       <% end %>
     </div>
