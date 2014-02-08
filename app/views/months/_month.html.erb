@@ -1,17 +1,21 @@
-<% cache ['month', month, resource] do %>
-  <% federal_state = resource %>
-  <% city = nil %>
-  <% school = nil %>
+<% federal_state = resource %>
+<% city = nil %>
+<% school = nil %>
+<% vacation_periods = VacationPeriod.where(id: Slot.where(day_id: month.days.ids).pluck(:vacation_period_id)).where(vacation_periodable: federal_state) %>
 
-  <% if resource.class == City %>
-    <% federal_state = resource.federal_state %>
-    <% city = resource %>
-  <% end %>
+<% if resource.class == City %>
+  <% federal_state = resource.federal_state %>
+  <% city = resource %>
+  <% vacation_periods = vacation_periods.where(vacation_periodable: city) %>
+<% end %>
   <% if resource.class == School %>
     <% federal_state = resource.city.federal_state %>
     <% city = resource.city %>
     <% school = resource %>
+    <% vacation_periods = vacation_periods.where(vacation_periodable: school) %>
   <% end %>
+
+<% cache ['app/views/months/_month', month, vacation_periods] do %>
 
   <% days = month.days.order(:value).reverse_order %>
   <% if days.last.wday == 0 %>
