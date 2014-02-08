@@ -1,18 +1,18 @@
 <% federal_state = resource %>
 <% city = nil %>
 <% school = nil %>
-<% vacation_periods_ids = VacationPeriod.where(id: Slot.where(day_id: month.days.ids).pluck(:vacation_period_id)).where(vacation_periodable: federal_state).pluck(:id) %>
+<% vacation_periods_ids = VacationPeriod.where(id: Slot.where(day_id: month.days.ids).pluck(:vacation_period_id)).where(vacation_periodable: resource).pluck(:id) %>
 
 <% if resource.class == City %>
   <% federal_state = resource.federal_state %>
   <% city = resource %>
-  <% vacation_periods_ids += VacationPeriod.where(id: Slot.where(day_id: month.days.ids).pluck(:vacation_period_id)).where(vacation_periodable: city).pluck(:id) %>
+  <% vacation_periods_ids += VacationPeriod.where(id: Slot.where(day_id: month.days.ids).pluck(:vacation_period_id)).where(vacation_periodable: federal_state).pluck(:id) %>
 <% elsif resource.class == School %>
   <% federal_state = resource.city.federal_state %>
   <% city = resource.city %>
   <% school = resource %>
+  <% vacation_periods_ids += VacationPeriod.where(id: Slot.where(day_id: month.days.ids).pluck(:vacation_period_id)).where(vacation_periodable: federal_state).pluck(:id) %>
   <% vacation_periods_ids += VacationPeriod.where(id: Slot.where(day_id: month.days.ids).pluck(:vacation_period_id)).where(vacation_periodable: city).pluck(:id) %>
-  <% vacation_periods_ids += VacationPeriod.where(id: Slot.where(day_id: month.days.ids).pluck(:vacation_period_id)).where(vacation_periodable: school).pluck(:id) %>
 <% end %>
 
 <% cache ['app/views/months/_month', month, VacationPeriod.where(id: vacation_periods_ids).order(:id)] do %>
