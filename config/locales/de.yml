@@ -31,7 +31,7 @@ de:
     - Freitag
     - Samstag
     formats:
-      default: ! '%d.%m.%y'
+      default: ! '%d.%m.'
       long: ! '%e. %B %Y'
       short: ! '%e. %B'
     month_names:
