@@ -62,7 +62,6 @@ namespace :deploy do
 
       # Warm-up the cache
       #
-      year = 2014
       execute "curl --silent --output /dev/null http://mehr-schulferien.de"
 
       execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/baden-wuerttemberg"
@@ -81,23 +80,6 @@ namespace :deploy do
       execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/sachsen-anhalt"
       execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/schleswig-holstein"
       execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/thueringen"
-
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/baden-wuerttemberg/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/bayern/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/berlin/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/brandenburg/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/bremen/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/hamburg/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/hessen/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/mecklenburg-vorpommern/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/niedersachsen/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/nordrhein-westfalen/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/rheinland-pfalz/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/saarland/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/sachsen/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/sachsen-anhalt/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/schleswig-holstein/years/#{year}"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/thueringen/years/#{year}"
     end
   end
 
