@@ -15,7 +15,7 @@
   <% vacation_periods_ids += VacationPeriod.where(id: Slot.where(day_id: month.days.ids).pluck(:vacation_period_id)).where(vacation_periodable: city).pluck(:id) %>
 <% end %>
 
-<% cache ['app/views/months/_month', month, VacationPeriod.where(id: vacation_periods_ids).order(:id)] do %>
+<% cache ['app/views/months/_month', month, VacationPeriod.where(id: vacation_periods_ids).order(:id).uniq] do %>
 
   <% days = month.days.order(:value).reverse_order %>
   <% if days.last.wday == 0 %>
