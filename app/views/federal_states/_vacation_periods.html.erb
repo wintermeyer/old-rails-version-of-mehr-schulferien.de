@@ -20,7 +20,7 @@
             <span class="glyphicon glyphicon-zoom-in"></span>
           <% end %>
         <% end %>
-        <span class="badge">
+        <span class="label label-success">
         <%= pluralize(Day.where(value: vacation_period.start_date).first.maximum_vacation_length(federal_state), 'Tag', 'Tage') %>
         </span>
         <% if !vacation_period.description.blank? %>

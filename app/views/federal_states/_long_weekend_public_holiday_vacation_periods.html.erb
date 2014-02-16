@@ -5,7 +5,7 @@
         <dt>Langes Wochenende:</dt>
         <dd>
           <%= l weekend.first.value, format: :default %> - <%= l weekend.last.value, format: :default %> 
-          <span class="badge">
+          <span class="label label-info">
             <%= pluralize(((weekend.last.value - weekend.first.value).to_i + 1), 'Tag', 'Tage') %>
           </span>
         </dd>

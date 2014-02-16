@@ -66,6 +66,9 @@
                   <% css_class = 'warning' %>
                 <% end %>
               <% end %>
+              <% if day.class == Day && day.month.long_weekend_days(federal_state) && day.month.long_weekend_days(federal_state).include?(day) %>
+                <% css_class = 'info' %>
+              <% end %> 
 
               <td class="text-right <%= css_class ? css_class : '' %>"><%= day %></td>
             <% end %>

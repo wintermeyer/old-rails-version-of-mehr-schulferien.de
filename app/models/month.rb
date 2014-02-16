@@ -26,6 +26,30 @@ class Month < ActiveRecord::Base
     value.to_s
   end
 
+  def long_weekend_days(federal_state = nil)
+    sunday = self.days.order(:value).first.value.end_of_week
+    results = []
+    while sunday.month == self.value do
+     weekend = []
+     (-2..1).each do |i|
+       if Day.where(value: (sunday + i.days)).first.is_weekend? || 
+          Day.where(value: (sunday + i.days)).first.is_public_holiday?(federal_state)
+         weekend.push(Day.where(value: sunday + i.days).first.id)
+       end
+     end
+
+     results << weekend if weekend.count > 2
+
+     sunday += 1.week
+    end 
+    
+    if results.blank?
+      nil
+    else
+      Day.where(id: results).order(:value)
+    end
+  end  
+
   private
   def create_days
     last_day_of_month = Date.parse("1.#{self.value}.#{self.year.value}").end_of_month
