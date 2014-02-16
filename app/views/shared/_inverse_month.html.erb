@@ -72,20 +72,22 @@
 <% end %>
 
 <% if bundesweite_days.any? %>
-  <dl>
-    <dt>
-      <% if bundesweite_days.count == 1 %>
-        Bundesweiter Feiertag:
-      <% else %>
-        Bundesweite Feiertage:
-      <% end %>       
-    </dt>
-    <dd>
-      <% output_array = [] %>
-      <% bundesweite_days.each do |day| %>
-        <% output_array << "#{Slot.where(slotable_type: 'FederalState').where(day_id: day.id).where(vacation_type_id: VacationType.where(public_holiday: true).pluck(:id)).first.vacation_type.name} (#{(I18n.l day.value, format: :short).strip})" %>
-      <% end %>
-      <%= output_array.join(', ') %>
-    </dd>
-  </dl>
+  <small>
+    <dl>
+      <dt>
+        <% if bundesweite_days.count == 1 %>
+          Bundesweiter Feiertag:
+        <% else %>
+          Bundesweite Feiertage:
+        <% end %>       
+      </dt>
+      <dd>
+        <% output_array = [] %>
+        <% bundesweite_days.each do |day| %>
+          <% output_array << "#{Slot.where(slotable_type: 'FederalState').where(day_id: day.id).where(vacation_type_id: VacationType.where(public_holiday: true).pluck(:id)).first.vacation_type.name} (#{(I18n.l day.value, format: :short).strip})" %>
+        <% end %>
+        <%= output_array.join(', ') %>
+      </dd>
+    </dl>
+  </small>
 <% end %>
