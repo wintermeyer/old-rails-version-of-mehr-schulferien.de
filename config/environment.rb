@@ -7,4 +7,4 @@ MehrSchulferienDe::Application.initialize!
 # Create ENV['RAILS_CACHE_ID'] which is added automagically 
 # to all etags and fragment cache keys.
 #
-ENV['RAILS_CACHE_ID'] = `git log --pretty=format:%h -n1`.strip
+ENV['RAILS_APP_VERSION'] = `git log --pretty=format:%h -n1`.strip
