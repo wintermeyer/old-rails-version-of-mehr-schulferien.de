@@ -66,7 +66,7 @@
                   <% css_class = 'warning' %>
                 <% end %>
               <% end %>
-              <% if day.class == Day && day.month.long_weekend_days(federal_state) && day.month.long_weekend_days(federal_state).include?(day) %>
+              <% if day.slots.where(vacation_type_id: VacationType.where(name: 'Langes Wochenende').first.id, slotable_type: resource.class, slotable_id: resource.id).any? %>
                 <% css_class = 'info' %>
               <% end %> 
 

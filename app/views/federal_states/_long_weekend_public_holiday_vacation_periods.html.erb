@@ -1,12 +1,16 @@
 <% cache ['long weekends', federal_state, month] do %>
-  <% if federal_state.long_weekends(month) %>
+  <% if Slot.where(day_id: month.days).where(vacation_type_id: VacationType.where(name: 'Langes Wochenende').first.id, slotable_type: federal_state.class, slotable_id: federal_state.id).any? %>
     <dl>
-      <% federal_state.long_weekends(month).each do |weekend| %>
+      <% VacationPeriod.where(id: Slot.where(day_id: month.days).where(vacation_type_id: VacationType.where(name: 'Langes Wochenende').first.id, slotable_type: federal_state.class, slotable_id: federal_state.id).pluck(:vacation_period_id)).each do |vacation_period| %>
         <dt>Langes Wochenende:</dt>
         <dd>
-          <%= l weekend.first.value, format: :default %> - <%= l weekend.last.value, format: :default %> 
+          <%= link_to vacation_period do %>
+            <%= l vacation_period.start_date, format: :default %> - <%= l vacation_period.end_date, format: :default %>
+            <span class="glyphicon glyphicon-zoom-in<%= vacation_period == @vacation_period ? ' hide' : '' %>"></span>
+          <% end %>
+
           <span class="label label-info">
-            <%= pluralize(((weekend.last.value - weekend.first.value).to_i + 1), 'Tag', 'Tage') %>
+            <%= pluralize((vacation_period.end_date - vacation_period.start_date).to_i + 1, 'Tag', 'Tage') %>
           </span>
         </dd>
       <% end %>
