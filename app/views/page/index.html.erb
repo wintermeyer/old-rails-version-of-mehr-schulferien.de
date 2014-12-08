@@ -17,6 +17,14 @@ mehr-schulferien.de
 
 <div class="row">
   <div class="col-sm-9">
+    <ul class="nav nav-pills hide" id="federal_state_nav_pills">
+      <li role="presentation" class="active"><a href="/">Alle Bundesländer</a></li>
+      <% @federal_states.each do |federal_state| %>
+        <li role="presentation"><%= link_to federal_state, federal_state %></li>
+      <% end %>
+    </ul>
+    <hr />
+
     <% cache ['quick_overview', @federal_states, @months] do %>
       <p class="hidden-sm">
         Alphabetisch sortierte 3-Monats-Übersicht aller Bundesländern.
@@ -41,7 +49,7 @@ mehr-schulferien.de
       <div class="panel-body">
         <%= image_tag("http://www.gravatar.com/avatar/ad005fac83baa60843ddf2bc3bc8fe93", alt: "Avatar von Stefan Wintermeyer", align: 'right', class: 'img-rounded') %>
         <p>
-        Ich hoffe auch Ihnen mit dieser Webseite bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine 
+        Ich hoffe auch Ihnen mit dieser Webseite bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine
         <%= mail_to 'stefan.wintermeyer@amooma.de' do %><span class="glyphicon glyphicon-envelope"></span> E-Mail<% end %> oder einen Tweet mit Anregungen oder Kritik.
         </p>
   <a href="https://twitter.com/wintermeyer" class="twitter-follow-button" data-show-count="false" data-lang="de">@wintermeyer folgen</a>

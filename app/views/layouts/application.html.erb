@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <% if current_page?(root_path) %>
+      <%= render 'shared/google_analytics_content_experiment_code' %>
+    <% end %>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +34,7 @@
       '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-PN5BFN');</script>
     <!-- End Google Tag Manager -->
-    
+
     <a href="#content" class="sr-only">Zum Hauptinhalt</a>
 
     <!-- Static navbar -->
@@ -102,7 +106,5 @@
         <p><small><em>Eine Haftung für die Richtigkeit der Veröffentlichungen, Daten und Links kann nicht übernommen werden.</em></small></p>
       </div>
     </footer> <!-- /footer -->
-
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   </body>
 </html>
