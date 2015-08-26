@@ -11,7 +11,7 @@ class CitiesController < ApplicationController
   # GET /cities/1.json
   def show
     @months = []
-    (0..17).each do |i|
+    (0..12).each do |i|
       @months << Day.where(value: (Date.today + i.months)).first.month
     end
     cookies[:last_federal_state] = @city.federal_state.slug

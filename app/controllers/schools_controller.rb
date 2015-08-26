@@ -25,7 +25,7 @@ class SchoolsController < ApplicationController
   # GET /schools/1
   def show
     @months = []
-    (0..17).each do |i|
+    (0..12).each do |i|
       @months << Day.where(value: (Date.today + i.months)).first.month
     end
     cookies[:last_federal_state] = @school.city.federal_state.slug
