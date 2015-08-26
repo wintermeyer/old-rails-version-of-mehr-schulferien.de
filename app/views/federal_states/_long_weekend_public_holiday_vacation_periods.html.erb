@@ -1,7 +1,7 @@
 <% cache ['long weekends', federal_state, month] do %>
-  <% if Slot.where(day_id: month.days).where(vacation_type_id: VacationType.where(name: 'Langes Wochenende').first.id, slotable_type: federal_state.class, slotable_id: federal_state.id).any? %>
+  <% if Slot.where(day_id: month.days).where(vacation_type_id: VacationType.where(name: 'Langes Wochenende').first.try(:id), slotable_type: federal_state.class, slotable_id: federal_state.id).any? %>
     <dl>
-      <% VacationPeriod.where(id: Slot.where(day_id: month.days).where(vacation_type_id: VacationType.where(name: 'Langes Wochenende').first.id, slotable_type: federal_state.class, slotable_id: federal_state.id).pluck(:vacation_period_id)).each do |vacation_period| %>
+      <% VacationPeriod.where(id: Slot.where(day_id: month.days).where(vacation_type_id: VacationType.where(name: 'Langes Wochenende').first.try(:id), slotable_type: federal_state.class, slotable_id: federal_state.id).pluck(:vacation_period_id)).each do |vacation_period| %>
         <dt>Langes Wochenende:</dt>
         <dd>
           <%= link_to vacation_period do %>

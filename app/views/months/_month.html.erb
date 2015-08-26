@@ -44,7 +44,7 @@
       <thead>
         <tr>
           <% [1,2,3,4,5,6,0].each do |weekday| %>
-            <th class="<%= (WEEKEND_WDAYS.include?(weekday) ? 'active' : '') %>"><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>    
+            <th class="<%= (WEEKEND_WDAYS.include?(weekday) ? 'active' : '') %>"><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>
           <% end %>
         </tr>
       </thead>
@@ -66,9 +66,9 @@
                   <% css_class = 'warning' %>
                 <% end %>
               <% end %>
-              <% if day.slots.where(vacation_type_id: VacationType.where(name: 'Langes Wochenende').first.id, slotable_type: resource.class, slotable_id: resource.id).any? %>
+              <% if day.slots.where(vacation_type_id: VacationType.where(name: 'Langes Wochenende').first.try(:id), slotable_type: resource.class, slotable_id: resource.id).any? %>
                 <% css_class = 'info' %>
-              <% end %> 
+              <% end %>
 
               <td class="text-right <%= css_class ? css_class : '' %>"><%= day %></td>
             <% end %>
