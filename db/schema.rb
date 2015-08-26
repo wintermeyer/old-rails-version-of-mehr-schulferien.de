@@ -65,12 +65,9 @@ ActiveRecord::Schema.define(version: 20140216135206) do
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "lat"
-    t.float    "lng"
   end
 
   add_index "federal_states", ["country_id"], name: "index_federal_states_on_country_id"
-  add_index "federal_states", ["lat", "lng"], name: "index_federal_states_on_lat_and_lng"
   add_index "federal_states", ["slug"], name: "index_federal_states_on_slug"
 
   create_table "min_maxes", force: true do |t|
@@ -90,12 +87,6 @@ ActiveRecord::Schema.define(version: 20140216135206) do
 
   add_index "months", ["slug"], name: "index_months_on_slug"
   add_index "months", ["year_id"], name: "index_months_on_year_id"
-
-  create_table "school_types", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "schools", force: true do |t|
     t.integer  "city_id"
