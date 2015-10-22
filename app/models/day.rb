@@ -3,6 +3,8 @@ class Day < ActiveRecord::Base
   has_many :slots, dependent: :destroy
   has_many :events, through: :slots
 
+  default_scope order(:value)
+
   after_validation :set_wday_any_position
 
   # Validations
