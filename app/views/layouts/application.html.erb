@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
+  <% if content_for? :html_description %>
+  <meta name="description" content="<%= yield :html_description %>">
+  <% end %>
   <meta name="author" content="Stefan Wintermeyer">
   <% if content_for? :html_title %>
     <title><%= yield :html_title %></title>

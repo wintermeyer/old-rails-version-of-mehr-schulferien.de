@@ -1,7 +1,9 @@
+<% content_for :html_description do %>
+<% if @modus == 'invers' %>
+Optimale Urlaubsplanung für Nicht-Eltern mit der Invers-Ansicht <% end %>Schulferienkalender für <% if @city.schools.any? %><%= @city.schools.count %> Schulen in <% end %><%= @city %> (<%= @city.federal_state %>).<% end %>
+
 <% cache([@city, @months, @federal_state]) do %>
-  <% content_for :html_title do %>
-  Schulferien <%= @city %> - <%= @city.federal_state %>
-  <% end %>
+  <% content_for :html_title do %>Schulferien <%= @city %> - <%= @city.federal_state %><% end %>
 
   <ol class="breadcrumb">
     <li><%= link_to "Startseite", root_path %></li>
