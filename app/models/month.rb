@@ -1,8 +1,7 @@
 class Month < ActiveRecord::Base
   belongs_to :year, touch: true
 
-#  has_many :days, -> { order('days.value') }, dependent: :destroy
-  has_many :days, dependent: :destroy
+  has_many :days, -> { order('days.value') }, dependent: :destroy
 #  has_many :events, -> { uniq }, through: :days
   has_many :events, through: :days
 

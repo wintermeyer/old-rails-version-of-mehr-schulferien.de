@@ -1,7 +1,7 @@
 <% if month.events.where(eventable: federal_state).where(religion: [nil, religion]).where(event_type: event_type).any? %>
   <h4><%= event_type %></h4>
   <dl>
-    <% month.events.where(eventable: federal_state).where(religion: [nil, religion]).where(event_type: event_type).each do |event| %>
+    <% month.events.where(eventable: federal_state).where(religion: [nil, religion]).where(event_type: event_type).to_a.uniq.each do |event| %>
     <% if event.summary.split(/ /)[0].length > 18 %>
       <dt><%= truncate(event.summary, length: 18) %></dt>
     <% else %>
