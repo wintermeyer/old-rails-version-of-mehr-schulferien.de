@@ -27,7 +27,7 @@ class YearsController < ApplicationController
     # Render html_description
     #
     if @modus == 'invers'
-      @html_description = "Planen Sie eine günstige Urlaubsreise mit der umgekehrten Darstellung der Schulferien #{year} in #{@federal_state}."
+      @html_description = "Planen Sie eine günstige Urlaubsreise mit der umgekehrten Darstellung der Schulferien #{@year} in #{@federal_state}."
     else
       @html_description = "Schulferienkalender #{@year} "
       @html_description += "für #{@federal_state} (inkl. gesetzlicher Feiertage"
