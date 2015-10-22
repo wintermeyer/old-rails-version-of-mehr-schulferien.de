@@ -22,5 +22,3 @@ Wer sich mit Ruby on Rails nicht auskennt, kann mal einen Blick in mein [Ruby on
 
 Bei Fragen, Lob, Kritik oder Anregungen freue ich mich über eine E-Mail an 
 stefan.wintermeyer@amooma.de
-
-[![Code Climate](https://codeclimate.com/github/wintermeyer/mehr-schulferien.de.png)](https://codeclimate.com/github/wintermeyer/mehr-schulferien.de)
