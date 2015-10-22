@@ -29,9 +29,9 @@ class MonthsController < ApplicationController
     respond_to do |format|
       if @month.save
         format.html { redirect_to @month, notice: 'Month was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @month }
+        format.json { render :show, status: :created, location: @month }
       else
-        format.html { render action: 'new' }
+        format.html { render :new }
         format.json { render json: @month.errors, status: :unprocessable_entity }
       end
     end
@@ -43,9 +43,9 @@ class MonthsController < ApplicationController
     respond_to do |format|
       if @month.update(month_params)
         format.html { redirect_to @month, notice: 'Month was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render :show, status: :ok, location: @month }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @month.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +56,7 @@ class MonthsController < ApplicationController
   def destroy
     @month.destroy
     respond_to do |format|
-      format.html { redirect_to months_url }
+      format.html { redirect_to months_url, notice: 'Month was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +69,6 @@ class MonthsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def month_params
-      params.require(:month).permit(:value, :slug, :year_id)
+      params.require(:month).permit(:value, :year_id)
     end
 end

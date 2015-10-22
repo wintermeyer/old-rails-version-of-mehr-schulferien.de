@@ -4,9 +4,9 @@ require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env)
+Bundler.require(*Rails.groups)
 
-module MehrSchulferienDe
+module WwwMehrSchulferienDe
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -20,11 +20,10 @@ module MehrSchulferienDe
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :de
 
-    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
-    config.assets.precompile += %w( .svg .eot .woff .ttf)
+    # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.active_record.raise_in_transactional_callbacks = true
 
-    config.generators do |g|
-      g.fixture_replacement :factory_girl
-    end
+    # http://brandonhilkert.com/blog/understanding-the-rails-cache-id-environment-variable/
+    ENV['RAILS_CACHE_ID'] = `git log --pretty=format:%h -n1`.strip
   end
 end

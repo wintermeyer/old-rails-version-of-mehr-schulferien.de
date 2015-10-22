@@ -1,17 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  day_id: 1
-  slotable_type: MyString
-  slotable_id: 1
-  vacation_type_id: 1
-  description: MyString
-  vacation_period_id: 1
+  event_id: 
+  day_id: 
 
 two:
-  day_id: 1
-  slotable_type: MyString
-  slotable_id: 1
-  vacation_type_id: 1
-  description: MyString
-  vacation_period_id: 1
+  event_id: 
+  day_id: 

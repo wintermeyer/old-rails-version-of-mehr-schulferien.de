@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  starts_on: 2015-10-14
+  ends_on: 2015-10-14
+  summary: MyString
+  eventable_id: 
+  eventable_type: Eventable
+  event_type_id: 
+  religion_id: 
+
+two:
+  starts_on: 2015-10-14
+  ends_on: 2015-10-14
+  summary: MyString
+  eventable_id: 
+  eventable_type: Eventable
+  event_type_id: 
+  religion_id: 

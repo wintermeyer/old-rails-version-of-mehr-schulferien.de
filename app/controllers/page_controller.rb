@@ -1,39 +1,22 @@
 class PageController < ApplicationController
   def index
-    date = Day.where(value: Date.today).first
-    @month = date.month
-    @year = @month.year
-    @federal_states = FederalState.all.order(:name)
-    @months = [
-               @month, 
-               Day.where(value: Date.today + 1.month).first.month, 
-               Day.where(value: Date.today + 2.month).first.month, 
-              ]
+    @federal_states = FederalState.all
+    @years = Year.where(value: (Date.today.year)..Year.maximum(:value)).order(:value).limit(10)
 
-    if !current_user
-      expires_in 12.hours, :public => false
-    end
-    fresh_when etag: [current_user, @year, @month, @last_federal_state, @last_school]
-  end
-
-  def login
-  end
-
-  def status
-    if current_user
-      @schools = School.where(id: PaperTrail::Version.where(whodunnit: current_user.id, item_type: 'School').pluck(:item_id).uniq).
-                        order(:slug)
-    else
-      redirect_to page_login_path, notice: 'Zum Aufrufen der Status-Seite müssen Sie sich erst einloggen.'
-    end
+    # Caching
+    #
+    expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
+    last_update = [Year.maximum(:updated_at), FederalState.maximum(:updated_at)].sort.last.utc
+    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   def about_us
-  end
+    @federal_states = FederalState.all
 
-  def developer
-  end
-
-  def api
+    # Caching
+    #
+    expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
+    last_update = FederalState.maximum(:updated_at).utc
+    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 end

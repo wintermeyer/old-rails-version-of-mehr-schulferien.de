@@ -1,45 +1,25 @@
 class SchoolsController < ApplicationController
   before_action :set_school, only: [:show, :edit, :update, :destroy]
 
-  before_filter :require_permission, only: [:edit, :update]
-
-  def require_permission
-    if !current_user
-      redirect_to page_login_path
-      #Or do something else here
-    end
-  end
-
   # GET /schools
+  # GET /schools.json
   def index
-    if params["city_id"]
-      @city = City.where(slug: params["city_id"]).first || City.where(id: params["city_id"]).first
-      if @city
-        @schools = @city.schools.order(:name)
-      end
-    else
-      # @schools = School.all
-    end
+    @schools = School.all
   end
 
   # GET /schools/1
+  # GET /schools/1.json
   def show
-    @months = []
-    (0..12).each do |i|
-      @months << Day.where(value: (Date.today + i.months)).first.month
-    end
-    cookies[:last_federal_state] = @school.city.federal_state.slug
-    cookies[:last_school] = @school.slug
+    @city = @school.city
+    @federal_state = @city.federal_state
+    @religions = @federal_state.events.where.not(religion: nil).map{|e| e.religion}.uniq
 
-    if flash.none?
-      expires_in 1.hour, :public => false
-      fresh_when etag: [current_user, @months, @school]
-    end
-
-    respond_to do |format|
-      format.html
-      format.vcf
-    end
+    # The months beginning by the current one
+    # until end of next year.
+    #
+    year = Year.find_by_value(Date.today.year)
+    current_month = Month.find_by_value_and_year_id(Date.today.month, year.id)
+    @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id)
   end
 
   # GET /schools/new
@@ -52,49 +32,53 @@ class SchoolsController < ApplicationController
   end
 
   # POST /schools
+  # POST /schools.json
   def create
     @school = School.new(school_params)
 
-    if @school.save
-      redirect_to @school, notice: "'#{@school.to_s.truncate(50)}' wurde angelegt. Vielen Dank!"
-    else
-      render action: 'new'
+    respond_to do |format|
+      if @school.save
+        format.html { redirect_to @school, notice: 'School was successfully created.' }
+        format.json { render :show, status: :created, location: @school }
+      else
+        format.html { render :new }
+        format.json { render json: @school.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   # PATCH/PUT /schools/1
+  # PATCH/PUT /schools/1.json
   def update
-    if @school.update(school_params)
-      redirect_to @school, notice: "Der Eintrag für '#{@school.to_s.truncate(50)}' wurde geändert. Danke!"
-    else
-      render action: 'edit'
+    respond_to do |format|
+      if @school.update(school_params)
+        format.html { redirect_to @school, notice: 'School was successfully updated.' }
+        format.json { render :show, status: :ok, location: @school }
+      else
+        format.html { render :edit }
+        format.json { render json: @school.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   # DELETE /schools/1
+  # DELETE /schools/1.json
   def destroy
     @school.destroy
-    redirect_to schools_url, notice: 'School was successfully destroyed.'
+    respond_to do |format|
+      format.html { redirect_to schools_url, notice: 'School was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_school
-      if params["city_id"]
-        @city = City.where(slug: params["city_id"]).first || City.where(id: params["city_id"]).first
-      end
-
-      if @city
-        schools = @city.schools
-      else
-        schools = School.all
-      end
-
-      @school = schools.where(slug: params["id"]).first || schools.where(id: params["id"]).first
+      @school = School.friendly.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
+    # Never trust parameters from the scary internet, only allow the white list through.
     def school_params
-      params.require(:school).permit(:city_id, :name, :slug, :address_line1, :address_line2, :street, :zip_code, :address_city_name, :phone_number, :fax_number, :email, :homepage)
+      params.require(:school).permit(:name, :slug, :city_id, :address_line1, :address_line2, :street, :zip_code, :address_city_name, :phone_number, :fax_number, :email, :homepage)
     end
 end

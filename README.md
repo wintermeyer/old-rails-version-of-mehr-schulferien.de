@@ -16,7 +16,7 @@ rake db:migrate
 rake db:seed
 ```
 
-Damit hat man alle deutschen Bundesländer, viele Städte und die Ferien für 2014 und 2015.
+Damit hat man alle deutschen Bundesländer, viele Städte und Ferientermine.
 
 Wer sich mit Ruby on Rails nicht auskennt, kann mal einen Blick in mein [Ruby on Rails 3.2 Buch](http://ruby-auf-schienen.de) werfen. Die 4.0er Version gibt es aktuell nur bei Amazon.
 

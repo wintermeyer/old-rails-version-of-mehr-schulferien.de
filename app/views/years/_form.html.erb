@@ -4,8 +4,8 @@
       <h2><%= pluralize(@year.errors.count, "error") %> prohibited this year from being saved:</h2>
 
       <ul>
-      <% @year.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% @year.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
       </ul>
     </div>
@@ -14,10 +14,6 @@
   <div class="field">
     <%= f.label :value %><br>
     <%= f.number_field :value %>
-  </div>
-  <div class="field">
-    <%= f.label :slug %><br>
-    <%= f.text_field :slug %>
   </div>
   <div class="actions">
     <%= f.submit %>

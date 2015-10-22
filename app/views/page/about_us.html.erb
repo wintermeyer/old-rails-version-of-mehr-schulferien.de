@@ -1,63 +1,28 @@
-<% content_for :meta_description do %>
-Impressum
-<% end %>
-<% content_for :html_title do %>
-Impressum
-<% end %>
+<div class="row">
+  <div class="col-sm-12">
+<h1>Page#about_us</h1>
+<p>Find me in app/views/page/about_us.html.erb</p>
 
-<h1>Impressum</h1>
-<p>
-<address>
-<strong>
-AMOOMA GmbH
-</strong>
-<br>
-Bachstr. 124
-<br>
-56566 Neuwied
-</address>
-<address>
-E-Mail:
-<a href="mailto:info@amooma.de">info@amooma.de</a>
-<br>
-<a href="http://amooma.de/">http://amooma.de</a>
-</address>
-</p>
-<p>
-<strong>
-Vertretungsberechtigter Gesch&auml;ftsf&uuml;hrer:
-</strong>
-Stefan Wintermeyer
-<br>
-<br>
-<b>
-Registergericht:
-</b>
-Amtsgericht Montabaur
-<br>
-<b>
-Registernummer:
-</b>
-HR B 4998
-<br>
-<br>
-<b>
-Umsatzsteuer-Identifikationsnummer gem&auml;&szlig; &sect; 27 a Umsatzsteuergesetz:
-</b>
-<br>
-DE241612768
-<br>
-<br>
-<b>
-Inhaltlich Verantwortlicher gem&auml;&szlig; &sect; 10 Absatz 3 MDStV:
-</b>
-Stefan Wintermeyer
-<br>
-<br>
-<b>
-Haftungshinweis:
-</b>
-Trotz sorgf&auml;ltiger inhaltlicher Kontrolle &uuml;bernehmen
-wir keine Haftung f&uuml;r die Inhalte externer Links. F&uuml;r den Inhalt der
-verlinkten Seiten sind ausschlie&szlig;lich deren Betreiber verantwortlich.
-</p>
+<ul>
+  <% @federal_states.each do |federal_state| %>
+    <li>
+      <%= federal_state %><br>
+      <% if federal_state.cities.any? %>
+        Für folgende Städte in <%= federal_state %> gibt es Detailansichten:
+        <% federal_state.cities.each do |city| %>
+          <% if city == federal_state.cities[federal_state.cities.count - 2] %>
+            <%= link_to city, city %> und
+          <% else %>
+            <% if city == federal_state.cities.last %>
+              <%= link_to city, city %>.
+            <% else %>
+              <%= link_to city, city %>,
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+</div>
+</div>

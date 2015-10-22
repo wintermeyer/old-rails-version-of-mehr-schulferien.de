@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  city_id: 1
   name: MyString
   slug: MyString
+  city_id: 
   address_line1: MyString
   address_line2: MyString
   street: MyString
@@ -15,9 +15,9 @@ one:
   homepage: MyString
 
 two:
-  city_id: 1
   name: MyString
   slug: MyString
+  city_id: 
   address_line1: MyString
   address_line2: MyString
   street: MyString

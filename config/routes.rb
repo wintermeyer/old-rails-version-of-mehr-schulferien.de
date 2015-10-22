@@ -1,60 +1,29 @@
-MehrSchulferienDe::Application.routes.draw do
+Rails.application.routes.draw do
+  resources :schools, only: [:show]
+  resources :cities, only: [:show]
+  get 'page/index'
+  get 'page/about_us'
 
-  get "special_calendars/inverse"
-  get "special_calendars/bridging_days"
-  match '/auth/:provider/callback' => 'authentications#create', via: [:get]
-
-  resources :authentications, only: [:create, :destroy]
-
-  devise_for :users
-  resources :schools, only: [:show, :edit, :update] do
-    resources :vacation_periods
-  end
-
-  resources :vacation_periods, only: [:show]
-
-  # resources :vacation_periods, only: [:index, :show]
-
-  # resources :vacation_types, only: [:index, :show]
-
-  # resources :years, only: [:index, :show]
-
-  # resources :months, only: [:index, :show]
-
-  # resources :days, only: [:index, :show]
-
-  root 'page#index'
-
-  get "page/index"
-  get 'login' => 'page#login'
-  get "page/login"
-  get "page/status"
-  get 'logout' => 'authentications#destroy'
-  get 'page/logout' => 'authentications#destroy'
-  get "page/about_us"
-
-  #get "page/developer"
-  # get "page/api"
-  # resources :schools, only: [:index, :show]
-
-  resources :cities, only: [:show] do
-    resources :schools, only: [:index]
-  end
-
-  resources :federal_states, only: [:index, :show] do
-    resources :years, only: [:show, :index] do
-      resources :min_maxes, only: [:show]
+#  resources :slots
+#  resources :days
+#  resources :months
+#  resources :years
+#  resources :events
+#  resources :religions
+#  resources :event_types
+  resources :federal_states, only: [:show] do
+    resources :years, only: [:show] do
+      resources :religions, only: [:show]
     end
-    resources :cities, only: [:index]
+    resources :religions, only: [:show]
   end
-
-  # resources :countries, only: [:index, :show]
+#  resources :countries
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'page#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

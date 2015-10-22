@@ -1,57 +1,78 @@
-<% breadcrumb :city, @city %>
-
-<% content_for :meta_description do %>
-Schulferien in den nächsten 18 Monaten für die Schulen aus <%= @city %>.
-<% end %>
-<% content_for :html_title do %>
-Schulferien in den nächsten 18 Monaten für die Schulen aus <%= @city %>.
-<% end %>
-
-<% content_for :twitter_card do %>
-  <% cache ['Twitter Card', @city] do %>
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@mehrschulferien">
-    <meta name="twitter:creator" content="@mehrschulferien">
-    <meta name="twitter:title" content="Schulferien aller Schulen in <%= @city %>">
-    <meta name="twitter:description" content="Ein 18-Monate-Ferienkalender aller Schulen mit der Postleitzahl <%= @city.zip_code %> (<%= @city %>). Schulferienterminen, bewegliche Ferientage und Feiertagen für das Bundesland <%= @city.federal_state %>.">
+<% cache([@city, @months, @federal_state]) do %>
+  <% content_for :html_title do %>
+  Schulferien <%= @city %> - <%= @city.federal_state %>
   <% end %>
-<% end %>
 
-<div class="page-header">
-  <h1><%= @city.name %> <small>Postleitzahl <%= @city.zip_code %></small></h1>
-</div>
+  <ol class="breadcrumb">
+    <li><%= link_to "Startseite", root_path %></li>
+    <li><%= link_to @federal_state, @federal_state %></li>
+    <li class="active"><%= @city %></li>
+  </ol>
 
-<div class="row">
-  <div class="col-sm-9">
-    <p>Schulferien in den nächsten <%= "#{@months.count} Monaten" %>.</p>
-    <%= render partial: "shared/calendar_18_months", locals: {months: @months, resource: @city} %>
+  <div class="page-header">
+    <h1>
+      Schulferien <%= @city %>
+      <small class="hidden-xs"><%= @city.federal_state %></small>
+    </h1>
   </div>
-  <div class="col-sm-3">
-    <%= render 'shared/panels/social_media' %>
 
-    <%= render 'shared/panels/version_info' %>
-    
-    <div class="hidden-xs">
-      <a href="https://maps.google.com/maps?q=<%= "#{URI.encode(@city.komma_seperated_address)}" %>&hl=de&t=m" class="thumbnail">
-        <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= URI.encode(@city.komma_seperated_address) %>&markers=color:blue%7C<%= URI.encode(@city.komma_seperated_address) %>&zoom=10&size=300x300&sensor=false" alt="Google Maps Landkarte mit der Position dieser Stadt.">
-      </a>
+  <% if @year && @federal_state.events.where(starts_on: Date.parse("01.01.#{@year.value}")..Date.parse("31.12.#{@year.value}")).where(event_type: EventType.find_by_name('Feiertage')).none? %>
+    <div class="alert alert-danger" role="alert">Für diesen Zeitraum wurden noch keine gesetzlichen Feiertage hinterlegt.</div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-8">
+      <p>Für die Urlaubsplanung von Nicht-Eltern/Schülern finden Sie in der <%= link_to "Invers-Ansicht von #{@city.federal_state}", federal_state_path(@federal_state, modus: 'invers') %> eine Übersicht, die Ihnen die Zeiten mit den günstigsten Reiseterminen darstellt.</p>
     </div>
+    <div class="col-md-4">
+      <%= render partial: "shared/ad" rescue nil%>
+    </div>
+  </div>
 
-    <% cache ['Schulen im Ort', @city.schools] do %>
-      <% if @city.schools.any? %>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Schulen im Ort</strong></div>
-          <div class="panel-body">
-            <ul>
-              <% @city.schools.order(:name).each do |school| %>
-                <li><%= link_to school, school %></li>
+  <div class="row">
+    <div class="col-md-9">
+      <% @months.each_slice(3) do |months_in_a_row| %>
+        <div class="row">
+          <% months_in_a_row.each do |month| %>
+            <div class="col-md-4">
+              <%= render partial: "shared/month", locals: {month: month, federal_state: @federal_state, religion: @religion, modus: @modus} %>
+
+              <% if month.events.where(eventable: @federal_state).where(religion: [nil, @religion]).where(event_type: EventType.find_by_name('Ferien')).any? %>
+                <% event_types = ['Ferien', 'Feiertage'] %>
+              <% else %>
+                <% event_types = ['Feiertage'] %>
               <% end %>
-            </ul>
-          </div>
+
+              <% if @modus == 'invers' %>
+                <% event_types = ['Feiertage'] %>
+              <% end %>
+
+              <div class="row">
+                <% event_types.each do |event_type| %>
+                  <div class="col-md-<%= 12 / event_types.size %>">
+                    <%= render partial: "shared/list_events", locals: {month: month, federal_state: @federal_state, religion: @religion, event_type: EventType.find_by_name(event_type), modus: @modus} %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
         </div>
       <% end %>
-    <% end %>
-
-    <%= render 'shared/panels/roadmap' %>
+    </div>
+    <div class="col-md-3">
+      <p>
+        <a href="https://maps.google.com/maps?q=<%= "#{URI.encode(@city.komma_seperated_address)}" %>&hl=de&t=m" class="thumbnail">
+          <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= URI.encode(@city.komma_seperated_address) %>&markers=color:blue%7C<%= URI.encode(@city.komma_seperated_address) %>&zoom=10&size=250x250&sensor=false" alt="Google Maps Landkarte mit der Position dieser Stadt." width="250" height="250">
+        </a>
+      </p>
+      <% if @city.schools.any? %>
+        <h2>Schulen</h2>
+        <ul>
+          <% @city.schools.each do |school| %>
+            <li><%= link_to school, school %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
   </div>
-</div>
+<% end %>

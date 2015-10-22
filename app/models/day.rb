@@ -1,121 +1,40 @@
 class Day < ActiveRecord::Base
-  extend FriendlyId
-  friendly_id :day_of_month_for_slug, :use => :scoped, :scope => :month
-
   belongs_to :month, touch: true
-  has_many :slots
+  has_many :slots, dependent: :destroy
+  has_many :events, through: :slots
 
-  validates :month_id,
-            presence: true,
-            numericality: { only_integer: true, 
-                            greater_or_equal_than: 1 }
+  after_validation :set_wday_any_position
 
-  validates :month,
-            presence: true
-
+  # Validations
+  #
   validates :value,
             presence: true,
             uniqueness: true
 
-  before_validation :create_parent_year
-  after_validation :set_wday
+  def school_day?(federal_state, religion = nil)
+    self.events.where(eventable: federal_state).where(religion: [nil, religion]).none?
+  end
+
+  def weekend?
+    self.events.where(event_type: EventType.find_by_name('Wochenende')).any?
+  end
+
+  def public_holiday?(federal_state)
+    self.events.where(eventable: federal_state).where(event_type: EventType.find_by_name('Feiertage')).where(religion: nil).any?
+  end
 
   def to_s
-    day_of_month.to_s
-  end
-
-  def is_weekend?
-    if WEEKEND_WDAYS.include?(self.wday)
-      true
-    else
-      false
-    end
-  end
-
-  def is_vacation?(slotable)
-    VacationType.where(id: slotable.slots.where(day_id: self.id).pluck(:vacation_type_id)).
-                 where(public_holiday: false).
-                 any?
-  end
-
-  def is_public_holiday?(slotable)
-    VacationType.where(id: slotable.slots.where(day_id: self.id).pluck(:vacation_type_id)).
-                 where(public_holiday: true).
-                 any?
-  end
-
-  def is_beweglicher_ferientag?(resource = nil)
-    vacation_type = VacationType.where(name: 'Beweglicher Ferientag', public_holiday: false).first_or_create
-    slots = self.slots.where(vacation_type_id: vacation_type.id)
-
-    vacation_periods = VacationPeriod.where(id: slots.pluck(:vacation_period_id))
-
-    if resource.class == School
-      vacation_periods.where(
-                             vacation_periodable_type: 'School', 
-                             vacation_periodable_id: resource.id, 
-                            ).any?
-    elsif resource.class == ActiveRecord::Relation::ActiveRecord_Relation_School
-      vacation_periods.where(
-                             vacation_periodable_type: 'School', 
-                             vacation_periodable_id: resource.pluck(:id), 
-                            ).any?
-    elsif resource.class == Array && resource.map{ |r| r.class }.uniq == [School]
-      vacation_periods.where(
-                             vacation_periodable_type: 'School', 
-                             vacation_periodable_id: resource.map{ |r| r.id }, 
-                            ).any?
-    elsif resource.class == City
-      # resource.bewegliche_ferientag_vacation_periods(self.month).any?
-      Slot.where(vacation_period_id: resource.bewegliche_ferientag_vacation_periods(self.month)).where(day_id: self.id).any?
-    else
-      false
-    end
-  end
-
-  def is_free?(slotable)
-    if self.is_weekend? || self.is_public_holiday?(slotable) || self.is_vacation?(slotable)
-      true
-    else
-      false
-    end
-  end
-
-  def maximum_vacation_length(slotable)
-    if self.is_free?(slotable)
-      i = 0
-      while Day.where(value: (self.value - i.days)).any? && 
-                Day.where(value: (self.value - i.days)).first.is_free?(slotable)
-        start_date = self.value - i.days
-        i += 1
-      end
-
-      i = 0
-      while Day.where(value: (self.value + i.days)).any? && 
-                Day.where(value: (self.value + i.days)).first.is_free?(slotable)
-        end_date = self.value + i.days
-        i += 1
-      end 
-
-      (end_date - start_date).to_i + 1
-    else
-      0
-    end
+    value.to_s
   end
 
   private
-  def day_of_month_for_slug
-    self.value.day
-  end
-
-  def create_parent_year
-    year = Year.where(value: self.value.year).first_or_create
-    month = year.months.where(value: self.value.month).first_or_create
-    self.month_id = month.id
-  end
-
-  def set_wday
+  def set_wday_any_position
     self.wday = self.value.wday
-    self.day_of_month = self.value.day
+    case self.wday
+    when 0
+      self.position = 7
+    else
+      self.position = self.value.wday
+    end
   end
 end

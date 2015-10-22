@@ -1,112 +1,35 @@
 <!DOCTYPE html>
-<html lang="de">
-  <head>
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-    <% if current_page?(root_path) %>
-      <%= render 'shared/google_analytics_content_experiment_code' %>
-    <% end %>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : "Schulferien- und Feiertagsübersicht für Deutschland" %>">
-    <meta name="author" content="Stefan Wintermeyer">
-    <title><%= content_for?(:html_title) ? yield(:html_title) : "Schulferien- und Feiertagsübersicht für Deutschland" %></title>
+<html>
+<head>
+  <% if content_for? :html_title %>
+    <title><%= yield :html_title %></title>
+  <% else %>
+    <title>Schulferienkalender</title>
+  <% end %>
+  <style>
+    <% css = File.read("#{Rails.root}/public#{asset_path("application", type: :stylesheet)}") %>
+    <%= css.html_safe %>
+  </style>
+  <%= csrf_meta_tags %>
+</head>
+<body role="document">
+  <div class="container" role="main">
+    <%= yield %>
+  <hr />
+  <p>
+  Copyright 2014-<%= Date.today.year %> by <a href="http://www.wintermeyer.de">Stefan Wintermeyer</a>. Alle Angaben ohne Gewähr!<br>
+  <small>Den Source-Code zu diesem Open-Source Projekt finden Sie auf <a href="https://github.com/wintermeyer/mehr-schulferien.de">https://github.com/wintermeyer/mehr-schulferien.de</a></small>
+  </p>
+  </div>
 
-    <%= stylesheet_link_tag    "application", media: "all" %>
-    <%= csrf_meta_tags %>
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <%= content_for?(:twitter_card) ? yield(:twitter_card) : '' %>
-  </head>
-
-  <body>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-774512-9', {'siteSpeedSampleRate': 100});
-        ga('require', 'displayfeatures');
-        ga('send', 'pageview');
-
-    </script>
-
-    <a href="#content" class="sr-only">Zum Hauptinhalt</a>
-
-    <!-- Static navbar -->
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">mehr-schulferien.de</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <% available_years.each do |year| %>
-              <% if @year && year == @year && !['min_maxes', 'special_calendars'].include?(controller.controller_name) %>
-                <li class="dropdown active">
-              <% else %>
-                <li class="dropdown">
-              <% end %>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= year %> <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <% FederalState.all.each do |federal_state| %>
-                    <li><%= link_to federal_state, federal_state_year_path(federal_state, year) %></li>
-                  <% end %>
-                </ul>
-              </li>
-            <% end %>
-            <li class="dropdown<%= ['min_maxes', 'special_calendars'].include?(controller.controller_name) ? ' active' : '' %>">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Spezialkalender <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><%= link_to 'Inverser Schulferienkalender', special_calendars_inverse_path %></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Urlaubstage Optimierer</li>
-                <% FederalState.all.each do |federal_state| %>
-                  <li><%= link_to federal_state, federal_state_year_min_max_path(federal_state, Year.where(value: Date.today.year + 1).first,MinMax.where(number_of_vacation_days: (cookies[:number_of_vacation_days] || 24)).first) %></li>
-                <% end %>
-              </ul>
-            </li>
-
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="hidden-xs"><a href="http://github.com/wintermeyer/mehr-schulferien.de">Github</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-
-    <div class="container" id="content">
-      <%= breadcrumbs style: :bootstrap %>
-
-      <% if flash.any? %>
-        <% flash.each do |name, msg| %>
-          <div class="alert alert-<%= "#{name == :notice ? 'success' : 'error'}" %> fade in">
-            <p><strong><%= msg %></strong></p>
-          </div>
-        <% end %>
-      <% end %>
-
-      <%= yield %>
-    </div> <!-- /container -->
-
-    <footer>
-      <div class="container">
-        <hr />
-        <p>Copyright 2014 by <a href="http://wintermeyer.de">Stefan Wintermeyer</a> :: <a href="https://plus.google.com/103611530021484137163?rel=author">Google+</a> :: <%= link_to 'Impressum', page_about_us_path %></p>
-        <p><small><em>Eine Haftung für die Richtigkeit der Veröffentlichungen, Daten und Links kann nicht übernommen werden.</em></small></p>
-      </div>
-    </footer> <!-- /footer -->
-  </body>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-774512-9', 'auto');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+  </script>
+</body>
 </html>

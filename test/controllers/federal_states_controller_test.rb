@@ -18,7 +18,7 @@ class FederalStatesControllerTest < ActionController::TestCase
 
   test "should create federal_state" do
     assert_difference('FederalState.count') do
-      post :create, federal_state: { country_id: @federal_state.country_id, name: @federal_state.name, slug: @federal_state.slug }
+      post :create, federal_state: { country_id: @federal_state.country_id, name: @federal_state.name, slug: @federal_state.slug, url: @federal_state.url }
     end
 
     assert_redirected_to federal_state_path(assigns(:federal_state))
@@ -35,7 +35,7 @@ class FederalStatesControllerTest < ActionController::TestCase
   end
 
   test "should update federal_state" do
-    patch :update, id: @federal_state, federal_state: { country_id: @federal_state.country_id, name: @federal_state.name, slug: @federal_state.slug }
+    patch :update, id: @federal_state, federal_state: { country_id: @federal_state.country_id, name: @federal_state.name, slug: @federal_state.slug, url: @federal_state.url }
     assert_redirected_to federal_state_path(assigns(:federal_state))
   end
 

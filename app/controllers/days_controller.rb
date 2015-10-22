@@ -29,9 +29,9 @@ class DaysController < ApplicationController
     respond_to do |format|
       if @day.save
         format.html { redirect_to @day, notice: 'Day was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @day }
+        format.json { render :show, status: :created, location: @day }
       else
-        format.html { render action: 'new' }
+        format.html { render :new }
         format.json { render json: @day.errors, status: :unprocessable_entity }
       end
     end
@@ -43,9 +43,9 @@ class DaysController < ApplicationController
     respond_to do |format|
       if @day.update(day_params)
         format.html { redirect_to @day, notice: 'Day was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render :show, status: :ok, location: @day }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @day.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +56,7 @@ class DaysController < ApplicationController
   def destroy
     @day.destroy
     respond_to do |format|
-      format.html { redirect_to days_url }
+      format.html { redirect_to days_url, notice: 'Day was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +69,6 @@ class DaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def day_params
-      params.require(:day).permit(:value, :slug, :month_id)
+      params.require(:day).permit(:value, :month_id)
     end
 end

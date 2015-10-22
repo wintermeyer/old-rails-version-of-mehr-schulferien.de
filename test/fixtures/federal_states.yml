@@ -1,65 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-baden-wuerttemberg:
-  country_id: 1
-  name: Baden-Württemberg
+one:
+  country_id: 
+  name: MyString
+  slug: MyString
+  url: MyString
 
-bayern:
-  country_id: 1
-  name: Bayern
-
-berlin:
-  country_id: 1
-  name: Berlin
-
-brandenburg:
-  country_id: 1
-  name: Brandenburg
-
-bremen:
-  country_id: 1
-  name: Bremen
-
-hamburg:
-  country_id: 1
-  name: Hamburg
-
-hessen:
-  country_id: 1
-  name: Hessen
-
-mecklenburg-vorpommern:
-  country_id: 1
-  name: Mecklenburg-Vorpommern
-
-niedersachsen:
-  country_id: 1
-  name: Niedersachsen
-
-nordrhein-westfalen:
-  country_id: 1
-  name: Nordrhein-Westfalen
-
-rheinland-pfalz:
-  country_id: 1
-  name: Rheinland-Pfalz
-
-saarland:
-  country_id: 1
-  name: Saarland
-
-sachsen:
-  country_id: 1
-  name: Sachsen
-
-sachsen-anhalt:
-  country_id: 1
-  name: Sachsen-Anhalt
-
-schleswig-holstein:
-  country_id: 1
-  name: Schleswig-Holstein
-
-thueringen:
-  country_id: 1
-  name: Thüringen
+two:
+  country_id: 
+  name: MyString
+  slug: MyString
+  url: MyString

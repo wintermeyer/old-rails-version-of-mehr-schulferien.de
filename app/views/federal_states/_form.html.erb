@@ -4,8 +4,8 @@
       <h2><%= pluralize(@federal_state.errors.count, "error") %> prohibited this federal_state from being saved:</h2>
 
       <ul>
-      <% @federal_state.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% @federal_state.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
       </ul>
     </div>
@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :country_id %><br>
-    <%= f.number_field :country_id %>
+    <%= f.text_field :country_id %>
   </div>
   <div class="field">
     <%= f.label :name %><br>
@@ -22,6 +22,10 @@
   <div class="field">
     <%= f.label :slug %><br>
     <%= f.text_field :slug %>
+  </div>
+  <div class="field">
+    <%= f.label :url %><br>
+    <%= f.text_field :url %>
   </div>
   <div class="actions">
     <%= f.submit %>

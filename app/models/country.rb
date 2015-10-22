@@ -1,12 +1,8 @@
 class Country < ActiveRecord::Base
-  extend FriendlyId
-  friendly_id :name, use: :slugged
+  has_many :federal_states, -> {order('federal_states.name')}
 
-  has_many :federal_states, dependent: :destroy
-  has_many :slots, as: :slotable, dependent: :destroy
-  has_many :days, through: :slots
-  has_many :vacation_periods, as: :vacation_periodable, dependent: :destroy
-
+  # Validations
+  #
   validates :name,
             presence: true,
             uniqueness: true
@@ -14,5 +10,4 @@ class Country < ActiveRecord::Base
   def to_s
     name
   end
-
 end

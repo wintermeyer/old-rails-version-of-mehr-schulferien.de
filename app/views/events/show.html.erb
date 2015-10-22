@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Starts on:</strong>
+  <%= @event.starts_on %>
+</p>
+
+<p>
+  <strong>Ends on:</strong>
+  <%= @event.ends_on %>
+</p>
+
+<p>
+  <strong>Summary:</strong>
+  <%= @event.summary %>
+</p>
+
+<p>
+  <strong>Eventable:</strong>
+  <%= @event.eventable %>
+</p>
+
+<p>
+  <strong>Event type:</strong>
+  <%= @event.event_type %>
+</p>
+
+<p>
+  <strong>Religion:</strong>
+  <%= @event.religion %>
+</p>
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>

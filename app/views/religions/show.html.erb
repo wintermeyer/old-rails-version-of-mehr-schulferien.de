@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @religion.name %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @religion.slug %>
+</p>
+
+<%= link_to 'Edit', edit_religion_path(@religion) %> |
+<%= link_to 'Back', religions_path %>

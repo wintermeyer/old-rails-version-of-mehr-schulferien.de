@@ -1,65 +1,126 @@
-<% breadcrumb :federal_state, @federal_state %>
-
-<% content_for :meta_description do %>
-Schulferien in <%= @year %> für das Bundesland <%= @federal_state %>.
-<% end %>
-<% content_for :html_title do %>
-Schulferienkalender <%= @year %> für das Bundesland <%= @federal_state %>
-<% end %>
-
-<% content_for :twitter_card do %>
-  <% cache ['Twitter Card', @federal_state, @year] do %>
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@mehrschulferien">
-    <meta name="twitter:creator" content="@mehrschulferien">
-    <meta name="twitter:title" content="Schulferien in <%= @year %> für <%= @federal_state %>.">
-    <meta name="twitter:description" content="Ein Ferienkalender für das Jahr <%= @year %> mit allen Schulferienterminen und Feiertagen für das Bundesland <%= @federal_state %>.">
+<% cache([@months, @federal_state, @religion, @modus]) do %>
+  <% content_for :html_title do %>
+  <% if @modus == 'invers' %>
+  Invers-Ansicht
   <% end %>
-<% end %>
+  Schulferien <%= @federal_state %>
+  <% if @year %>
+  <%= @year %>
+  <% end %>
+  <% if @religion %>
+    (<%= @religion.name %>)
+  <% end %>
+  <% end %>
 
-<div class="page-header">
+  <ol class="breadcrumb">
+    <li><%= link_to "Startseite", root_path %></li>
+    <% if @year %>
+      <li><%= link_to @federal_state, @federal_state %></li>
+      <li class="active"><%= @year %></li>
+    <% else %>
+      <li class="active"><%= @federal_state.name %></li>
+    <% end %>
+  </ol>
+
+  <div class="page-header">
+    <h1>
+      <% if @modus == 'invers' %>
+      Invers-Ansicht
+      <% end %>
+      Schulferien <%= @federal_state %>
+      <% if @religion %>
+        <small><%= @religion.name %></small>
+      <% end %>
+    </h1>
+  </div>
+
+  <% if @year && @federal_state.events.where(starts_on: Date.parse("01.01.#{@year.value}")..Date.parse("31.12.#{@year.value}")).where(event_type: EventType.find_by_name('Feiertage')).none? %>
+    <div class="alert alert-danger" role="alert">Für diesen Zeitraum wurden noch keine gesetzlichen Feiertage hinterlegt.</div>
+  <% end %>
+
   <div class="row">
     <div class="col-sm-8">
-      <h1><%= @federal_state %> <br class="visible-xs"><small>Jan. - Dez. <%= @year %></small></h1>
-    </div>
-    <div class="col-sm-4">
-      <% cache ['Pagination years', available_years, @year, @federal_state] do %>
-        <% pagination_years = available_years %>
-        <ul class="pagination pull-right">
-          <% if pagination_years.first == @year %>
-            <li class="disabled"><a href="#">&laquo;</a></li>
-          <% else %>
-            <li><%= link_to federal_state_year_path(@federal_state, pagination_years[pagination_years.index(@year) - 1]) do %>&laquo;<% end %></li>
-          <% end %>
-          <% pagination_years.each do |pagination_year| %>
-            <% if @year == pagination_year %>
-              <li class='active'><%= link_to "#{pagination_year} ", federal_state_year_path(@federal_state, pagination_year) %></li>
-            <% else %>
-              <li><%= link_to "#{pagination_year} ", federal_state_year_path(@federal_state, pagination_year) %></li>
+      <% if @religions && @religions.any? %>
+        <div class="row">
+          <div class="col-sm-12">
+            <p>
+            <% if @religion %>
+              <% if @year %>
+                <%= link_to "Ohne Angabe", federal_state_year_path(@federal_state, @year), class: "btn btn-sm btn-default" %>
+              <% else %>
+                <%= link_to "Ohne Angabe", @federal_state, class: "btn btn-sm btn-default" %>
+              <% end %>
             <% end %>
-          <% end %>
-          <% if pagination_years.last == @year %>
-            <li class="disabled"><a href="#">&laquo;</a></li>
+            <% @religions.each do |religion| %>
+              <% if @year %>
+                <% if religion == @religion %>
+                  <%= link_to religion, federal_state_year_religion_path(@federal_state, @year, religion), class: "btn btn-sm btn-default", disabled: true %>
+                <% else %>
+                  <%= link_to religion, federal_state_religion_path(@federal_state, religion), class: "btn btn-sm btn-default" %>
+                <% end %>
+              <% else %>
+                <% if religion == @religion %>
+                  <%= link_to religion, federal_state_religion_path(@federal_state, religion), class: "btn btn-sm btn-default", disabled: true %>
+                <% else %>
+                  <%= link_to religion, federal_state_religion_path(@federal_state, religion), class: "btn btn-sm btn-default" %>
+                <% end %>
+              <% end %>
+            <% end %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @modus == 'invers' %>
+        <p>
+          Diese Seite zeigt alle <strong>Schultage mit der Farbe grün </strong>an. Zu diesen Terminen kann man normalerweise günstiger Urlaubsreisen buchen.
+          <% if @year %>
+            <%= link_to "Zur Normal-Ansicht.", federal_state_year_path(@federal_state, @year) %>
           <% else %>
-            <li><%= link_to federal_state_year_path(@federal_state, pagination_years[pagination_years.index(@year) + 1]) do %>&raquo;<% end %></li>
-          <% end %>          
-        </ul>
+            <%= link_to "Zur Normal-Ansicht.", federal_state_path(@federal_state) %>
+          <% end %>
+        </p>
+      <% else %>
+        <p><strong>Alternative Ansicht:</strong>
+          <% if @year %>
+            <%= link_to "Invers (zur optimalen Urlaubsplanung)", federal_state_year_path(@federal_state, @year, modus: 'invers') %>
+          <% else %>
+            <%= link_to "Invers (zur optimalen Urlaubsplanung)", federal_state_path(@federal_state, modus: 'invers') %>
+          <% end %>
       <% end %>
     </div>
+    <div class="col-sm-4">
+      <%= render partial: "shared/ad" rescue nil%>
+    </div>
   </div>
-</div>
+<% end %>
 
-<div class="row">
-  <div class="col-sm-9">
-    <% cache ['Jahreskalender', @year, @federal_state, @months] do %>
-      <%= render partial: "shared/calendar_18_months", locals: {months: @months, resource: @federal_state} %>
+<% @months.each_slice(3) do |months_in_a_row| %>
+  <% cache([months_in_a_row, @federal_state, @religion, @modus]) do %>
+    <div class="row">
+    <% months_in_a_row.each do |month| %>
+      <div class="col-sm-4">
+        <%= render partial: "shared/month", locals: {month: month, federal_state: @federal_state, religion: @religion, modus: @modus} %>
+
+        <% if month.events.where(eventable: @federal_state).where(religion: [nil, @religion]).where(event_type: EventType.find_by_name('Ferien')).any? %>
+          <% event_types = ['Ferien', 'Feiertage'] %>
+        <% else %>
+          <% event_types = ['Feiertage'] %>
+        <% end %>
+
+        <% if @modus == 'invers' %>
+          <% event_types = ['Feiertage'] %>
+        <% end %>
+
+        <div class="row">
+          <% event_types.each do |event_type| %>
+            <div class="col-md-<%= 12 / event_types.size %>">
+              <%= render partial: "shared/list_events", locals: {month: month, federal_state: @federal_state, religion: @religion, event_type: EventType.find_by_name(event_type), modus: @modus} %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     <% end %>
-  </div>
-  <div class="col-sm-3">
-    <%= render 'shared/panels/social_media' %>
-    <%= render 'shared/panels/version_info' %>
-    <%= render 'shared/panels/spickzettel' %>
-    <%= render partial: "federal_states/table_of_cities_panel", locals: {federal_state: @federal_state} %>
-    <%= render 'shared/panels/roadmap' %>
-  </div>
-</div>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,73 @@
+:output:
+  Event:
+    :options:
+      :fields:
+      - id
+      - starts_on
+      - ends_on
+      - summary
+      - eventable
+      - event_type
+  Day:
+    :options:
+      :fields:
+      - id
+      - value
+      - month
+      - wday
+      - position
+  Country:
+    :options:
+      :fields:
+      - id
+      - name
+  Slot:
+    :options:
+      :fields:
+      - id
+      - event
+      - day
+  Year:
+    :options:
+      :fields:
+      - id
+      - value
+  Month:
+    :options:
+      :fields:
+      - id
+      - value
+      - year
+  FederalState:
+    :options:
+      :fields:
+      - id
+      - name
+      - slug
+      - country
+  Religion:
+    :options:
+      :fields:
+      - id
+      - name
+      - slug
+  EventType:
+    :options:
+      :fields:
+      - id
+      - name
+      - css_class
+  City:
+    :options:
+      :fields:
+      - id
+      - name
+      - zip_code
+      - federal_state
+  School:
+    :options:
+      :fields:
+      - id
+      - name
+      - zip_code
+      - city

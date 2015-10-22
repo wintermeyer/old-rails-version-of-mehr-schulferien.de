@@ -1,24 +1,34 @@
 class YearsController < ApplicationController
-  before_action :set_federal_state, only: [:show, :index]
   before_action :set_year, only: [:show, :edit, :update, :destroy]
+  before_action :set_federal_state, only: [:show]
 
   # GET /years
   # GET /years.json
   def index
-    @years = available_years
+    @years = Year.all
   end
 
   # GET /years/1
   # GET /years/1.json
   def show
-    expires_in 1.hour, :public => false
-    cookies[:last_federal_state] = @federal_state.slug
+    @religions = @federal_state.events.where.not(religion: nil).map{|e| e.religion}.uniq
 
-    @months = @year.months.order(:value)
-    
-    if @year && @federal_state
-      fresh_when etag: [current_user, @year, @federal_state]
+    # All month of @year plus the first 3 months of the
+    # following year.
+    #
+    @months = Month.where(year_id: [@year, Year.find_by_value(@year.value + 1)]).limit(15)
+
+    # Set a modus
+    #
+    if params[:modus]
+      @modus = params[:modus]
     end
+
+    # Caching
+    #
+    expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
+    last_update = [@year.updated_at, @federal_state.updated_at].sort.last.utc
+    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   # GET /years/new
@@ -38,9 +48,9 @@ class YearsController < ApplicationController
     respond_to do |format|
       if @year.save
         format.html { redirect_to @year, notice: 'Year was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @year }
+        format.json { render :show, status: :created, location: @year }
       else
-        format.html { render action: 'new' }
+        format.html { render :new }
         format.json { render json: @year.errors, status: :unprocessable_entity }
       end
     end
@@ -52,9 +62,9 @@ class YearsController < ApplicationController
     respond_to do |format|
       if @year.update(year_params)
         format.html { redirect_to @year, notice: 'Year was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render :show, status: :ok, location: @year }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @year.errors, status: :unprocessable_entity }
       end
     end
@@ -65,31 +75,23 @@ class YearsController < ApplicationController
   def destroy
     @year.destroy
     respond_to do |format|
-      format.html { redirect_to years_url }
+      format.html { redirect_to years_url, notice: 'Year was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    def set_federal_state
-      if params[:federal_state_id]
-        @federal_state = FederalState.where(id: params[:federal_state_id]).first
-        if @federal_state.nil?
-          @federal_state = FederalState.where(slug: params[:federal_state_id]).first
-        end
-      end
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_year
-      @year = available_years.where(id: params[:id]).first
-      if @year.nil?
-        @year = available_years.where(slug: params[:id]).first
-      end
+      @year = Year.friendly.find(params[:id])
+    end
+
+    def set_federal_state
+      @federal_state = FederalState.friendly.find(params[:federal_state_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def year_params
-      params.require(:year).permit(:value, :slug)
+      params.require(:year).permit(:value)
     end
 end

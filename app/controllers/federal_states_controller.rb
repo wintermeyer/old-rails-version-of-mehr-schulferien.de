@@ -5,22 +5,31 @@ class FederalStatesController < ApplicationController
   # GET /federal_states.json
   def index
     @federal_states = FederalState.all
-
-    expires_in 1.hour, :public => false
-    fresh_when etag: [current_user, @federal_states]
   end
 
   # GET /federal_states/1
   # GET /federal_states/1.json
   def show
-    @months = []
-    (0..12).each do |i|
-      @months << Day.where(value: (Date.today + i.months)).first.month
-    end
-    cookies[:last_federal_state] = @federal_state.slug
+    @religions = @federal_state.events.where.not(religion: nil).map{|e| e.religion}.uniq
 
-    expires_in 1.hour, :public => false
-    fresh_when etag: [current_user, @months, @federal_state]
+    # The months beginning by the current one
+    # until end of next year.
+    #
+    year = Year.find_by_value(Date.today.year)
+    current_month = Month.find_by_value_and_year_id(Date.today.month, year.id)
+    @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id)
+
+    # Set a modus
+    #
+    if params[:modus]
+      @modus = params[:modus]
+    end
+
+    # Caching
+    #
+    expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
+    last_update = @federal_state.updated_at.utc
+    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   # GET /federal_states/new
@@ -40,9 +49,9 @@ class FederalStatesController < ApplicationController
     respond_to do |format|
       if @federal_state.save
         format.html { redirect_to @federal_state, notice: 'Federal state was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @federal_state }
+        format.json { render :show, status: :created, location: @federal_state }
       else
-        format.html { render action: 'new' }
+        format.html { render :new }
         format.json { render json: @federal_state.errors, status: :unprocessable_entity }
       end
     end
@@ -54,9 +63,9 @@ class FederalStatesController < ApplicationController
     respond_to do |format|
       if @federal_state.update(federal_state_params)
         format.html { redirect_to @federal_state, notice: 'Federal state was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render :show, status: :ok, location: @federal_state }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @federal_state.errors, status: :unprocessable_entity }
       end
     end
@@ -67,7 +76,7 @@ class FederalStatesController < ApplicationController
   def destroy
     @federal_state.destroy
     respond_to do |format|
-      format.html { redirect_to federal_states_url }
+      format.html { redirect_to federal_states_url, notice: 'Federal state was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -75,15 +84,11 @@ class FederalStatesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_federal_state
-      if FederalState.where(slug: params[:id]).any?
-        @federal_state = FederalState.where(slug: params[:id]).first
-      else
-        @federal_state = FederalState.where(id: params[:id]).first
-      end
+      @federal_state = FederalState.friendly.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def federal_state_params
-      params.require(:federal_state).permit(:country_id, :name, :slug)
+      params.require(:federal_state).permit(:country_id, :name, :slug, :url)
     end
 end

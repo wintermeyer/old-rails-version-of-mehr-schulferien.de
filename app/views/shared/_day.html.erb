@@ -1,0 +1,17 @@
+<% if modus && modus == 'invers' %>
+  <% if day.public_holiday?(federal_state) %>
+    <td class="text-right info"><%= day.value.day %>.</td>
+  <% else %>
+    <% if day.weekend? %>
+      <td class="text-right active"><%= day.value.day %>.</td>
+    <% else %>
+      <td class="text-right <%= "success" if day.school_day?(federal_state, religion) %>">
+        <%= day.value.day %>.
+      </td>
+    <% end %>
+  <% end %>
+<% else %>
+  <td class="text-right <%= day.events.first.event_type.css_class if !day.school_day?(federal_state, religion) %>">
+    <%= day.value.day %>.
+  </td>
+<% end %>

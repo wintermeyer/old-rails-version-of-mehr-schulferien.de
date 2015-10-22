@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  federal_state_id: 1
   name: MyString
   slug: MyString
   zip_code: MyString
+  federal_state_id: 
 
 two:
-  federal_state_id: 1
   name: MyString
   slug: MyString
   zip_code: MyString
+  federal_state_id: 

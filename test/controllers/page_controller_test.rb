@@ -11,14 +11,4 @@ class PageControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get developer" do
-    get :developer
-    assert_response :success
-  end
-
-  test "should get api" do
-    get :api
-    assert_response :success
-  end
-
 end

@@ -18,7 +18,7 @@ class YearsControllerTest < ActionController::TestCase
 
   test "should create year" do
     assert_difference('Year.count') do
-      post :create, year: { slug: @year.slug, value: @year.value }
+      post :create, year: { value: @year.value }
     end
 
     assert_redirected_to year_path(assigns(:year))
@@ -35,7 +35,7 @@ class YearsControllerTest < ActionController::TestCase
   end
 
   test "should update year" do
-    patch :update, id: @year, year: { slug: @year.slug, value: @year.value }
+    patch :update, id: @year, year: { value: @year.value }
     assert_redirected_to year_path(assigns(:year))
   end
 

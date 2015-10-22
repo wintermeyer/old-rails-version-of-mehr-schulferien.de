@@ -1,0 +1,25 @@
+<% if month.events.where(eventable: federal_state).where(religion: [nil, religion]).where(event_type: event_type).any? %>
+  <h4><%= event_type %></h4>
+  <dl>
+    <% month.events.where(eventable: federal_state).where(religion: [nil, religion]).where(event_type: event_type).each do |event| %>
+    <% if event.summary.split(/ /)[0].length > 18 %>
+      <dt><%= truncate(event.summary, length: 18) %></dt>
+    <% else %>
+      <dt><%= event.summary %></dt>
+    <% end %>
+    <dd>
+      <% if event.starts_on != event.ends_on %>
+        <%= "#{I18n.l(event.starts_on, format: :short).strip} - #{I18n.l(event.ends_on, format: :short).strip}" %>
+      <% else %>
+        <%= "#{I18n.l(event.starts_on, format: :short).strip}" %>
+      <% end %>
+
+      <% if modus != 'invers' && event.total_number_of_non_school_days(federal_state, religion) > 1 %>
+        <% if event.event_type == EventType.find_by_name('Ferien') || Day.find_by_value(event.starts_on).events.where(eventable: federal_state).where(event_type: EventType.find_by_name('Ferien')).none? %>
+          <span class="label <%= "label-#{event.event_type.css_class}" %>"><%= "#{event.total_number_of_non_school_days(federal_state, religion)}" %> Tage</span>
+        <% end %>
+      <% end %>
+    </dd>
+    <% end %>
+  </dl>
+<% end %>

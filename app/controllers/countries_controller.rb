@@ -29,9 +29,9 @@ class CountriesController < ApplicationController
     respond_to do |format|
       if @country.save
         format.html { redirect_to @country, notice: 'Country was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @country }
+        format.json { render :show, status: :created, location: @country }
       else
-        format.html { render action: 'new' }
+        format.html { render :new }
         format.json { render json: @country.errors, status: :unprocessable_entity }
       end
     end
@@ -43,9 +43,9 @@ class CountriesController < ApplicationController
     respond_to do |format|
       if @country.update(country_params)
         format.html { redirect_to @country, notice: 'Country was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render :show, status: :ok, location: @country }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @country.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +56,7 @@ class CountriesController < ApplicationController
   def destroy
     @country.destroy
     respond_to do |format|
-      format.html { redirect_to countries_url }
+      format.html { redirect_to countries_url, notice: 'Country was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

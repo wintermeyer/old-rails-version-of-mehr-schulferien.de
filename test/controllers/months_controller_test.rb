@@ -18,7 +18,7 @@ class MonthsControllerTest < ActionController::TestCase
 
   test "should create month" do
     assert_difference('Month.count') do
-      post :create, month: { slug: @month.slug, value: @month.value, year_id: @month.year_id }
+      post :create, month: { value: @month.value, year_id: @month.year_id }
     end
 
     assert_redirected_to month_path(assigns(:month))
@@ -35,7 +35,7 @@ class MonthsControllerTest < ActionController::TestCase
   end
 
   test "should update month" do
-    patch :update, id: @month, month: { slug: @month.slug, value: @month.value, year_id: @month.year_id }
+    patch :update, id: @month, month: { value: @month.value, year_id: @month.year_id }
     assert_redirected_to month_path(assigns(:month))
   end
 

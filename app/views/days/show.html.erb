@@ -1,16 +1,13 @@
+<p id="notice"><%= notice %></p>
+
 <p>
   <strong>Value:</strong>
   <%= @day.value %>
 </p>
 
 <p>
-  <strong>Slug:</strong>
-  <%= @day.slug %>
-</p>
-
-<p>
   <strong>Month:</strong>
-  <%= @day.month_id %>
+  <%= @day.month %>
 </p>
 
 <%= link_to 'Edit', edit_day_path(@day) %> |

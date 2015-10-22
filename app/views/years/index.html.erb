@@ -1,21 +1,12 @@
-<% breadcrumb :federal_state, @federal_state %>
+<p id="notice"><%= notice %></p>
 
-<% content_for :meta_description do %>
-Schulferienkalenderjahre für das Bundesland <%= @federal_state %>.
-<% end %>
-<% content_for :html_title do %>
-Schulferienkalenderjahre für das Bundesland <%= @federal_state %>.
-<% end %>
+<h1>Listing Years</h1>
 
-<div class="page-header">
-  <h1>Schulferienkalenderjahre<br><small><%= @federal_state %></small></h1>
-</div>
-
-<table class="table">
+<table>
   <thead>
     <tr>
-      <th>Jahr</th>
-      <th></th>
+      <th>Value</th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -23,8 +14,14 @@ Schulferienkalenderjahre für das Bundesland <%= @federal_state %>.
     <% @years.each do |year| %>
       <tr>
         <td><%= year.value %></td>
-        <td><%= link_to 'Show', federal_state_year_path(@federal_state, year), class: 'btn btn-default' %></td>
+        <td><%= link_to 'Show', year %></td>
+        <td><%= link_to 'Edit', edit_year_path(year) %></td>
+        <td><%= link_to 'Destroy', year, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<br>
+
+<%= link_to 'New Year', new_year_path %>

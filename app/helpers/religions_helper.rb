@@ -1,0 +1,2 @@
+module ReligionsHelper
+end

@@ -1,86 +1,96 @@
-<% breadcrumb :school, @school %>
-
-<% content_for :meta_description do %>
-Schulferien in den nächsten 18 Monaten für die Schule <%= @school %> aus <%= @school.city %>.
-<% end %>
 <% content_for :html_title do %>
-Schulferien in den nächsten 18 Monaten für die Schule <%= @school %> aus <%= @school.city %>.
+Schulferien <%= @school %> - <%= @city %> (<%= @city.federal_state %>)
 <% end %>
+
+<ol class="breadcrumb">
+  <li><%= link_to "Startseite", root_path %></li>
+  <li><%= link_to @federal_state, @federal_state %></li>
+  <li><%= link_to @city, @city %></li>
+  <li class="active"><%= @school %></li>
+</ol>
 
 <div class="page-header">
-  <% if @school.to_s.size < 30 %>
-    <h1><%= @school %> <br class="visible-xs"><small>18-Monats-Übersicht</small></h1>
-  <% else %>
-    <h1><%= truncate(@school.to_s, length: 45) %><br><small>18-Monats-Übersicht</small></h1>
-  <% end %>
+  <h1>
+    Schulferien <%= @school %>
+    <small><%= @city %> (<%= @city.federal_state %>)</small>
+  </h1>
+</div>
+
+<% if @year && @federal_state.events.where(starts_on: Date.parse("01.01.#{@year.value}")..Date.parse("31.12.#{@year.value}")).where(event_type: EventType.find_by_name('Feiertage')).none? %>
+  <div class="alert alert-danger" role="alert">Für diesen Zeitraum wurden noch keine gesetzlichen Feiertage hinterlegt.</div>
+<% end %>
+
+<div class="alert alert-danger" role="alert">Für diese Schule sind in unserer Datenbank keine beweglichen Ferientage hinterlegt. Entsprechend ist die Aufstellung unvollständig!</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <p>Für die Urlaubsplanung von Nicht-Eltern/Schülern finden Sie in der <%= link_to "Invers-Ansicht von #{@city.federal_state}", federal_state_path(@federal_state, modus: 'invers') %> eine Übersicht, die Ihnen die Zeiten mit den günstigsten Reiseterminen darstellt.</p>
+  </div>
 </div>
 
 <div class="row">
-  <div class="col-sm-9">
-    <%# cache [@school.city.federal_state, @months] do %>
-      <%= render partial: "shared/calendar_18_months", locals: {months: @months, resource: @school} %>
-    <%# end %>
-  </div>
-  <div class="col-sm-3">
-    <%= render 'shared/panels/social_media' %>
+  <div class="col-md-9">
+    <% @months.each_slice(3) do |months_in_a_row| %>
+      <div class="row">
+        <% months_in_a_row.each do |month| %>
+          <div class="col-md-4">
+            <%= render partial: "shared/month", locals: {month: month, federal_state: @federal_state, religion: @religion, modus: @modus} %>
 
-    <%= render 'shared/panels/version_info' %>
-    
-    <div class="hidden-xs">
-      <a href="https://maps.google.com/maps?q=<%= "#{URI.encode(@school.komma_seperated_address)}" %>&hl=de&t=m" class="thumbnail">
-        <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= URI.encode(@school.komma_seperated_address) %>&markers=color:blue%7Clabel:S%7C<%= URI.encode(@school.komma_seperated_address) %>&zoom=12&size=300x300&sensor=false" alt="Google Maps Landkarte mit der Position dieser Schule">
-      </a>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">Adresse</div>
-      <div class="panel-body">
-        <address>
-
-          <strong><%= @school.address_line1 %></strong><br>
-          <%= @school.street %><br>
-          <%= "#{@school.zip_code} #{@school.address_city_name}" %><br>
-          <% if !@school.phone_number.blank? %>
-            Tel. <%= link_to @school.phone_number, "tel:#{@school.phone_number}" %><br>
-          <% end %>
-          <% if !@school.fax_number.blank? %>
-            Fax. <%= @school.fax_number %><br>
-          <% end %>
-        </address>
-        <% if !@school.email.blank? %>
-          <p>
-            <strong>E-Mail:</strong><br><%= mail_to @school.email, @school.email %>
-          </p>
-        <% end %>
-        <% if !@school.homepage.blank? %>
-          <p>
-            <strong>Homepage:</strong><br><%= link_to @school.homepage.gsub(/http:\/\//,'').gsub(/www\./,'').gsub(/\/$/,''), @school.homepage %>
-          </p>
-        <% end %>
-        <p><strong>vCard:</strong><br><%= link_to school_path(@school, format: :vcf) do %>
-        <span class="glyphicon glyphicon-download"></span> Download vcard (vcf)
-        <% end %>
-        </p>
-
-        <p class="pull-right">
-          <%= link_to edit_school_path(@school) do %>
-            <span class="glyphicon glyphicon-edit"></span> Eintrag editieren
-          <% end %>
-        <p>
-      </div>
-    </div>
-
-    <% if @school.city.schools.count > 1 %>
-      <div class="panel panel-default">
-        <div class="panel-heading">Weitere Schulen in <%= @school.city %></div>
-        <div class="panel-body">
-          <ul>
-            <% @school.city.schools.where.not(id: @school.id).order(:name).each do |school| %>
-              <li><%= link_to school, school %></li>
+            <% if month.events.where(eventable: @federal_state).where(religion: [nil, @religion]).where(event_type: EventType.find_by_name('Ferien')).any? %>
+              <% event_types = ['Ferien', 'Feiertage'] %>
+            <% else %>
+              <% event_types = ['Feiertage'] %>
             <% end %>
-          </ul>
-        </div>
+
+            <% if @modus == 'invers' %>
+              <% event_types = ['Feiertage'] %>
+            <% end %>
+
+            <div class="row">
+              <% event_types.each do |event_type| %>
+                <div class="col-md-<%= 12 / event_types.size %>">
+                  <%= render partial: "shared/list_events", locals: {month: month, federal_state: @federal_state, religion: @religion, event_type: EventType.find_by_name(event_type), modus: @modus} %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       </div>
     <% end %>
+  </div>
+  <div class="col-md-3">
+    <address>
+      <strong><%= @school.address_line1 %></strong><br>
+      <% if !@school.address_line2.blank? %><%= @school.address_line2 %><br><% end %>
+      <% if !@school.street.blank? %><%= @school.street %><br><% end %>
+      <% if !@school.city.blank? %><%= @school.zip_code %> <%= @school.city %><br><% end %>
+      <% if !@school.phone_number.blank? %><abbr title="Telefon">Tel.:</abbr> <%= @school.phone_number %><br><% end %>
+      <% if !@school.fax_number.blank? %><abbr title="Telefax">Fax.:</abbr> <%= @school.fax_number %><% end %>
+    </address>
+
+    <address>
+      <% if !@school.email %>
+      <a href="mailto:<%= @school.email %>"><%= @school.email %></a><br>
+      <% end %>
+      <% if !@school.homepage %>
+      <a href="<%= @school.homepage %>"><%= @school.homepage %></a>
+      <% end %>
+    </address>
+
+    <p>
+      <a href="https://maps.google.com/maps?q=<%= "#{URI.encode(@school.komma_seperated_address)}" %>&hl=de&t=m" class="thumbnail">
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= URI.encode(@school.komma_seperated_address) %>&markers=color:blue%7Clabel:S%7C<%= URI.encode(@school.komma_seperated_address) %>&zoom=12&size=250x250&sensor=false" alt="Google Maps Landkarte mit der Position dieser Schule" width="250" height="250">
+      </a>
+    </p>
+    <h2>Schulen in <%= @city %></h2>
+    <ul>
+      <% @city.schools.each do |school| %>
+        <% if @school != school %>
+          <li><%= link_to school, school %></li>
+        <% else %>
+          <li><%= school %></li>
+        <% end %>
+      <% end %>
+    </ul>
   </div>
 </div>

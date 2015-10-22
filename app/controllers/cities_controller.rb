@@ -10,16 +10,21 @@ class CitiesController < ApplicationController
   # GET /cities/1
   # GET /cities/1.json
   def show
-    @months = []
-    (0..12).each do |i|
-      @months << Day.where(value: (Date.today + i.months)).first.month
-    end
-    cookies[:last_federal_state] = @city.federal_state.slug
+    @federal_state = @city.federal_state
+    @religions = @federal_state.events.where.not(religion: nil).map{|e| e.religion}.uniq
 
-    if flash.none?
-      expires_in 1.hour, :public => false
-      fresh_when etag: [current_user, @city, @months]
-    end
+    # The months beginning by the current one
+    # until end of next year.
+    #
+    year = Year.find_by_value(Date.today.year)
+    current_month = Month.find_by_value_and_year_id(Date.today.month, year.id)
+    @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id)
+
+    # Caching
+    #
+    expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
+    last_update = [@city.updated_at, @federal_state.updated_at].sort.last.utc
+    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   # GET /cities/new
@@ -39,9 +44,9 @@ class CitiesController < ApplicationController
     respond_to do |format|
       if @city.save
         format.html { redirect_to @city, notice: 'City was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @city }
+        format.json { render :show, status: :created, location: @city }
       else
-        format.html { render action: 'new' }
+        format.html { render :new }
         format.json { render json: @city.errors, status: :unprocessable_entity }
       end
     end
@@ -53,9 +58,9 @@ class CitiesController < ApplicationController
     respond_to do |format|
       if @city.update(city_params)
         format.html { redirect_to @city, notice: 'City was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render :show, status: :ok, location: @city }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @city.errors, status: :unprocessable_entity }
       end
     end
@@ -66,7 +71,7 @@ class CitiesController < ApplicationController
   def destroy
     @city.destroy
     respond_to do |format|
-      format.html { redirect_to cities_url }
+      format.html { redirect_to cities_url, notice: 'City was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -74,15 +79,11 @@ class CitiesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_city
-      if City.where(slug: params[:id]).any?
-        @city = City.where(slug: params[:id]).first
-      else
-        @city = City.where(id: params[:id]).first
-      end
+      @city = City.friendly.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def city_params
-      params.require(:city).permit(:federal_state_id, :name, :slug, :zip_code)
+      params.require(:city).permit(:name, :slug, :zip_code, :federal_state_id)
     end
 end

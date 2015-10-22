@@ -18,7 +18,7 @@ class DaysControllerTest < ActionController::TestCase
 
   test "should create day" do
     assert_difference('Day.count') do
-      post :create, day: { month_id: @day.month_id, slug: @day.slug, value: @day.value }
+      post :create, day: { month_id: @day.month_id, value: @day.value }
     end
 
     assert_redirected_to day_path(assigns(:day))
@@ -35,7 +35,7 @@ class DaysControllerTest < ActionController::TestCase
   end
 
   test "should update day" do
-    patch :update, id: @day, day: { month_id: @day.month_id, slug: @day.slug, value: @day.value }
+    patch :update, id: @day, day: { month_id: @day.month_id, value: @day.value }
     assert_redirected_to day_path(assigns(:day))
   end
 

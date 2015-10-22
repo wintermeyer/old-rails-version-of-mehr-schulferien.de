@@ -1,81 +1,27 @@
-<% content_for :meta_description do %>
-Schulferien aller deutscher Bundesländer und bewegliche Ferientage der einzelnen Schulen.
-<% end %>
-<% content_for :html_title do %>
-mehr-schulferien.de
-<% end %>
-
-<% content_for :twitter_card do %>
-  <% cache ['Twitter Card', "#{Date.today.year}-#{Date.today.month}"] do %>
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@mehrschulferien">
-    <meta name="twitter:creator" content="@mehrschulferien">
-    <meta name="twitter:title" content="Schulferienkalender für alle Bundesländer">
-    <meta name="twitter:description" content="Ein Ferienkalender mit allen Schulferienterminen und Feiertagen für Deutschland. Inkl. bewegliche Ferientage für einzelne Schulen.">
-  <% end %>
-<% end %>
-
+<div class="page-header">
+  <h1>Schulferienkalender</h1>
+</div>
 <div class="row">
-  <div class="col-sm-9">
-    <ul class="nav nav-pills hide" id="federal_state_nav_pills">
-      <li role="presentation" class="active"><a href="/">Alle Bundesländer</a></li>
-      <% @federal_states.each do |federal_state| %>
-        <li role="presentation"><%= link_to federal_state, federal_state %></li>
-      <% end %>
-    </ul>
-    <hr />
-
-    <% cache ['quick_overview', @federal_states, @months] do %>
-      <p class="hidden-sm">
-        Alphabetisch sortierte 3-Monats-Übersicht aller Bundesländern.
-      </p>
-      <p class="visible-sm">
-        Alphabetisch sortierte 2-Monats-Übersicht aller Bundesländern.
-      </p>
-      <% @federal_states.each do |federal_state| %>
-        <%= render partial: "shared/quick_overview_row", locals: {months: @months, federal_state: federal_state} %>
-      <% end %>
-    <% end %>
+  <div class="col-sm-6">
+<p><%= link_to "Open-Source-Projekt", "https://github.com/wintermeyer/mehr-schulferien.de"%> für eine schnelle und barrierefreie Übersicht der Schulferien und Feiertagen (inkl. Sonderregelungen für verschiedene Religionen).</p>
   </div>
-  <div class="col-sm-3">
-    <%= render 'shared/panels/social_media' %>
-
-    <%= render 'shared/panels/version_info' %>
-
-    <%= render 'shared/panels/spickzettel' %>
-
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>Über dieses Projekt</strong></div>
-      <div class="panel-body">
-        <%= image_tag("http://www.gravatar.com/avatar/ad005fac83baa60843ddf2bc3bc8fe93", alt: "Avatar von Stefan Wintermeyer", align: 'right', class: 'img-rounded') %>
-        <p>
-        Ich hoffe auch Ihnen mit dieser Webseite bei der Urlaubsplanung helfen zu können. Bitte schicken Sie mir eine
-        <%= mail_to 'stefan.wintermeyer@amooma.de' do %><span class="glyphicon glyphicon-envelope"></span> E-Mail<% end %> oder einen Tweet mit Anregungen oder Kritik.
-        </p>
-  <a href="https://twitter.com/wintermeyer" class="twitter-follow-button" data-show-count="false" data-lang="de">@wintermeyer folgen</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-      </div>
-    </div>
-
-    <%= render 'shared/panels/roadmap' %>
-
-    <%= render 'shared/panels/crowdsourcing' %>
-
-    <% cache ['available_years_panel', available_years] do %>
-      <% available_years.each do |year| %>
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Schulferien <%= year %></strong></div>
-          <div class="panel-body">
-            <p>Bitte klicken Sie auf das gewünschte Bundesland:</p>
-            <ul>
-            <% @federal_states.each do |federal_state| %>
-              <li><%= link_to federal_state, federal_state_year_path(federal_state, year) %></li>
-            <% end %>
-            </ul>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-
+  <div class="col-sm-6">
+    <%= render partial: "shared/ad" rescue nil%>
   </div>
 </div>
+
+<% cache(['shared/table_of_years', cache_key_for_years, cache_key_for_federal_states]) do %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render partial: "shared/table_of_years", locals: {years: @years, federal_states: @federal_states, modus: nil} %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Invers-Ansicht</h2>
+      <p>Diese Ansicht eignet sich besonders für Nicht-Eltern, die ausserhalb der normalen Schulferien günstig Urlaub buchen möchten.</p>
+      <%= render partial: "shared/table_of_years", locals: {years: @years, federal_states: @federal_states, modus: 'invers'} %>
+    </div>
+  </div>
+<% end %>

@@ -2,10 +2,8 @@
 
 one:
   value: 1
-  slug: MyString
-  year_id: 1
+  year_id: 
 
 two:
   value: 1
-  slug: MyString
-  year_id: 1
+  year_id: 

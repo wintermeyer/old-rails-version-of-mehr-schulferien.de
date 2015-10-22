@@ -1,0 +1,28 @@
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Bundesland</th>
+      <th colspan="<%= years.size %>">
+        Zeitraum
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% federal_states.each do |federal_state| %>
+    <tr>
+      <td><%= link_to federal_state, federal_state %></td>
+      <% years.each_with_index do |year, index| %>
+      <td class="<%= "hidden-xs" if index > 1 %> <%= "hidden-sm" if index > 5 %>">
+        <% if federal_state.events.where(starts_on: Date.parse("01.01.#{year.value}")..Date.parse("31.12.#{year.value}")).where.not(event_type: EventType.find_by_name('Wochenende')).any? %>
+          <% if modus == 'invers' %>
+            <%= link_to year, federal_state_year_path(federal_state, year, modus: 'invers'), class: "btn btn-default" %>
+          <% else %>
+            <%= link_to year, federal_state_year_path(federal_state, year), class: "btn btn-default" %>
+          <% end %>
+        <% end %>
+      </td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

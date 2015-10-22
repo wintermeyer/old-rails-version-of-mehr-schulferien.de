@@ -4,8 +4,8 @@
       <h2><%= pluralize(@country.errors.count, "error") %> prohibited this country from being saved:</h2>
 
       <ul>
-      <% @country.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% @country.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
       </ul>
     </div>

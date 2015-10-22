@@ -1,14 +1,13 @@
-<h1>Listing months</h1>
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Months</h1>
 
 <table>
   <thead>
     <tr>
       <th>Value</th>
-      <th>Slug</th>
       <th>Year</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -16,8 +15,7 @@
     <% @months.each do |month| %>
       <tr>
         <td><%= month.value %></td>
-        <td><%= month.slug %></td>
-        <td><%= month.year_id %></td>
+        <td><%= month.year %></td>
         <td><%= link_to 'Show', month %></td>
         <td><%= link_to 'Edit', edit_month_path(month) %></td>
         <td><%= link_to 'Destroy', month, method: :delete, data: { confirm: 'Are you sure?' } %></td>

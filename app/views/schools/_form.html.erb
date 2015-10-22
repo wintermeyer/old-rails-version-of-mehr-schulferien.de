@@ -4,8 +4,8 @@
       <h2><%= pluralize(@school.errors.count, "error") %> prohibited this school from being saved:</h2>
 
       <ul>
-      <% @school.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% @school.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
       </ul>
     </div>
@@ -14,6 +14,14 @@
   <div class="field">
     <%= f.label :name %><br>
     <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :slug %><br>
+    <%= f.text_field :slug %>
+  </div>
+  <div class="field">
+    <%= f.label :city_id %><br>
+    <%= f.text_field :city_id %>
   </div>
   <div class="field">
     <%= f.label :address_line1 %><br>
