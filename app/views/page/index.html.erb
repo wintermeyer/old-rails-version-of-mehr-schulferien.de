@@ -1,5 +1,7 @@
 <% content_for :html_description do %>
 Schulferienkalender <%= Date.today.year %>-<%= @years.last %> für alle Bundesländer (inkl. Sonderregelungen für <%= Religion.pluck(:name).join(', ') %>).<% end %>
+<% content_for :html_title do %>
+Schulferienkalender <%= Date.today.year %>-<%= @years.last %> für alle Bundesländer<% end %>
 <div class="page-header">
   <h1>Schulferienkalender</h1>
 </div>
