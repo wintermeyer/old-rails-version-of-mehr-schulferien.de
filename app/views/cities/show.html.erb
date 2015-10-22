@@ -50,7 +50,7 @@
               <div class="row">
                 <% event_types.each do |event_type| %>
                   <div class="col-md-<%= 12 / event_types.size %>">
-                    <%#= render partial: "shared/list_events", locals: {month: month, federal_state: @federal_state, religion: @religion, event_type: EventType.find_by_name(event_type), modus: @modus} %>
+                    <%= render partial: "shared/list_events", locals: {month: month, federal_state: @federal_state, religion: @religion, event_type: EventType.find_by_name(event_type), modus: @modus} %>
                   </div>
                 <% end %>
               </div>
