@@ -7,8 +7,7 @@
     <title>Schulferienkalender</title>
   <% end %>
   <style>
-    <% css = File.read("#{Rails.root}/public#{asset_path("application", type: :stylesheet)}") %>
-    <%= css.html_safe %>
+    <%= render partial: "shared/inlined_css" %>
   </style>
   <%= csrf_meta_tags %>
 </head>
