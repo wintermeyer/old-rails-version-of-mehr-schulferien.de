@@ -4,11 +4,9 @@ class FederalState < ActiveRecord::Base
 
   belongs_to :country, touch: true
 
-#  has_many :events, -> {order('events.starts_on')}, as: :eventable, dependent: :destroy
-  has_many :events, as: :eventable, dependent: :destroy
+  has_many :events, -> {order('events.starts_on')}, as: :eventable, dependent: :destroy
   has_many :days, through: :events
-#  has_many :cities, -> { order('cities.name') }, dependent: :destroy
-  has_many :cities, dependent: :destroy
+  has_many :cities, -> { order('cities.name') }, dependent: :destroy
 
   # Validations
   #

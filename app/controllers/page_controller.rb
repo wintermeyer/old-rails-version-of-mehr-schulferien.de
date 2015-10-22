@@ -1,6 +1,6 @@
 class PageController < ApplicationController
   def index
-    @federal_states = FederalState.all
+    @federal_states = FederalState.order(:name)
     @years = Year.where(value: (Date.today.year)..Year.maximum(:value)).order(:value).limit(10)
 
     # Caching
