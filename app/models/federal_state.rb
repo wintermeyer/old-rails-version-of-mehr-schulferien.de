@@ -6,7 +6,7 @@ class FederalState < ActiveRecord::Base
 
   has_many :events, -> {order('events.starts_on')}, as: :eventable, dependent: :destroy
   has_many :days, through: :events
-  has_many :cities, -> {order(:name)}, dependent: :destroy
+  has_many :cities, -> { order('cities.name') }, dependent: :destroy
 
   # Validations
   #

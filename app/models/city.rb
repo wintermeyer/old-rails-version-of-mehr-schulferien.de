@@ -3,7 +3,7 @@ class City < ActiveRecord::Base
   friendly_id :slug_candidates, use: :slugged
 
   belongs_to :federal_state, touch: true
-  has_many :schools, -> { order(:name) }, dependent: :destroy
+  has_many :schools, -> { order('schools.name') }, dependent: :destroy
 
   delegate :country, :to => :federal_state, :allow_nil => true
 
