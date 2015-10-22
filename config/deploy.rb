@@ -53,6 +53,7 @@ namespace :deploy do
       #   execute :rake, 'cache:clear'
       # end
 
+      execute 'mkdir -p  /var/www/mehr-schulferien.de/current/tmp'
       execute 'touch /var/www/mehr-schulferien.de/current/tmp/restart.txt'
     end
   end
