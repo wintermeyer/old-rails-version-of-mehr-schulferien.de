@@ -27,11 +27,11 @@ set :deploy_to, '/var/www/mehr-schulferien.de'
 
 # Default value for :linked_files is []
 # set :linked_files, %w{config/database.yml}
-set :linked_files, %w{config/initializers/omniauth.rb}
+# set :linked_files, %w{config/initializers/omniauth.rb}
 
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system db/sandbox}
+# set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system db/sandbox}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -59,27 +59,6 @@ namespace :deploy do
       # execute 'sudo /etc/init.d/unicorn-mehr-schulferien.de restart'
 
       execute 'touch /var/www/mehr-schulferien.de/current/tmp/restart.txt'
-
-      # Warm-up the cache
-      #
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de"
-
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/baden-wuerttemberg"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/bayern"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/berlin"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/brandenburg"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/bremen"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/hamburg"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/hessen"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/mecklenburg-vorpommern"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/niedersachsen"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/nordrhein-westfalen"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/rheinland-pfalz"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/saarland"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/sachsen"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/sachsen-anhalt"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/schleswig-holstein"
-      execute "curl --silent --output /dev/null http://mehr-schulferien.de/federal_states/thueringen"
     end
   end
 
@@ -106,4 +85,3 @@ namespace :deploy do
   end
 
 end
-

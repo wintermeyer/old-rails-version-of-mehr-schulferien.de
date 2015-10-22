@@ -46,3 +46,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
 end
+
+group :production do
+  gem install pg
+end
