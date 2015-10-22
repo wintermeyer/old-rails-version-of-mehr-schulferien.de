@@ -26,9 +26,9 @@ class YearsController < ApplicationController
 
     # Caching
     #
-    expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
-    last_update = [@year.updated_at, @federal_state.updated_at].sort.last.utc
-    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
+    # expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
+    # last_update = [@year.updated_at, @federal_state.updated_at].sort.last.utc
+    # fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   # GET /years/new

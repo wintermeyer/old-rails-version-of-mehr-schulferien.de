@@ -2,7 +2,8 @@ class Year < ActiveRecord::Base
   extend FriendlyId
   friendly_id :value
 
-  has_many :months, -> {order('months.value')}, dependent: :destroy
+#  has_many :months, -> {order('months.value')}, dependent: :destroy
+  has_many :months, dependent: :destroy
   has_many :days, through: :months
   has_many :events, through: :days
 
