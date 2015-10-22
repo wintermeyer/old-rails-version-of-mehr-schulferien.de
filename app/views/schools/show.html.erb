@@ -1,7 +1,7 @@
-<% content_for :html_title do %>
-Schulferien <%= @school %> - <%= @city %> (<%= @city.federal_state %>)
-<% end %>
+<% content_for :html_description do %><%= @html_description %><% end %>
+<% content_for :html_title do %><%= @html_title %><% end %>
 
+<% cache([@school, @months, @federal_state]) do %>
 <ol class="breadcrumb">
   <li><%= link_to "Startseite", root_path %></li>
   <li><%= link_to @federal_state, @federal_state %></li>
@@ -94,3 +94,4 @@ Schulferien <%= @school %> - <%= @city %> (<%= @city.federal_state %>)
     </ul>
   </div>
 </div>
+<% end %>

@@ -1,4 +1,6 @@
 class SchoolsController < ApplicationController
+  caches_page :show
+
   before_action :set_school, only: [:show, :edit, :update, :destroy]
 
   # GET /schools
@@ -20,6 +22,26 @@ class SchoolsController < ApplicationController
     year = Year.find_by_value(Date.today.year)
     current_month = Month.find_by_value_and_year_id(Date.today.month, year.id)
     @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id)
+
+    # Render html_description
+    #
+    @html_description = "Schulferienkalender für #{@school} in #{@city} (#{@federal_state})"
+
+    @html_description += ". Nächste Ferientermine: "
+
+    next_events = @federal_state.events.where(event_type: EventType.find_by_name('Ferien')).where(starts_on: (Date.today..Date.today+18.months)).order(:starts_on).limit(4)
+
+    @html_description += next_events.map{|event| "#{event.summary} #{I18n.l(event.starts_on, format: :short).strip} - #{I18n.l(event.ends_on, format: :short).strip} (#{event.total_number_of_non_school_days(@federal_state)} Tage)"}.join(', ')
+
+    # render html_title
+    #
+    @html_title = "Schulferienkalender für #{@school} in #{@city} (#{@federal_state})"
+
+    # Caching
+    #
+    expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
+    last_update = [@city.updated_at, @federal_state.updated_at].sort.last.utc
+    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   # GET /schools/new
