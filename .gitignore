@@ -24,10 +24,6 @@
 /db/sandbox
 /lib/tasks/importer.rake
 
-# Google Ads
-#
-app/views/shared/_ad.html.erb
-
 # Capistrano
 #
 config/deploy.rb
