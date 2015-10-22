@@ -20,6 +20,28 @@ class CitiesController < ApplicationController
     current_month = Month.find_by_value_and_year_id(Date.today.month, year.id)
     @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id)
 
+    # Render html_description
+    #
+    @html_description = 'Schulferienkalender '
+
+    @html_description += "#{Date.today.year}-#{Date.today.year + 1} "
+    if @city.schools.any?
+      @html_description += "für #{@city.schools.count} Schulen in"
+    else
+      @html_description += "für"
+    end
+
+    @html_description += " #{@city} (#{@federal_state})."
+    @html_description += " Nächste Ferientermine: "
+
+    next_events = @federal_state.events.where(event_type: EventType.find_by_name('Ferien')).where(starts_on: (Date.today..Date.today+18.months)).order(:starts_on).limit(4)
+
+    @html_description += next_events.map{|event| "#{event.summary} #{I18n.l(event.starts_on, format: :short).strip} - #{I18n.l(event.ends_on, format: :short).strip} (#{event.total_number_of_non_school_days(@federal_state)} Tage)"}.join(', ')
+
+    # render html_title
+    #
+    @html_title = "Schulferien #{@city} (#{@federal_state})"
+
     # Caching
     #
     expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true

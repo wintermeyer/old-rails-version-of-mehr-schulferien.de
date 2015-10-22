@@ -25,6 +25,37 @@ class FederalStatesController < ApplicationController
       @modus = params[:modus]
     end
 
+    # Render html_description
+    #
+    if @modus == 'invers'
+      @html_description = "Planen Sie eine günstige Urlaubsreise mit der umgekehrten Darstellung der Schulferien #{Date.today.year}-#{Date.today.year + 1} in #{@federal_state}."
+    else
+      @html_description = 'Schulferienkalender '
+
+      @html_description += "#{Date.today.year}-#{Date.today.year + 1} "
+      @html_description += "für #{@federal_state}"
+
+      if @federal_state.events.where.not(religion: nil).any?
+        @html_description += " (inkl. Sonderregelungen für #{ Religion.pluck(:name).join(', ')}"
+      end
+
+      @html_description += ". Nächste Ferientermine: "
+
+      next_events = @federal_state.events.where(event_type: EventType.find_by_name('Ferien')).where(starts_on: (Date.today..Date.today+18.months)).order(:starts_on).limit(4)
+
+      @html_description += next_events.map{|event| "#{event.summary} #{I18n.l(event.starts_on, format: :short).strip} - #{I18n.l(event.ends_on, format: :short).strip} (#{event.total_number_of_non_school_days(@federal_state)} Tage)"}.join(', ')
+    end
+
+    # render html_title
+    #
+    @html_title = "Schulferien #{@federal_state}"
+    if @modus == 'invers'
+      @html_title = "Invers-Ansicht #{@html_title}"
+    end
+    if @religion
+      @html_title += " (#{@religion.name})"
+    end
+
     # Caching
     #
     expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true

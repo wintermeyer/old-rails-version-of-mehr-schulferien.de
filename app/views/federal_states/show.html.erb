@@ -1,19 +1,5 @@
-<% next_event = @federal_state.events.where(event_type: EventType.find_by_name('Ferien')).where(starts_on: (Date.today..Date.today+3.months)).order(:starts_on).first %>
-<% content_for :html_description do %>
-<% if @modus == 'invers' %>
-Optimale Urlaubsplanung für Nicht-Eltern mit der Invers-Ansicht <% end %>Schulferienkalender <% if @year %><%= @year %><% else %><%= Date.today.year %>-<%= Date.today.year + 1 %><% end %> für <%= @federal_state %><% if @federal_state.events.where.not(religion: nil).any? %> (inkl. Sonderregelungen für <%= Religion.pluck(:name).join(', ') %>)<% end %>. Nächster Ferientermin: <%= next_event.summary %> <%= "#{I18n.l(next_event.starts_on, format: :short).strip}-#{I18n.l(next_event.ends_on, format: :short).strip}" %><% end %>
-
-<% content_for :html_title do %>
-<% if @modus == 'invers' %>
-Invers-Ansicht
-<% end %>
-Schulferien <%= @federal_state %>
-<% if @year %>
-<%= @year %>
-<% end %>
-<% if @religion %>
-  (<%= @religion.name %>)
-<% end %><% end %>
+<% content_for :html_description do %><%= @html_description %><% end %>
+<% content_for :html_title do %><%= @html_title %><% end %>
 
 <% cache([@months, @federal_state, @religion, @modus]) do %>
   <ol class="breadcrumb">
