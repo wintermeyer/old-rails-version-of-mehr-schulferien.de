@@ -1,6 +1,4 @@
 class FederalStatesController < ApplicationController
-  caches_page :show
-
   before_action :set_federal_state, only: [:show, :edit, :update, :destroy]
 
   # GET /federal_states
