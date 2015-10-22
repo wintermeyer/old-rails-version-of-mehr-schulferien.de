@@ -3,7 +3,8 @@ class Month < ActiveRecord::Base
 
 #  has_many :days, -> { order('days.value') }, dependent: :destroy
   has_many :days, dependent: :destroy
-  has_many :events, -> { uniq }, through: :days
+#  has_many :events, -> { uniq }, through: :days
+  has_many :events, through: :days
 
   # Validations
   #
