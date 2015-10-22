@@ -1,10 +1,7 @@
 # config valid only for Capistrano 3.1
 lock '3.1.0'
 
-set :rvm_type, :user
-set :rvm_ruby_version, '2.1.0'
-
-set :application, 'mehr-schulferien'
+set :application, 'mehr-schulferien.de'
 set :repo_url, 'git@github.com:wintermeyer/mehr-schulferien.de.git'
 
 # Default branch is :master
@@ -27,11 +24,9 @@ set :deploy_to, '/var/www/mehr-schulferien.de'
 
 # Default value for :linked_files is []
 # set :linked_files, %w{config/database.yml}
-# set :linked_files, %w{config/initializers/omniauth.rb}
 
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
-# set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system db/sandbox}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -40,6 +35,7 @@ set :deploy_to, '/var/www/mehr-schulferien.de'
 # set :keep_releases, 5
 
 namespace :deploy do
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
@@ -56,31 +52,8 @@ namespace :deploy do
       # within release_path do
       #   execute :rake, 'cache:clear'
       # end
-      # execute 'sudo /etc/init.d/unicorn-mehr-schulferien.de restart'
 
-      execute 'touch /var/www/mehr-schulferien.de/current/tmp/restart.txt'
-    end
-  end
-
-  desc "Check that we can access everything"
-  task :check_write_permissions do
-    on roles(:all) do |host|
-      if test("[ -w #{fetch(:deploy_to)} ]")
-        info "#{fetch(:deploy_to)} is writable on #{host}"
-      else
-        error "#{fetch(:deploy_to)} is not writable on #{host}"
-      end
-    end
-  end
-
-  desc "Check if agent forwarding is working"
-  task :forwarding do
-    on roles(:all) do |h|
-      if test("env | grep SSH_AUTH_SOCK")
-        info "Agent forwarding is up to #{h}"
-      else
-        error "Agent forwarding is NOT up to #{h}"
-      end
+      # execute 'touch /var/www/mehr-schulferien.de/current/tmp/restart.txt'
     end
   end
 

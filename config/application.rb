@@ -24,6 +24,6 @@ module WwwMehrSchulferienDe
     config.active_record.raise_in_transactional_callbacks = true
 
     # http://brandonhilkert.com/blog/understanding-the-rails-cache-id-environment-variable/
-    ENV['RAILS_CACHE_ID'] = `git log --pretty=format:%h -n1`.strip
+    ENV['RAILS_CACHE_ID'] = 'v1'
   end
 end
