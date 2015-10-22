@@ -1,4 +1,6 @@
 class YearsController < ApplicationController
+  caches_page :show
+
   before_action :set_year, only: [:show, :edit, :update, :destroy]
   before_action :set_federal_state, only: [:show]
 

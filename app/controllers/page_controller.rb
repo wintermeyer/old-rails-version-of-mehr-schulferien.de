@@ -1,4 +1,6 @@
 class PageController < ApplicationController
+  caches_page :index
+
   def index
     @federal_states = FederalState.order(:name)
 

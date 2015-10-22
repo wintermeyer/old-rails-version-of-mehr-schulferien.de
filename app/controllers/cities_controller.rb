@@ -1,4 +1,6 @@
 class CitiesController < ApplicationController
+  caches_page :show
+
   before_action :set_city, only: [:show, :edit, :update, :destroy]
 
   # GET /cities
