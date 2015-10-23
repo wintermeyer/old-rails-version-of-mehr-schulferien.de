@@ -13,7 +13,7 @@
       <td><%= link_to federal_state, federal_state %></td>
       <% years.each_with_index do |year, index| %>
       <td class="<%= "hidden-xs" if index > 2 %> <%= "hidden-sm" if index > 3 %>">
-        <% if federal_state.events.where(starts_on: Date.parse("01.01.#{year.value}")..Date.parse("31.12.#{year.value}")).where.not(event_type: EventType.find_by_name('Wochenende')).any? %>
+        <% if federal_state.events.where(starts_on: Date.parse("01.01.#{year.value}")..Date.parse("31.12.#{year.value}")).where.not(event_type: EventType.find_by_name('Wochenende')).where(religion: nil).any? %>
           <% if modus == 'invers' %>
             <%= link_to year, federal_state_year_path(federal_state, year, modus: 'invers'), class: "btn btn-default" %>
           <% else %>
