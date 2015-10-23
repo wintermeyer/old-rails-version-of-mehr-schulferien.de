@@ -1,7 +1,6 @@
 <% content_for :html_description do %><%= @html_description %><% end %>
 <% content_for :html_title do %><%= @html_title %><% end %>
 
-<% cache([@school, @months, @federal_state]) do %>
 <ol class="breadcrumb">
   <li><%= link_to "Startseite", root_path %></li>
   <li><%= link_to @federal_state, @federal_state %></li>
@@ -16,8 +15,9 @@
   </h1>
 </div>
 
-<% if @year && @federal_state.events.where(starts_on: Date.parse("01.01.#{@year.value}")..Date.parse("31.12.#{@year.value}")).where(event_type: EventType.find_by_name('Feiertage')).none? %>
-  <div class="alert alert-danger" role="alert">Für diesen Zeitraum wurden noch keine gesetzlichen Feiertage hinterlegt.</div>
+<% cache(['keine Feiertage hinterlegt', @months, @federal_state]) do %>
+  <% if @year && @federal_state.events.where(starts_on: Date.parse("01.01.#{@year.value}")..Date.parse("31.12.#{@year.value}")).where(event_type: EventType.find_by_name('Feiertage')).none? %>
+    <div class="alert alert-danger" role="alert">Für diesen Zeitraum wurden noch keine gesetzlichen Feiertage hinterlegt.</div>
 <% end %>
 
 <div class="alert alert-danger" role="alert">Für diese Schule sind in unserer Datenbank keine beweglichen Ferientage hinterlegt. Entsprechend ist die Aufstellung unvollständig!</div>
@@ -30,33 +30,7 @@
 
 <div class="row">
   <div class="col-md-9">
-    <% @months.each_slice(3) do |months_in_a_row| %>
-      <div class="row">
-        <% months_in_a_row.each do |month| %>
-          <div class="col-md-4">
-            <%= render partial: "shared/month", locals: {month: month, federal_state: @federal_state, religion: @religion, modus: @modus} %>
-
-            <% if month.events.where(eventable: @federal_state).where(religion: [nil, @religion]).where(event_type: EventType.find_by_name('Ferien')).any? %>
-              <% event_types = ['Ferien', 'Feiertage'] %>
-            <% else %>
-              <% event_types = ['Feiertage'] %>
-            <% end %>
-
-            <% if @modus == 'invers' %>
-              <% event_types = ['Feiertage'] %>
-            <% end %>
-
-            <div class="row">
-              <% event_types.each do |event_type| %>
-                <div class="col-md-<%= 12 / event_types.size %>">
-                  <%= render partial: "shared/list_events", locals: {month: month, federal_state: @federal_state, religion: @religion, event_type: EventType.find_by_name(event_type), modus: @modus} %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+    <%= render partial: "shared/months_matrix", locals: {months: @months, federal_state: @federal_state, religion: @religion, modus: @modus} %>
   </div>
   <div class="col-md-3">
     <address>

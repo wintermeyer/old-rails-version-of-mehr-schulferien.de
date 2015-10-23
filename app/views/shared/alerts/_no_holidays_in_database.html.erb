@@ -1,0 +1,5 @@
+<% cache([year, federal_state]) do %>
+  <% if year && federal_state.events.where(starts_on: Date.parse("01.01.#{year.value}")..Date.parse("31.12.#{year.value}")).where(event_type: EventType.find_by_name('Feiertage')).none? %>
+    <div class="alert alert-danger" role="alert">Für diesen Zeitraum wurden noch keine gesetzlichen Feiertage hinterlegt.</div>
+  <% end %>
+<% end %>
