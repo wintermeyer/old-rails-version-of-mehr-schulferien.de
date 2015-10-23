@@ -26,6 +26,6 @@ module WwwMehrSchulferienDe
     # http://brandonhilkert.com/blog/understanding-the-rails-cache-id-environment-variable/
     ENV['RAILS_CACHE_ID'] = 'v2.0.0'
 
-    config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public"
+    config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public/cache"
   end
 end
