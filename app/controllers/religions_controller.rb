@@ -18,6 +18,15 @@ class ReligionsController < ApplicationController
       # following year.
       #
       @months = Month.where(year_id: [@year, Year.find_by_value(@year.value + 1)]).limit(15)
+
+      # Render html_description
+      #
+      @html_description = "Planen Sie eine günstige Urlaubsreise mit der umgekehrten Darstellung der Schulferien #{@year} in #{@federal_state}."
+
+      # render html_title
+      #
+      @html_title = "#{@year}er Schulferien #{@federal_state}"
+      @html_title = "Invers-Ansicht #{@html_title}"
     else
       # The months beginning by the current one
       # until end of next year.
@@ -25,9 +34,20 @@ class ReligionsController < ApplicationController
       year = Year.find_by_value(Date.today.year)
       current_month = Month.find_by_value_and_year_id(Date.today.month, year.id)
       @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id)
+
+      # Render html_description
+      #
+      @html_description = "Planen Sie eine günstige Urlaubsreise mit der umgekehrten Darstellung der Schulferien #{Date.today.year}-#{Date.today.year + 1} in #{@federal_state}."
+
+      # render html_title
+      #
+      @html_title = "Schulferien #{@federal_state}"
+      @html_title = "Invers-Ansicht #{@html_title}"
     end
 
-    render "years/show"
+    if @religion && @html_title
+      @html_title += " (#{@religion.name})"
+    end
   end
 
   # GET /religions/new

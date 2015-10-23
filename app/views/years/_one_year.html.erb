@@ -38,18 +38,18 @@
                 <%= link_to "Ohne Angabe", federal_state, class: "btn btn-sm btn-default" %>
               <% end %>
             <% end %>
-            <% religions.each do |religion| %>
+            <% religions.each do |r| %>
               <% if year %>
-                <% if religion == religion %>
-                  <%= link_to religion, federal_state_year_religion_path(federal_state, year, religion), class: "btn btn-sm btn-default", disabled: true %>
+                <% if religion == r %>
+                  <%= link_to r, federal_state_year_religion_path(federal_state, year, r), class: "btn btn-sm btn-default", disabled: true %>
                 <% else %>
-                  <%= link_to religion, federal_state_religion_path(federal_state, religion), class: "btn btn-sm btn-default" %>
+                  <%= link_to r, federal_state_religion_path(federal_state, r), class: "btn btn-sm btn-default" %>
                 <% end %>
               <% else %>
-                <% if religion == religion %>
-                  <%= link_to religion, federal_state_religion_path(federal_state, religion), class: "btn btn-sm btn-default", disabled: true %>
+                <% if religion == r %>
+                  <%= link_to r, federal_state_religion_path(federal_state, r), class: "btn btn-sm btn-default", disabled: true %>
                 <% else %>
-                  <%= link_to religion, federal_state_religion_path(federal_state, religion), class: "btn btn-sm btn-default" %>
+                  <%= link_to r, federal_state_religion_path(federal_state, r), class: "btn btn-sm btn-default" %>
                 <% end %>
               <% end %>
             <% end %>

@@ -1,14 +1,8 @@
-<p id="notice"><%= notice %></p>
+<% content_for :html_description do %><%= @html_description %><% end %>
+<% content_for :html_title do %><%= @html_title %><% end %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @religion.name %>
-</p>
-
-<p>
-  <strong>Slug:</strong>
-  <%= @religion.slug %>
-</p>
-
-<%= link_to 'Edit', edit_religion_path(@religion) %> |
-<%= link_to 'Back', religions_path %>
+<% if @year %>
+  <%= render partial: "years/one_year", locals: {year: @year, months: @months, federal_state: @federal_state, religions: @religions, religion: @religion, modus: @modus} %>
+<% else %>
+  <%= render partial: "federal_states/one_federal_state", locals: {months: @months, federal_state: @federal_state, religions: @religions, religion: @religion, modus: @modus} %>
+<% end %>

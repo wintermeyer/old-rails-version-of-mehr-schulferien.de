@@ -14,32 +14,33 @@
         <small><%= religion.name %></small>
       <% end %>
     </h1>
-    <% if religions && religions.any? %>
-      <p>
-      <% if religion %>
-        <%= link_to "Ohne Angabe", federal_state, class: "btn btn-sm btn-default" %>
-      <% end %>
-      <% religions.each do |religion| %>
-        <% if year %>
-          <% if religion == religion %>
-            <%= link_to religion, federal_state_year_religion_path(federal_state, year, religion), class: "btn btn-sm btn-default", disabled: true %>
-          <% else %>
-            <%= link_to religion, federal_state_religion_path(federal_state, religion), class: "btn btn-sm btn-default" %>
-          <% end %>
-        <% else %>
-          <% if religion == religion %>
-            <%= link_to religion, federal_state_religion_path(federal_state, religion), class: "btn btn-sm btn-default", disabled: true %>
-          <% else %>
-            <%= link_to religion, federal_state_religion_path(federal_state, religion), class: "btn btn-sm btn-default" %>
-          <% end %>
-        <% end %>
-      <% end %>
-      </p>
-    <% end %>
   </div>
 
   <div class="row">
     <div class="col-sm-6">
+      <% if religions && religions.any? %>
+        <p>
+        <% if religion %>
+          <%= link_to "Ohne Angabe", federal_state, class: "btn btn-sm btn-default" %>
+        <% end %>
+        <% religions.each do |r| %>
+          <% if defined? year %>
+            <% if religion == r %>
+              <%= link_to religion, federal_state_year_religion_path(federal_state, year, r), class: "btn btn-sm btn-default", disabled: true %>
+            <% else %>
+              <%= link_to religion, federal_state_religion_path(federal_state, religion), class: "btn btn-sm btn-default" %>
+            <% end %>
+          <% else %>
+            <% if religion == r %>
+              <%= link_to r, federal_state_religion_path(federal_state, r), class: "btn btn-sm btn-default", disabled: true %>
+            <% else %>
+              <%= link_to r, federal_state_religion_path(federal_state, r), class: "btn btn-sm btn-default" %>
+            <% end %>
+          <% end %>
+        <% end %>
+        </p>
+      <% end %>
+
       <% if modus == 'invers' %>
         <p>
           Diese Seite zeigt alle <strong>Schultage mit der Farbe grün </strong>an. Zu diesen Terminen kann man normalerweise günstiger Urlaubsreisen buchen.
