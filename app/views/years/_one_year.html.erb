@@ -65,8 +65,8 @@
         </p>
       <% else %>
         <p>
-          <strong>Alternative Ansicht:</strong>
-          <%= link_to "Invers zur optimalen Urlaubsplanung für Nicht-Schüler/Eltern.", federal_state_year_filter_path(federal_state, year, Filter.find_by_name('Invers')) %>
+          <strong>Tipp für Nicht-Schüler/Eltern:</strong>
+          <%= link_to "Invers-Ansicht, um günstige Urlaubstermine zu finden.", federal_state_year_filter_path(federal_state, year, Filter.find_by_name('Invers')) %>
         </p>
         <p class="hidden-xs">
           Die drei längsten (inkl. angrenzender Wochenenden und Feiertage) Ferientermine im Jahr:<br><%= year.events.where(eventable: federal_state).where(event_type: EventType.find_by_name('Ferien')).where(religion: nil).to_a.uniq.sort_by!{|e| e.total_number_of_non_school_days(federal_state)}.reverse[0,3].map{|e| "#{e.summary} #{I18n.l(e.starts_on, format: :short).strip} - #{I18n.l(e.ends_on, format: :short).strip} (#{e.total_number_of_non_school_days(federal_state)} Tage)"}.join(', ') %>

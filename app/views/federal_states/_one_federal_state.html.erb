@@ -47,8 +47,8 @@
           <%= link_to "Zur Normal-Ansicht.", federal_state_path(federal_state) %>
         </p>
       <% else %>
-        <p><strong>Alternative Ansicht:</strong>
-          <%= link_to "Invers zur optimalen Urlaubsplanung für Nicht-Schüler/Eltern.", federal_state_filter_path(federal_state, Filter.find_by_name('Invers')) %>
+        <p><strong>Tipp für Nicht-Schüler/Eltern:</strong>
+          <%= link_to "Invers-Ansicht, um günstige Urlaubstermine zu finden.", federal_state_filter_path(federal_state, Filter.find_by_name('Invers')) %>
       <% end %>
     </div>
     <div class="col-sm-6">
