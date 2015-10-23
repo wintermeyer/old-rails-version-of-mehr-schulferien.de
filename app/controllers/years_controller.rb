@@ -40,7 +40,9 @@ class YearsController < ApplicationController
 
       next_events = @year.events.where(eventable: @federal_state).where(event_type: EventType.find_by_name('Ferien')).order(:starts_on)
 
-      @html_description += next_events.map{|event| "#{event.summary} #{I18n.l(event.starts_on, format: :short).strip} - #{I18n.l(event.ends_on, format: :short).strip} (#{event.total_number_of_non_school_days(@federal_state)} Tage)"}.uniq[1..99].join(', ')
+      if next_events.any?
+        @html_description += next_events.map{|event| "#{event.summary} #{I18n.l(event.starts_on, format: :short).strip} - #{I18n.l(event.ends_on, format: :short).strip} (#{event.total_number_of_non_school_days(@federal_state)} Tage)"}.uniq[1..99].join(', ')
+      end
     end
 
     # render html_title
