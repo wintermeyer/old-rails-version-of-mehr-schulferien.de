@@ -59,6 +59,7 @@ GEM
       capistrano (~> 3.0)
       sshkit (~> 1.2)
     colorize (0.7.7)
+    dalli (2.7.4)
     debug_inspector (0.0.2)
     erubis (2.7.0)
     execjs (2.6.0)
@@ -167,6 +168,7 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rails
   capistrano-rvm
+  dalli
   friendly_id (~> 5.1.0)
   hirb
   jbuilder (~> 2.0)
