@@ -1,4 +1,6 @@
 class FiltersController < ApplicationController
+  caches_page :show
+
   before_action :set_filter, only: [:show, :edit, :update, :destroy]
 
   # GET /filters
