@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :filters
   resources :schools, only: [:show]
   resources :cities, only: [:show]
   get 'page/index'
@@ -14,8 +15,10 @@ Rails.application.routes.draw do
   resources :federal_states, only: [:show] do
     resources :years, only: [:show] do
       resources :religions, only: [:show]
+      resources :filters, only: [:show]
     end
     resources :religions, only: [:show]
+    resources :filters, only: [:show]
   end
 #  resources :countries
 

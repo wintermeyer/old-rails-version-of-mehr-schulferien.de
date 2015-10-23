@@ -7,5 +7,13 @@ class ApplicationController < ActionController::Base
 
   def set_variables
     @years = Year.where(value: (Date.today.year)..Year.maximum(:value)).order(:value).limit(10)
+
+    if params[:federal_state_id]
+      @federal_state = FederalState.friendly.find(params[:federal_state_id])
+    end
+
+    if params[:year_id]
+      @year = Year.friendly.find(params[:year_id])
+    end
   end
 end

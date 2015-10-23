@@ -71,3 +71,9 @@
       - name
       - zip_code
       - city
+  Filter:
+    :options:
+      :fields:
+      - id
+      - name
+      - slug

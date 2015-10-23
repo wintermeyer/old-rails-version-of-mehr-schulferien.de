@@ -1755,3 +1755,7 @@ end
 ].each do |new_event|
   federal_state.events.where(starts_on: new_event[0], ends_on: new_event[1], summary: new_event[2], event_type_id: new_event[3]).first_or_create
 end
+
+# Filters
+#
+Filter.create(name: 'Invers')
