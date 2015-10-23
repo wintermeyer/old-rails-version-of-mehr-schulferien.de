@@ -23,6 +23,11 @@ class Year < ActiveRecord::Base
     value.to_s
   end
 
+  def longest_events(federal_state, amount = 3)
+    events = self.events.where(eventable: federal_state).where(event_type: EventType.find_by_name('Ferien')).where(religion: nil).to_a.uniq
+    
+  end
+
   private
   def create_months_and_days
     (1..12).each do |month_counter|
