@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :filters
+  get 'special_calendars/inverse'
+
+  # get 'special_calendars/brueckentage'
+
+  resources :filters, only: [:show]
   resources :schools, only: [:show]
   resources :cities, only: [:show]
   get 'page/index'

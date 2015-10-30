@@ -1,0 +1,126 @@
+<% content_for :html_description do %><%= @html_description %><% end %>
+<% content_for :html_title do %><%= @html_title %><% end %>
+
+<% cache([@months]) do %>
+  <ol class="breadcrumb">
+    <li><%= link_to "Startseite", root_path %></li>
+    <li class="active">Inverser Ferienkalender</li>
+  </ol>
+
+  <div class="page-header">
+    <h1>
+      Inverser Ferienkalender für Deutschland <%= "#{Date.today.year}-#{Date.today.year + 1}"%>
+    </h1>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <p>
+        Auf diesem Kalender werden Tage in grün dargestellt, in denen in keinem Bundesland Schulferien sind. Dies ist die günstigste Reisezeit für alle die nicht während Schulferien verreisen müssen. In blau werden Tage markiert, die in mindestens einem Bundesland als gesetzlicher Feiertag eingetragen sind. Auf der <%= link_to 'Startseite', root_path %> können Sie Detailaufstellungen für einzelne Jahre und Bundesländer anklicken.
+      </p>
+    </div>
+    <div class="col-sm-6">
+      <%= render partial: "shared/ad" rescue nil%>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-md-12">
+    <% @months.each_slice(3) do |months_in_a_row| %>
+      <div class="row">
+        <% months_in_a_row.each do |month| %>
+          <div class="col-md-4">
+
+              <div class="row">
+                <div class="col-xs-8">
+                  <h3><%= I18n.t("date.month_names")[month.value] %></h3>
+                </div>
+                <div class="col-xs-4">
+                  <h3 class="text-muted"><%= month.year %></h3>
+                </div>
+              </div>
+              <table class="table table-condensed">
+                <thead>
+                  <tr>
+                    <% [1,2,3,4,5,6,0].each do |weekday| %>
+                      <% if WEEKEND_WDAYS.include?(weekday) %>
+                        <th class="active"><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>
+                      <% else %>
+                        <th><%= I18n.t("date.abbr_day_names")[weekday] %>.</th>
+                      <% end %>
+                    <% end %>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                  <% if month.days.first.position != 1 %>
+                    <% (1..(month.days.first.position - 1)).each do |i| %>
+                      <td></td>
+                    <% end %>
+                  <% end %>
+                  <% month.days[0..(7-month.days.first.position)].each do |day| %>
+
+                    <% if FederalState.all.each.map{|fs| day.public_holiday?(fs)}.include?(true) %>
+                      <td class="text-right info"><%= day.value.day %>.</td>
+                    <% else %>
+                      <% if day.weekend? %>
+                        <td class="text-right active"><%= day.value.day %>.</td>
+                      <% else %>
+                        <td class="text-right <%= "success" if !FederalState.all.each.map{|fs| day.school_day?(fs)}.include?(false) %>">
+                          <%= day.value.day %>.
+                        </td>
+                      <% end %>
+                    <% end %>
+
+                  <% end %>
+                  </tr>
+                  <% days = month.days[(8 - month.days.first.position)..99] %>
+                  <% days[0..(((days.count / 7) * 7) - 1)].each_slice(7) do |week| %>
+                    <tr>
+                      <% week.each do |day| %>
+                        <% if FederalState.all.each.map{|fs| day.public_holiday?(fs)}.include?(true) %>
+                          <td class="text-right info"><%= day.value.day %>.</td>
+                        <% else %>
+                          <% if day.weekend? %>
+                            <td class="text-right active"><%= day.value.day %>.</td>
+                          <% else %>
+                            <td class="text-right <%= "success" if !FederalState.all.each.map{|fs| day.school_day?(fs)}.include?(false) %>">
+                              <%= day.value.day %>.
+                            </td>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                  <% if (days.count % 7) != 0 %>
+                    <tr>
+                      <% days[((days.count / 7) * 7)..99].each do |day| %>
+
+                        <% if FederalState.all.each.map{|fs| day.public_holiday?(fs)}.include?(true) %>
+                          <td class="text-right info"><%= day.value.day %>.</td>
+                        <% else %>
+                          <% if day.weekend? %>
+                            <td class="text-right active"><%= day.value.day %>.</td>
+                          <% else %>
+                            <td class="text-right <%= "success" if !FederalState.all.each.map{|fs| day.school_day?(fs)}.include?(false) %>">
+                              <%= day.value.day %>.
+                            </td>
+                          <% end %>
+                        <% end %>
+
+                      <% end %>
+                      <% (month.days.last.position..6).each do |i| %>
+                        <td></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

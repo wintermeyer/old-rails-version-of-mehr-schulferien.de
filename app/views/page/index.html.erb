@@ -25,6 +25,7 @@ Schulferienkalender <%= Date.today.year %>-<%= @years.last %> für alle Bundesl�
     <div class="col-xs-12">
       <h2>Invers-Ansicht</h2>
       <p>Diese Ansicht eignet sich besonders für Nicht-Eltern, die ausserhalb der normalen Schulferien günstig Urlaub buchen möchten.</p>
+      <p><strong>Tipp:</strong> Auf der <%= link_to 'Deutschland Invers-Ansicht', special_calendars_inverse_path %> finden Sie eine Invers-Darstellung, die alle Bundesländer kombiniert.</p>
       <%= render partial: "shared/table_of_years", locals: {years: @years, federal_states: @federal_states, modus: 'invers'} %>
     </div>
   </div>
