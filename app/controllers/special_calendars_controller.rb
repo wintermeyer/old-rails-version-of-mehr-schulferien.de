@@ -1,4 +1,6 @@
 class SpecialCalendarsController < ApplicationController
+  caches_page :inverse
+
   def inverse
     # The months beginning by the current one
     # until end of next year.
