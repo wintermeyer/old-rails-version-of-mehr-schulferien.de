@@ -4,5 +4,5 @@
 <% if @year %>
   <%= render partial: "years/one_year", locals: {year: @year, months: @months, federal_state: @federal_state, religions: @religions, religion: @religion, modus: @modus} %>
 <% else %>
-  <%= render partial: "federal_states/one_federal_state", locals: {months: @months, federal_state: @federal_state, religions: @religions, religion: @religion, modus: @modus, year: @year} %>
+  <%= render partial: "federal_states/one_federal_state", locals: {months: @months, federal_state: @federal_state, religions: @religions, religion: @religion, modus: @modus} %>
 <% end %>
