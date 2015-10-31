@@ -19,7 +19,7 @@ class FiltersController < ApplicationController
         # All month of @year plus the first 3 months of the
         # following year.
         #
-        @months = Month.where(year_id: [@year, Year.find_by_value(@year.value + 1)]).limit(15)
+        @months = Month.where(year_id: [@year, Year.find_by_value(@year.value + 1)]).order(:year_id).order(:value).limit(15)
 
         # Render html_description
         #
@@ -37,7 +37,7 @@ class FiltersController < ApplicationController
         #
         year = Year.find_by_value(Date.today.year)
         current_month = Month.find_by_value_and_year_id(Date.today.month, year.id)
-        @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id)
+        @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id).order(:year_id).order(:value)
 
         # Render html_description
         #
