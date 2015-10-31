@@ -28,3 +28,7 @@
 #
 config/deploy.rb
 config/deploy/*
+
+# Page Cache Directory
+# 
+public/cache
