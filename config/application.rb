@@ -24,7 +24,7 @@ module WwwMehrSchulferienDe
     config.active_record.raise_in_transactional_callbacks = true
 
     # http://brandonhilkert.com/blog/understanding-the-rails-cache-id-environment-variable/
-    ENV['RAILS_CACHE_ID'] = 'v2.0.1'
+    ENV['RAILS_CACHE_ID'] = 'v2.0.0'
 
     config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public/cache"
   end
