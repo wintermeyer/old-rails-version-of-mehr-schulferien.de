@@ -21,7 +21,7 @@ class SchoolsController < ApplicationController
     #
     year = Year.find_by_value(Date.today.year)
     current_month = Month.find_by_value_and_year_id(Date.today.month, year.id)
-    @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id).order(:year_id).order(:value)
+    @months = Month.where(year_id: [year, Year.find_by_value(year.value + 1)]).where(id: current_month.id..Month.last.id)
 
     # Render html_description
     #
