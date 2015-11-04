@@ -27,5 +27,7 @@ module WwwMehrSchulferienDe
     ENV['RAILS_CACHE_ID'] = 'v2.0.0'
 
     config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public/cache"
+
+    ADVERTISEMENT = false
   end
 end
