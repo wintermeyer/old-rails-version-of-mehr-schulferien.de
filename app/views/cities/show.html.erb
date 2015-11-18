@@ -18,6 +18,21 @@
   </script>
 <% end %>
 
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "<%= request.protocol + request.host_with_port + federal_state_path(@federal_state) %>",
+      "name": "<%= @federal_state %>"
+    }
+  }]
+}
+</script>
+
   <ol class="breadcrumb">
     <li><%= link_to "Startseite", root_path %></li>
     <li><%= link_to @federal_state, @federal_state %></li>
