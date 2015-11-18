@@ -1,4 +1,23 @@
 <% cache([months, federal_state, religion, modus]) do %>
+  <% if modus.blank? %>
+    <% months.map{|m| m.events.where(eventable: federal_state).where(religion: [nil, religion]).where(event_type: EventType.find_by_name('Ferien'))}.flatten.uniq.each do |event| %>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "EducationEvent",
+        "name": "<%= event.summary %>",
+        "startDate" : "<%= event.starts_on.to_time.utc.iso8601 %>",
+        "endDate" : "<%= event.ends_on.to_time.utc.iso8601 %>",
+        "location" : {
+          "@type" : "Place",
+          "name" : "<%= federal_state %>",
+          "address" : "<%= federal_state %>, <%= federal_state.country %>"
+        }
+      }
+    </script>
+    <% end %>
+  <% end %>
+
   <ol class="breadcrumb">
     <li><%= link_to "Startseite", root_path %></li>
     <li class="active"><%= federal_state.name %></li>
