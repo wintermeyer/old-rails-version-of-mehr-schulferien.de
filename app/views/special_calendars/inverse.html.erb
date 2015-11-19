@@ -16,6 +16,23 @@
 }
 </script>
 
+<% @good_travel_periods.each do |good_travel_period| %>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Event",
+  "name": "<%= "#{(good_travel_period.last.value - good_travel_period.first.value).to_i} Tage (#{[I18n.t("date.month_names")[good_travel_period.first.value.month],I18n.t("date.month_names")[good_travel_period.last.value.month]].uniq.join(' - ')})" %>",
+  "startDate" : "<%= good_travel_period.first.value.to_time.utc.iso8601 %>",
+  "endDate" : "<%= good_travel_period.last.value.to_time.utc.iso8601 %>",
+  "location" : {
+    "@type" : "Place",
+    "name" : "Alle Bundesländer",
+    "address" : "Deutschland"
+  }
+}
+</script>
+<% end %>
+
 <% cache([@months]) do %>
   <ol class="breadcrumb">
     <li><%= link_to "Startseite", root_path %></li>
@@ -83,7 +100,7 @@
                       <% if day.weekend? %>
                         <td class="text-right active"><%= day.value.day %>.</td>
                       <% else %>
-                        <td class="text-right <%= "success" if !FederalState.all.each.map{|fs| day.school_day?(fs)}.include?(false) %>">
+                        <td class="text-right <%= "success" if day.school_day_everywhere? %>">
                           <%= day.value.day %>.
                         </td>
                       <% end %>

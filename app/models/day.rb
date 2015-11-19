@@ -17,12 +17,20 @@ class Day < ActiveRecord::Base
     self.events.where(eventable: federal_state).where(religion: [nil, religion]).none?
   end
 
+  def school_day_everywhere?
+    !FederalState.all.each.map{|fs| self.school_day?(fs)}.include?(false)
+  end
+
   def weekend?
     self.events.where(event_type: EventType.find_by_name('Wochenende')).any?
   end
 
   def public_holiday?(federal_state)
     self.events.where(eventable: federal_state).where(event_type: EventType.find_by_name('Feiertage')).where(religion: nil).any?
+  end
+
+  def public_holiday_everywhere?
+    !FederalState.all.each.map{|fs| public_holiday?(fs)}.include?(false)
   end
 
   def to_s
