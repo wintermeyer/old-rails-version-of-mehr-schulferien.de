@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'special_calendars/inverse'
+  get 'special_calendars/index'
 
   # get 'special_calendars/brueckentage'
 

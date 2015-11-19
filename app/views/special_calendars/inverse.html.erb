@@ -1,9 +1,25 @@
 <% content_for :html_description do %><%= @html_description %><% end %>
 <% content_for :html_title do %><%= @html_title %><% end %>
 
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "<%= request.protocol + request.host_with_port + special_calendars_index_path %>",
+      "name": "Spezialkalender"
+    }
+  }]
+}
+</script>
+
 <% cache([@months]) do %>
   <ol class="breadcrumb">
     <li><%= link_to "Startseite", root_path %></li>
+    <li><%= link_to "Spezialkalender", special_calendars_index_path %></li>
     <li class="active">Inverser Ferienkalender</li>
   </ol>
 
@@ -16,7 +32,7 @@
   <div class="row">
     <div class="col-sm-6">
       <p>
-        Auf diesem Kalender werden Tage in grün dargestellt, in denen in keinem Bundesland Schulferien sind. Dies ist die günstigste Reisezeit für alle die nicht während Schulferien verreisen müssen. In blau werden Tage markiert, die in mindestens einem Bundesland als gesetzlicher Feiertag eingetragen sind. Auf der <%= link_to 'Startseite', root_path %> können Sie Detailaufstellungen für einzelne Jahre und Bundesländer anklicken.
+        Auf diesem Kalender werden Tage in grün dargestellt, in denen in keinem Bundesland Schulferien sind. Dies ist die günstigste Reisezeit für alle, die nicht während Schulferien verreisen müssen. In blau werden Tage markiert, die in mindestens einem Bundesland als gesetzlicher Feiertag eingetragen sind. Auf der <%= link_to 'Startseite', root_path %> können Sie Detailaufstellungen für einzelne Jahre und Bundesländer anklicken.
       </p>
     </div>
     <div class="col-sm-6">

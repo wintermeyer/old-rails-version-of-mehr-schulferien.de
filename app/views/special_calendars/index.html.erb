@@ -1,0 +1,32 @@
+<% content_for :html_description do %><%= @html_description %><% end %>
+<% content_for :html_title do %><%= @html_title %><% end %>
+
+<ol class="breadcrumb">
+  <li><%= link_to "Startseite", root_path %></li>
+  <li class="active">Spezialkalender</li>
+</ol>
+
+<div class="page-header">
+  <h1>
+    Spezialkalender
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <p>
+      Zusätzlich zu den normalen Ferienkalendern bieten wir auch Sonderkalender mit Spezial-Features an.
+    </p>
+  </div>
+  <div class="col-sm-6">
+    <%= render partial: "shared/ad" rescue nil%>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <ul>
+      <li><%= link_to "Inverser Ferienkalender", special_calendars_inverse_path %>. Finden Sie die günstigeste Reisezeit für Nicht-Eltern/Schüler.</li>
+    </ul>
+  </div>
+</div>

@@ -1,5 +1,12 @@
 class SpecialCalendarsController < ApplicationController
   caches_page :inverse
+  caches_page :index
+
+  def index
+    # Caching
+    #
+    expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
+  end
 
   def inverse
     # The months beginning by the current one
@@ -18,8 +25,6 @@ class SpecialCalendarsController < ApplicationController
     # Caching
     #
     expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
-    last_update = @federal_state.updated_at.utc
-    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   def brueckentage
