@@ -21,7 +21,7 @@
 {
   "@context": "http://schema.org",
   "@type": "Event",
-  "name": "<%= "#{(good_travel_period.last.value - good_travel_period.first.value).to_i} Tage ohne Schulferien (#{[I18n.t("date.month_names")[good_travel_period.first.value.month],I18n.t("date.month_names")[good_travel_period.last.value.month]].uniq.join(' - ')})" %>",
+  "name": "<%= "#{(good_travel_period.last.value - good_travel_period.first.value).to_i} Tage am Stück ohne Schulferien (#{[I18n.t("date.month_names")[good_travel_period.first.value.month],I18n.t("date.month_names")[good_travel_period.last.value.month]].uniq.join(' - ')})" %>",
   "startDate" : "<%= good_travel_period.first.value.to_time.utc.iso8601 %>",
   "endDate" : "<%= good_travel_period.last.value.to_time.utc.iso8601 %>",
   "location" : {
