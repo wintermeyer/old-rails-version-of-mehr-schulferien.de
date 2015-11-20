@@ -72,19 +72,23 @@
   </div>
   <div class="col-md-3">
     <address>
-      <strong><%= @school.address_line1 %></strong><br>
+      <% if @school.homepage.blank? %>
+        <strong><%= @school.address_line1 %></strong><br>
+      <% else %>
+        <strong><a href="<%= @school.homepage %>"><%= @school.address_line1 %></a></strong><br>
+      <% end %>
       <% if !@school.address_line2.blank? %><%= @school.address_line2 %><br><% end %>
       <% if !@school.street.blank? %><%= @school.street %><br><% end %>
       <% if !@school.city.blank? %><%= @school.zip_code %> <%= @school.city %><br><% end %>
-      <% if !@school.phone_number.blank? %><abbr title="Telefon">Tel.:</abbr> <%= @school.phone_number %><br><% end %>
-      <% if !@school.fax_number.blank? %><abbr title="Telefax">Fax.:</abbr> <%= @school.fax_number %><% end %>
+      <% if !@school.phone_number.blank? %>Tel.: <%= @school.phone_number %><br><% end %>
+      <% if !@school.fax_number.blank? %>Fax.: <%= @school.fax_number %><% end %>
     </address>
 
     <address>
-      <% if !@school.email %>
+      <% if !@school.email.blank? %>
       <a href="mailto:<%= @school.email %>"><%= @school.email %></a><br>
       <% end %>
-      <% if !@school.homepage %>
+      <% if !@school.homepage.blank? %>
       <a href="<%= @school.homepage %>"><%= @school.homepage %></a>
       <% end %>
     </address>
