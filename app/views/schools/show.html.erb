@@ -50,7 +50,9 @@
 <div class="page-header">
   <h1>
     Schulferien <%= @school %>
-    <small><%= @city %> (<%= @city.federal_state %>)</small>
+    <div class="hidden-xs">
+      <small><%= @city %> (<%= @city.federal_state %>)</small>
+    </div>
   </h1>
 </div>
 
@@ -58,11 +60,14 @@
   <div class="alert alert-danger" role="alert">Für diesen Zeitraum wurden noch keine gesetzlichen Feiertage hinterlegt.</div>
 <% end %>
 
-<div class="alert alert-danger" role="alert">Für diese Schule sind in unserer Datenbank keine beweglichen Ferientage hinterlegt. Entsprechend ist die Aufstellung unvollständig!</div>
+<div class="alert alert-danger" role="alert">Für diese Schule fehlen in unserer Datenbank die beweglichen Ferientage!</div>
 
 <div class="row">
-  <div class="col-md-12">
-    <p>Für die Urlaubsplanung von Nicht-Eltern/Schülern finden Sie in der <%= link_to "Invers-Ansicht von #{@city.federal_state}", federal_state_path(@federal_state, modus: 'invers') %> eine Übersicht, die Ihnen die Zeiten mit den günstigsten Reiseterminen darstellt.</p>
+  <div class="col-md-8">
+    <p>Tipp für Nicht-Eltern/Schülern: <%= link_to "Invers-Ansicht von #{@city.federal_state}", federal_state_path(@federal_state, modus: 'invers') %>, die die Zeiten mit den günstigsten Reiseterminen darstellt.</p>
+  </div>
+  <div class="col-md-4">
+    <%= render partial: "shared/ad" rescue nil%>
   </div>
 </div>
 

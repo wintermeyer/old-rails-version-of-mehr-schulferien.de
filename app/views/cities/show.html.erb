@@ -50,7 +50,7 @@
 
   <div class="row">
     <div class="col-md-8">
-      <p>Für die Urlaubsplanung von Nicht-Eltern/Schülern finden Sie in der <%= link_to "Invers-Ansicht von #{@city.federal_state}", federal_state_path(@federal_state, modus: 'invers') %> eine Übersicht, die Ihnen die Zeiten mit den günstigsten Reiseterminen darstellt.</p>
+      <p>Tipp für Nicht-Eltern/Schülern: <%= link_to "Invers-Ansicht von #{@city.federal_state}", federal_state_path(@federal_state, modus: 'invers') %>, die die Zeiten mit den günstigsten Reiseterminen darstellt.</p>
     </div>
     <div class="col-md-4">
       <%= render partial: "shared/ad" rescue nil%>
