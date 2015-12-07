@@ -32,25 +32,19 @@ class FederalStatesController < ApplicationController
     if @modus == 'invers'
       @html_description = "Planen Sie eine günstige Urlaubsreise mit der umgekehrten Darstellung der Schulferien #{Date.today.year}-#{Date.today.year + 1} in #{@federal_state}."
     else
-      @html_description = 'Schulferienkalender '
+      @html_description = "Nächste Ferientermine: "
 
-      @html_description += "#{Date.today.year}-#{Date.today.year + 1} "
-      @html_description += "für #{@federal_state}"
-
-      if @federal_state.events.where.not(religion: nil).any?
-        @html_description += " (inkl. Sonderregelungen für #{ Religion.pluck(:name).join(', ')}"
-      end
-
-      @html_description += ". Nächste Ferientermine: "
-
-      next_events = @federal_state.events.where(event_type: EventType.find_by_name('Ferien')).where(starts_on: (Date.today..Date.today+18.months)).order(:starts_on).limit(4)
+      next_events = @federal_state.events.where(event_type: EventType.find_by_name('Ferien')).where(starts_on: (Date.today..Date.today+18.months)).order(:starts_on).limit(8)
 
       @html_description += next_events.map{|event| "#{event.summary} #{I18n.l(event.starts_on, format: :short).strip} - #{I18n.l(event.ends_on, format: :short).strip} (#{event.total_number_of_non_school_days(@federal_state)} Tage)"}.join(', ')
     end
 
     # render html_title
     #
-    @html_title = "Schulferien #{@federal_state}"
+    @html_title = 'Schulferienkalender '
+    @html_title += "#{Date.today.year}-#{Date.today.year + 1} "
+    @html_title += "für #{@federal_state}"
+
     if @modus == 'invers'
       @html_title = "Invers-Ansicht #{@html_title}"
     end
@@ -61,8 +55,6 @@ class FederalStatesController < ApplicationController
     # Caching
     #
     expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
-    last_update = @federal_state.updated_at.utc
-    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   # GET /federal_states/new

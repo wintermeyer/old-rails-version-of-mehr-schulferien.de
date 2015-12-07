@@ -24,19 +24,9 @@ class CitiesController < ApplicationController
 
     # Render html_description
     #
-    @html_description = 'Schulferienkalender '
+    @html_description = "Nächste Ferientermine: "
 
-    @html_description += "#{Date.today.year}-#{Date.today.year + 1} "
-    if @city.schools.any?
-      @html_description += "für #{@city.schools.count} Schulen in"
-    else
-      @html_description += "für"
-    end
-
-    @html_description += " #{@city} (#{@federal_state})."
-    @html_description += " Nächste Ferientermine: "
-
-    next_events = @federal_state.events.where(event_type: EventType.find_by_name('Ferien')).where(starts_on: (Date.today..Date.today+18.months)).order(:starts_on).limit(4)
+    next_events = @federal_state.events.where(event_type: EventType.find_by_name('Ferien')).where(starts_on: (Date.today..Date.today+18.months)).order(:starts_on).limit(6)
 
     @html_description += next_events.map{|event| "#{event.summary} #{I18n.l(event.starts_on, format: :short).strip} - #{I18n.l(event.ends_on, format: :short).strip} (#{event.total_number_of_non_school_days(@federal_state)} Tage)"}.join(', ')
 
@@ -47,8 +37,6 @@ class CitiesController < ApplicationController
     # Caching
     #
     expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
-    last_update = [@city.updated_at, @federal_state.updated_at].sort.last.utc
-    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   # GET /cities/new

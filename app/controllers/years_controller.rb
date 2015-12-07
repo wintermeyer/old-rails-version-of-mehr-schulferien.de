@@ -31,14 +31,7 @@ class YearsController < ApplicationController
     if @modus == 'invers'
       @html_description = "Planen Sie eine günstige Urlaubsreise mit der umgekehrten Darstellung der Schulferien #{@year} in #{@federal_state}."
     else
-      @html_description = "Schulferienkalender #{@year} "
-      @html_description += "für #{@federal_state} (inkl. gesetzlicher Feiertage"
-
-      if @federal_state.events.where.not(religion: nil).any?
-        @html_description += " und Sonderregelungen für #{ Religion.pluck(:name).join(', ')}"
-      end
-
-      @html_description += "). Ferientermine: "
+      @html_description = "Ferientermine: "
 
       next_events = @year.events.where(eventable: @federal_state).where(event_type: EventType.find_by_name('Ferien')).order(:starts_on)
 
@@ -49,7 +42,9 @@ class YearsController < ApplicationController
 
     # render html_title
     #
-    @html_title = "#{@year}er Schulferien #{@federal_state}"
+    @html_title = "Schulferienkalender #{@year} "
+    @html_title += "für #{@federal_state} (inkl. gesetzlicher Feiertage)"
+
     if @modus == 'invers'
       @html_title = "Invers-Ansicht #{@html_title}"
     end
@@ -60,8 +55,6 @@ class YearsController < ApplicationController
     # Caching
     #
     expires_in (Time.now.end_of_month - Time.now).to_i.seconds, public: true
-    last_update = [@year.updated_at, @federal_state.updated_at].sort.last.utc
-    fresh_when last_modified: last_update, etag: Digest::MD5.hexdigest(last_update.to_s)
   end
 
   # GET /years/new

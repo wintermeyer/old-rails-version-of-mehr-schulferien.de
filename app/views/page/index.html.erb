@@ -1,7 +1,7 @@
 <% content_for :html_description do %>
-Schulferienkalender <%= Date.today.year %>-<%= @years.last %> für alle Bundesländer (inkl. Sonderregelungen für <%= Religion.pluck(:name).join(', ') %>).<% end %>
+Datenbank mit <%= number_with_delimiter(Event.where(starts_on: [Date.today..Date.today+50.years]).count, delimiter: ".") %> Ferienterminen für alle Bundesländer (inkl. Sonderregelungen für <%= Religion.pluck(:name).join(', ') %>).<% end %>
 <% content_for :html_title do %>
-Schulferienkalender <%= Date.today.year %>-<%= @years.last %> für alle Bundesländer<% end %>
+Schulferienkalender <%= Date.today.year %>-<%= @years.last %><% end %>
 <div class="page-header">
   <h1>Schulferienkalender</h1>
 </div>
