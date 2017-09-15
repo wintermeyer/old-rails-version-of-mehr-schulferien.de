@@ -28,6 +28,6 @@ module WwwMehrSchulferienDe
 
     config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public/cache"
 
-    ADVERTISEMENT = false
+    ADVERTISEMENT = true
   end
 end
